@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AX 전환 방법 — 에듀테크 플랫폼 서비스 기획 Core</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0A1628;
+    --surface: #0F2035;
+    --teal: #00BFA6;
+    --teal-dim: #00896e;
+    --cyan: #00E5FF;
+    --accent-red: #FF4D6A;
+    --accent-orange: #FF8A50;
+    --accent-yellow: #FFD740;
+    --white: #F0F4F8;
+    --gray: #8899AA;
+    --card-bg: rgba(15, 32, 53, 0.85);
+    --glass: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.1);
+    --font-heading: 'Noto Sans KR', sans-serif;
+    --font-body: 'Noto Sans KR', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html, body {
+    width:100%; height:100%;
+    overflow:hidden;
+    background: var(--primary);
+    font-family: var(--font-body);
+    color: var(--white);
+  }
+
+  /* ── Slide Container ── */
+  .deck {
+    position: relative;
+    width: 100vw; height: 100vh;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 64px;
+    opacity: 0;
+    transform: translateX(60px) scale(0.97);
+    pointer-events: none;
+    transition: opacity 0.6s cubic-bezier(.4,0,.2,1),
+                transform 0.6s cubic-bezier(.4,0,.2,1);
+    will-change: opacity, transform;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: all;
+  }
+  .slide.exit-left {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.97);
+  }
+
+  /* ── Background Effects ── */
+  .bg-mesh {
+    position: fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 80%, rgba(0,191,166,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(0,229,255,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(10,22,40,1) 0%, var(--primary) 100%);
+  }
+  .grid-lines {
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* ── Navigation ── */
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--glass-border);
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(12px);
+    color: var(--teal);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items:center; justify-content:center;
+    transition: all 0.3s;
+  }
+  .nav-btn:hover {
+    background: var(--teal);
+    color: var(--primary);
+    border-color: var(--teal);
+    box-shadow: 0 0 24px rgba(0,191,166,0.4);
+  }
+  .nav-btn.prev { left: 20px; }
+  .nav-btn.next { right: 20px; }
+
+  /* ── Progress Bar (section indicator) ── */
+  .section-nav {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    gap: 0;
+  }
+  .section-nav.show { display: flex; }
+
+  .section-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items:center; justify-content:center;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s;
+    border: 2px solid var(--glass-border);
+    background: rgba(0,0,0,0.3);
+    color: var(--gray);
+    backdrop-filter: blur(8px);
+  }
+  .section-dot.active {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: var(--primary);
+    box-shadow: 0 0 16px rgba(0,191,166,0.5);
+  }
+  .section-dot.completed {
+    background: var(--teal-dim);
+    border-color: var(--teal-dim);
+    color: var(--white);
+  }
+  .section-line {
+    width: 48px; height: 2px;
+    background: var(--glass-border);
+    transition: background 0.4s;
+  }
+  .section-line.active {
+    background: var(--teal);
+    box-shadow: 0 0 8px rgba(0,191,166,0.3);
+  }
+
+  /* ── Slide Counter ── */
+  .slide-counter {
+    position: fixed;
+    bottom: 24px;
+    right: 32px;
+    z-index: 100;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--gray);
+    letter-spacing: 2px;
+  }
+  .slide-counter .current { color: var(--teal); font-weight: 600; }
+
+  /* ── Cover Slide ── */
+  .cover {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,191,166,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  }
+
+  .cover-tag {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--teal);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .cover h1 {
+    font-size: 64px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.15;
+    background: linear-gradient(135deg, var(--white) 0%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+  .cover-sub {
+    font-size: 18px;
+    color: var(--gray);
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+  .cover-line {
+    width: 64px; height: 3px;
+    background: var(--teal);
+    border-radius: 2px;
+    margin: 28px auto 0;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(24px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── Content Slide Layout ── */
+  .slide-header {
+    margin-top: 36px;
+    margin-bottom: 32px;
+  }
+  .slide-header h2 {
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.2;
+  }
+  .slide-header h2 .accent {
+    color: var(--teal);
+  }
+
+  .slide-body {
+    flex: 1;
+    display: flex;
+    gap: 40px;
+  }
+
+  /* ── Cards & Panels ── */
+  .glass-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 32px;
+    backdrop-filter: blur(8px);
+    transition: all 0.4s;
+  }
+  .glass-card:hover {
+    border-color: rgba(0,191,166,0.3);
+    box-shadow: 0 8px 32px rgba(0,191,166,0.08);
+  }
+
+  /* ── Animated Entries ── */
+  .anim-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .slide.active .anim-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .slide.active .anim-item:nth-child(1) { transition-delay: 0.15s; }
+  .slide.active .anim-item:nth-child(2) { transition-delay: 0.30s; }
+  .slide.active .anim-item:nth-child(3) { transition-delay: 0.45s; }
+  .slide.active .anim-item:nth-child(4) { transition-delay: 0.60s; }
+  .slide.active .anim-item:nth-child(5) { transition-delay: 0.75s; }
+
+  /* ── Highlight Styles ── */
+  .highlight {
+    position: relative;
+    display: inline;
+    background: linear-gradient(120deg, rgba(0,191,166,0.2), rgba(0,191,166,0.2));
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background-size 0.8s ease;
+  }
+  .slide.active .highlight {
+    background-size: 100% 100%;
+  }
+
+  .red-emphasis {
+    display: inline-block;
+    border: 2px solid var(--accent-red);
+    border-radius: 8px;
+    padding: 6px 16px;
+    color: var(--accent-red);
+    font-weight: 700;
+    animation: none;
+    position: relative;
+  }
+  .slide.active .red-emphasis {
+    animation: pulse-border 2s ease-in-out infinite;
+  }
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,77,106,0.4); }
+    50% { box-shadow: 0 0 16px 4px rgba(255,77,106,0.2); }
+  }
+
+  /* ── Stat Number ── */
+  .stat-big {
+    font-size: 72px;
+    font-weight: 900;
+    font-family: var(--font-mono);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 14px;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  /* ── X / O marks ── */
+  .mark-x, .mark-o {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: 900;
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+    transition: all 0.6s cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  .slide.active .mark-x {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    transition-delay: 0.5s;
+    background: rgba(255,77,106,0.15);
+    color: var(--accent-red);
+    border: 2px solid var(--accent-red);
+  }
+  .slide.active .mark-o {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    transition-delay: 0.8s;
+    background: rgba(0,191,166,0.15);
+    color: var(--teal);
+    border: 2px solid var(--teal);
+  }
+
+  /* ── Flow Diagram ── */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .flow-step .role {
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .role-planner {
+    background: rgba(0,191,166,0.15);
+    color: var(--teal);
+    border: 1px solid rgba(0,191,166,0.3);
+  }
+  .role-dev {
+    background: rgba(0,229,255,0.12);
+    color: var(--cyan);
+    border: 1px solid rgba(0,229,255,0.25);
+  }
+  .role-auto {
+    background: rgba(255,215,64,0.12);
+    color: var(--accent-yellow);
+    border: 1px solid rgba(255,215,64,0.25);
+  }
+  .flow-arrow {
+    font-size: 18px;
+    color: var(--gray);
+  }
+
+  /* ── AS-IS / TO-BE ── */
+  .comparison-panel {
+    flex: 1;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .slide.active .comparison-panel.asis {
+    opacity: 1; transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+  .slide.active .comparison-panel.tobe {
+    opacity: 1; transform: translateY(0);
+    transition-delay: 0.9s;
+  }
+
+  .panel-label {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid;
+  }
+  .panel-label.old {
+    color: var(--gray);
+    border-color: var(--gray);
+  }
+  .panel-label.new {
+    color: var(--teal);
+    border-color: var(--teal);
+  }
+
+  /* ── Role Change Emphasis ── */
+  .role-change {
+    position: relative;
+    display: inline-block;
+  }
+  .role-change::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0%; height: 3px;
+    background: var(--teal);
+    border-radius: 2px;
+    transition: width 0.8s 1.4s ease;
+  }
+  .slide.active .role-change::after {
+    width: 100%;
+  }
+  .role-change-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(0,191,166,0.15);
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.5s 1.8s cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  .slide.active .role-change-badge {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ── Steps List ── */
+  .step-item {
+    display: flex;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--glass-border);
+    align-items: flex-start;
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-num {
+    width: 36px; height: 36px;
+    min-width: 36px;
+    border-radius: 10px;
+    display: flex; align-items:center; justify-content:center;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    background: linear-gradient(135deg, var(--teal), var(--cyan));
+    color: var(--primary);
+  }
+  .step-content { flex: 1; }
+  .step-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  .step-roles {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  /* ── Timeline ── */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--teal), var(--cyan), var(--accent-yellow));
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative;
+    padding: 20px 0 20px 24px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px; top: 26px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 3px solid var(--primary);
+    box-shadow: 0 0 12px rgba(0,191,166,0.4);
+  }
+  .timeline-period {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .timeline-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .timeline-desc {
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .timeline-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+  .tag-cbs { background: rgba(255,138,80,0.15); color: var(--accent-orange); border: 1px solid rgba(255,138,80,0.3); }
+  .tag-aidt { background: rgba(0,229,255,0.12); color: var(--cyan); border: 1px solid rgba(0,229,255,0.25); }
+
+  /* ── Note Box ── */
+  .note-box {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: rgba(255,215,64,0.06);
+    border-left: 3px solid var(--accent-yellow);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+  .note-box strong {
+    color: var(--accent-yellow);
+  }
+
+  /* ── Image Placeholder ── */
+  .img-placeholder {
+    flex: 1;
+    min-height: 200px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(0,191,166,0.08), rgba(0,229,255,0.04));
+    border: 1px dashed var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    font-size: 14px;
+    gap: 8px;
+  }
+  .img-placeholder svg {
+    opacity: 0.4;
+  }
+
+  /* ── Misc ── */
+  .divider {
+    width: 100%; height: 1px;
+    background: var(--glass-border);
+    margin: 16px 0;
+  }
+  .text-teal { color: var(--teal); }
+  .text-cyan { color: var(--cyan); }
+  .text-red { color: var(--accent-red); }
+  .text-yellow { color: var(--accent-yellow); }
+  .text-gray { color: var(--gray); }
+  .text-sm { font-size: 13px; }
+  .text-xs { font-size: 11px; }
+  .fw-700 { font-weight: 700; }
+  .fw-300 { font-weight: 300; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+  .mt-auto { margin-top: auto; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .slide { padding: 32px 24px; }
+    .cover h1 { font-size: 40px; }
+    .slide-header h2 { font-size: 28px; }
+    .slide-body { flex-direction: column; }
+    .nav-btn { width: 40px; height: 40px; font-size: 16px; }
+    .stat-big { font-size: 48px; }
+  }
+
+  /* ── Keyboard hint ── */
+  .key-hint {
+    position: fixed;
+    bottom: 24px;
+    left: 32px;
+    z-index: 100;
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 1px;
+    opacity: 0.5;
+  }
+  .key-hint kbd {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+<div class="grid-lines"></div>
+
+<!-- ====== Section Nav ====== -->
+<div class="section-nav" id="sectionNav">
+  <div class="section-dot" data-section="1" onclick="goToSection(1)">1</div>
+  <div class="section-line" id="line1"></div>
+  <div class="section-dot" data-section="2" onclick="goToSection(2)">2</div>
+  <div class="section-line" id="line2"></div>
+  <div class="section-dot" data-section="3" onclick="goToSection(3)">3</div>
+</div>
+
+<!-- ====== Navigation ====== -->
+<button class="nav-btn prev" onclick="prevSlide()" aria-label="이전">‹</button>
+<button class="nav-btn next" onclick="nextSlide()" aria-label="다음">›</button>
+
+<!-- ====== Counter ====== -->
+<div class="slide-counter">
+  <span class="current" id="counterCurrent">01</span>
+  <span>/ </span>
+  <span id="counterTotal">07</span>
+</div>
+
+<div class="key-hint"><kbd>←</kbd> <kbd>→</kbd> 또는 클릭으로 이동</div>
+
+<!-- ====== DECK ====== -->
+<div class="deck" id="deck">
+
+  <!-- ── SLIDE 1 : 표지 ── -->
+  <div class="slide cover active" data-section="0">
+    <div class="cover-tag">에듀테크 플랫폼 서비스 기획 Core</div>
+    <h1>AX 전환 방법</h1>
+    <div class="cover-sub">AI Experience Transformation Methodology</div>
+    <div class="cover-line"></div>
+  </div>
+
+  <!-- ── SLIDE 2 : 배경 ── -->
+  <div class="slide" data-section="1">
+    <div class="section-nav-spacer" style="height:24px"></div>
+    <div class="slide-header">
+      <h2><span class="accent">배경</span></h2>
+    </div>
+    <div class="slide-body">
+      <div style="flex:1.2; display:flex; flex-direction:column; gap:24px;">
+        <div class="glass-card anim-item" style="flex:1;">
+          <p style="font-size:18px; line-height:1.8; font-weight:300;">
+            AI가 빠른 속도로 진화하고 있음<br>
+            이에 <span class="highlight">90%의 기업이 AI 기술을 도입</span>하고 있으나
+          </p>
+          <div style="margin-top:24px; display:flex; align-items:flex-end; gap:24px;">
+            <div>
+              <div class="stat-big text-red red-emphasis" style="border:none; padding:0;">5%</div>
+              <div class="stat-label">성공 사례만 존재</div>
+            </div>
+            <div class="red-emphasis anim-item" style="font-size:13px; margin-bottom:8px;">
+              25년 7월 MIT 리포트
+            </div>
+          </div>
+        </div>
+        <div class="anim-item" style="display:flex; gap:16px;">
+          <div class="glass-card" style="flex:1; text-align:center; padding:20px;">
+            <div class="stat-big text-teal">90<span style="font-size:32px;">%</span></div>
+            <div class="stat-label">AI 기술 도입 기업</div>
+          </div>
+          <div class="glass-card" style="flex:1; text-align:center; padding:20px;">
+            <div class="stat-big text-red">5<span style="font-size:32px;">%</span></div>
+            <div class="stat-label">실질 성공 사례</div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:0.8;" class="anim-item">
+        <div class="glass-card" style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:16px;">
+          <!-- Bar chart illustration -->
+          <svg width="220" height="180" viewBox="0 0 220 180">
+            <rect x="10" y="140" width="200" height="1" fill="rgba(255,255,255,0.1)"/>
+            <rect x="10" y="100" width="200" height="1" fill="rgba(255,255,255,0.08)"/>
+            <rect x="10" y="60" width="200" height="1" fill="rgba(255,255,255,0.06)"/>
+            <!-- bars -->
+            <rect x="30" y="30" width="32" height="110" rx="4" fill="rgba(0,191,166,0.8)">
+              <animate attributeName="height" from="0" to="110" dur="0.8s" fill="freeze" begin="0.3s"/>
+              <animate attributeName="y" from="140" to="30" dur="0.8s" fill="freeze" begin="0.3s"/>
+            </rect>
+            <rect x="75" y="50" width="32" height="90" rx="4" fill="rgba(0,191,166,0.6)">
+              <animate attributeName="height" from="0" to="90" dur="0.8s" fill="freeze" begin="0.5s"/>
+              <animate attributeName="y" from="140" to="50" dur="0.8s" fill="freeze" begin="0.5s"/>
+            </rect>
+            <rect x="120" y="80" width="32" height="60" rx="4" fill="rgba(0,191,166,0.4)">
+              <animate attributeName="height" from="0" to="60" dur="0.8s" fill="freeze" begin="0.7s"/>
+              <animate attributeName="y" from="140" to="80" dur="0.8s" fill="freeze" begin="0.7s"/>
+            </rect>
+            <rect x="165" y="120" width="32" height="20" rx="4" fill="rgba(255,77,106,0.7)">
+              <animate attributeName="height" from="0" to="20" dur="0.8s" fill="freeze" begin="0.9s"/>
+              <animate attributeName="y" from="140" to="120" dur="0.8s" fill="freeze" begin="0.9s"/>
+            </rect>
+            <text x="46" y="160" fill="var(--gray)" font-size="10" text-anchor="middle">도입</text>
+            <text x="91" y="160" fill="var(--gray)" font-size="10" text-anchor="middle">적용</text>
+            <text x="136" y="160" fill="var(--gray)" font-size="10" text-anchor="middle">확대</text>
+            <text x="181" y="160" fill="var(--accent-red)" font-size="10" font-weight="700" text-anchor="middle">성공</text>
+          </svg>
+          <div class="text-xs text-gray" style="text-align:center;">
+            Pilot → Production 전환 시<br>급격한 성과 하락 발생
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3 : 목표 ── -->
+  <div class="slide" data-section="1">
+    <div style="height:24px"></div>
+    <div class="slide-header">
+      <h2><span class="accent">목표</span></h2>
+    </div>
+    <div class="slide-body">
+      <div style="flex:1.3; display:flex; flex-direction:column; gap:20px;">
+        <div class="glass-card anim-item">
+          <p style="font-size:20px; line-height:1.7; font-weight:300;">
+            <strong class="text-teal">AI를 활용</strong>하여 효율적으로 조직 목표 달성<br>
+            그리고 성공적으로 트렌드에 발맞추어 가야 함
+          </p>
+        </div>
+        <div style="display:flex; gap:16px;">
+          <div class="glass-card anim-item" style="flex:1; padding:24px;">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--teal),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:18px;">🚀</div>
+              <span class="fw-700">신규 구축</span>
+            </div>
+            <p class="text-sm text-gray" style="line-height:1.6;">
+              서비스 및 플랫폼<br>신규 구축
+            </p>
+          </div>
+          <div class="glass-card anim-item" style="flex:1; padding:24px;">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),#7C4DFF);display:flex;align-items:center;justify-content:center;font-size:18px;">🔧</div>
+              <span class="fw-700">유지보수</span>
+            </div>
+            <p class="text-sm text-gray" style="line-height:1.6;">
+              기존 운영 중인 서비스 및<br>플랫폼 유지보수
+            </p>
+          </div>
+          <div class="glass-card anim-item" style="flex:1; padding:24px;">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent-yellow),var(--accent-orange));display:flex;align-items:center;justify-content:center;font-size:18px;">⚡</div>
+              <span class="fw-700">안정화 & 자동화</span>
+            </div>
+            <p class="text-sm text-gray" style="line-height:1.6;">
+              모든 서비스 및 플랫폼<br>운영 안정화 및 자동화
+            </p>
+          </div>
+        </div>
+      </div>
+      <div style="flex:0.6;" class="anim-item">
+        <div class="img-placeholder" style="height:100%;">
+          <svg width="80" height="80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          <span>관련 이미지</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4 : 워크플로우 변화 1 ── -->
+  <div class="slide" data-section="2">
+    <div style="height:24px"></div>
+    <div class="slide-header">
+      <h2>워크 플로우 <span class="accent">변화</span></h2>
+    </div>
+    <div class="slide-body" style="flex-direction:column; gap:32px;">
+      <div style="display:flex; gap:32px; flex:1;">
+        <!-- Waterfall (기존) -->
+        <div class="glass-card anim-item" style="flex:1; position:relative; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:20px;">
+          <div class="mark-x">✕</div>
+          <div style="text-align:center;">
+            <div class="text-sm text-gray mb-8">기존</div>
+            <div class="fw-700" style="font-size:20px;">Waterfall 방식</div>
+            <p class="text-sm text-gray" style="margin-top:8px; line-height:1.6;">
+              순차적 진행 → 느린 피드백<br>변경에 취약한 구조
+            </p>
+          </div>
+          <!-- Waterfall illustration -->
+          <svg width="160" height="100" viewBox="0 0 160 100">
+            <rect x="10" y="10" width="60" height="20" rx="4" fill="rgba(136,153,170,0.3)" stroke="var(--gray)" stroke-width="1"/>
+            <text x="40" y="24" fill="var(--gray)" font-size="10" text-anchor="middle">기획</text>
+            <line x1="40" y1="30" x2="80" y2="40" stroke="var(--gray)" stroke-width="1"/>
+            <rect x="50" y="40" width="60" height="20" rx="4" fill="rgba(136,153,170,0.3)" stroke="var(--gray)" stroke-width="1"/>
+            <text x="80" y="54" fill="var(--gray)" font-size="10" text-anchor="middle">개발</text>
+            <line x1="80" y1="60" x2="120" y2="70" stroke="var(--gray)" stroke-width="1"/>
+            <rect x="90" y="70" width="60" height="20" rx="4" fill="rgba(136,153,170,0.3)" stroke="var(--gray)" stroke-width="1"/>
+            <text x="120" y="84" fill="var(--gray)" font-size="10" text-anchor="middle">테스트</text>
+          </svg>
+        </div>
+
+        <!-- Generation & Refinement (앞으로) -->
+        <div class="glass-card anim-item" style="flex:1; position:relative; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:20px; border-color:rgba(0,191,166,0.3);">
+          <div class="mark-o">○</div>
+          <div style="text-align:center;">
+            <div class="text-sm text-teal mb-8">앞으로</div>
+            <div class="fw-700" style="font-size:20px;">
+              <span class="text-teal">Generation</span> &amp; <span class="text-cyan">Refinement</span>
+            </div>
+            <p class="text-sm text-gray" style="margin-top:8px; line-height:1.6;">
+              AI로 거칠게 생성하고 →<br>다듬는 방식으로 변화
+            </p>
+          </div>
+          <!-- Loop illustration -->
+          <svg width="160" height="80" viewBox="0 0 160 80">
+            <rect x="10" y="25" width="60" height="30" rx="8" fill="rgba(0,191,166,0.2)" stroke="var(--teal)" stroke-width="1.5"/>
+            <text x="40" y="44" fill="var(--teal)" font-size="10" text-anchor="middle" font-weight="600">Generate</text>
+            <path d="M 75 35 Q 95 15 115 35" fill="none" stroke="var(--cyan)" stroke-width="1.5" marker-end="url(#arrowT)"/>
+            <path d="M 115 45 Q 95 65 75 45" fill="none" stroke="var(--cyan)" stroke-width="1.5" marker-end="url(#arrowT)"/>
+            <defs><marker id="arrowT" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--cyan)"/></marker></defs>
+            <rect x="90" y="25" width="60" height="30" rx="8" fill="rgba(0,229,255,0.15)" stroke="var(--cyan)" stroke-width="1.5"/>
+            <text x="120" y="44" fill="var(--cyan)" font-size="10" text-anchor="middle" font-weight="600">Refine</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 5 : 워크플로우 변화 2 (AS-IS / TO-BE) ── -->
+  <div class="slide" data-section="2">
+    <div style="height:24px"></div>
+    <div class="slide-header">
+      <h2>워크 플로우 <span class="accent">변화</span></h2>
+    </div>
+    <div class="slide-body">
+      <!-- AS-IS -->
+      <div class="comparison-panel asis glass-card" style="flex:1;">
+        <div class="panel-label old">AS-IS</div>
+        <div class="flow-row" style="gap:16px; flex-direction:column; align-items:stretch;">
+          <div class="flow-step" style="justify-content:space-between;">
+            <span class="fw-700">기획</span>
+            <span class="role role-planner">기획자</span>
+          </div>
+          <div style="text-align:center;"><span class="flow-arrow">▼</span></div>
+          <div class="flow-step" style="justify-content:space-between;">
+            <span class="fw-700">구현</span>
+            <span class="role role-dev">개발자</span>
+          </div>
+          <div style="text-align:center;"><span class="flow-arrow">▼</span></div>
+          <div class="flow-step" style="justify-content:space-between;">
+            <span class="fw-700">디버깅</span>
+            <span class="role" style="background:rgba(136,153,170,0.15);color:var(--gray);border:1px solid rgba(136,153,170,0.3);">수동</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="display:flex; align-items:center; justify-content:center; font-size:32px; color:var(--teal); opacity:0; transition: opacity 0.5s 1.2s;" class="tobe-arrow">
+        →
+      </div>
+
+      <!-- TO-BE -->
+      <div class="comparison-panel tobe glass-card" style="flex:1; border-color:rgba(0,191,166,0.25);">
+        <div class="panel-label new">TO-BE</div>
+        <div class="flow-row" style="gap:16px; flex-direction:column; align-items:stretch;">
+          <div class="flow-step" style="justify-content:space-between; border-color:rgba(0,191,166,0.3);">
+            <span class="fw-700">
+              <span class="role-change">구현 <span style="font-size:12px;color:var(--gray);">Generation</span></span>
+              <span class="role-change-badge">역할 전환!</span>
+            </span>
+            <span class="role role-planner">기획자 ✦</span>
+          </div>
+          <div style="text-align:center;"><span class="flow-arrow">▼</span></div>
+          <div class="flow-step" style="justify-content:space-between;">
+            <span class="fw-700">최적화 <span style="font-size:12px;color:var(--gray);">Refinement</span></span>
+            <span class="role role-dev">개발자</span>
+          </div>
+          <div style="text-align:center;"><span class="flow-arrow">▼</span></div>
+          <div class="flow-step" style="justify-content:space-between;">
+            <span class="fw-700">디버깅</span>
+            <span class="role role-auto">자동</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 6 : AI-Native ── -->
+  <div class="slide" data-section="2">
+    <div style="height:24px"></div>
+    <div class="slide-header">
+      <h2><span class="accent">AI-Native</span></h2>
+      <p class="text-sm text-gray" style="margin-top:6px;">기획 / 프로젝트 브리프로 안건 발제</p>
+    </div>
+    <div class="slide-body" style="flex-direction:column; gap:0;">
+      <div style="flex:1; overflow-y:auto;">
+        <div class="step-item anim-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">협업 규칙 설정</div>
+            <div class="step-desc">기술 스택, 컴포넌트 및 디렉토리 구조 설계 규칙, 코드 스타일 가이드 등<br>역할 및 범위 설정</div>
+            <div class="step-roles">
+              <span class="role role-planner">기획</span>
+              <span class="role role-dev">개발</span>
+            </div>
+          </div>
+        </div>
+        <div class="step-item anim-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">바이브 코딩 & 코드 리뷰</div>
+            <div class="step-desc">
+              <span class="role role-planner" style="margin-right:4px;">기획</span> 바이브 코딩<br>
+              <span class="role role-dev" style="margin-right:4px;">개발</span> 코드 리뷰, 성능 최적화 (깃에서 히스토리 및 소스 관리 → 즉각 수정 push, merge)
+            </div>
+          </div>
+        </div>
+        <div class="step-item anim-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">자동 검수 → 최종 판단</div>
+            <div class="step-desc">자동 검수 후 → 최종 완성 여부 판단 및 의사결정</div>
+            <div class="step-roles">
+              <span class="role role-planner">기획</span>
+              <span class="role role-dev">개발</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="note-box anim-item">
+        <strong>특이 사항</strong><br>
+        현재는 개발자와 기획자가 Step별로 같이 논의를 통해 규칙 및 가이드를 보완하며 진행해야 하는 상황<br>
+        여러 번의 프로젝트 수행 후에는 노하우 및 가이드가 축적되어, 기획자가 전 단계의 역할과 범위를 사전에 정리 가능할 것으로 예상<br>
+        프로젝트 특징에 따라 상세 워크 플로우는 유관 부서 간 조율 필요
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 7 : 일정 ── -->
+  <div class="slide" data-section="3">
+    <div style="height:24px"></div>
+    <div class="slide-header">
+      <h2><span class="accent">일정</span></h2>
+    </div>
+    <div class="slide-body">
+      <div style="flex:1;">
+        <div class="timeline">
+          <div class="timeline-item anim-item">
+            <div class="timeline-period">3월 — 9월</div>
+            <div class="timeline-title">신규 서비스 및 플랫폼</div>
+            <div class="timeline-desc">신규 서비스 및 플랫폼 대상으로 AX 전환 적용</div>
+          </div>
+          <div class="timeline-item anim-item">
+            <div class="timeline-period">3월 — 9월</div>
+            <div class="timeline-title">레거시 코딩 서비스 고도화</div>
+            <div class="timeline-desc">레거시 코딩 서비스 및 플랫폼 대상으로 고도화 작업</div>
+            <span class="timeline-tag tag-cbs">Target CBS</span>
+          </div>
+          <div class="timeline-item anim-item">
+            <div class="timeline-period">5월 — 7월 / 10월 — 12월</div>
+            <div class="timeline-title">리팩토링</div>
+            <div class="timeline-desc">기존 시스템 리팩토링 진행</div>
+            <span class="timeline-tag tag-aidt">Target AIDT</span>
+          </div>
+        </div>
+      </div>
+      <div style="flex:0.8;" class="anim-item">
+        <div class="glass-card" style="height:100%; padding:32px;">
+          <!-- Gantt-like visualization -->
+          <div class="fw-700 mb-16" style="font-size:14px;">2026 타임라인</div>
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <div>
+              <div class="text-xs text-gray mb-8">신규 서비스</div>
+              <div style="display:flex; gap:2px;">
+                <div style="flex:7; height:8px; border-radius:4px; background:linear-gradient(90deg,var(--teal),var(--cyan));"></div>
+                <div style="flex:3; height:8px; border-radius:4px; background:var(--glass);"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:4px;">
+                <span class="text-xs text-gray">3월</span>
+                <span class="text-xs text-gray">9월</span>
+                <span class="text-xs text-gray" style="opacity:0.3;">12월</span>
+              </div>
+            </div>
+            <div>
+              <div class="text-xs text-gray mb-8">레거시 고도화 <span class="text-xs" style="color:var(--accent-orange);">CBS</span></div>
+              <div style="display:flex; gap:2px;">
+                <div style="flex:7; height:8px; border-radius:4px; background:linear-gradient(90deg,var(--accent-orange),var(--accent-yellow));"></div>
+                <div style="flex:3; height:8px; border-radius:4px; background:var(--glass);"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:4px;">
+                <span class="text-xs text-gray">3월</span>
+                <span class="text-xs text-gray">9월</span>
+                <span class="text-xs text-gray" style="opacity:0.3;">12월</span>
+              </div>
+            </div>
+            <div>
+              <div class="text-xs text-gray mb-8">리팩토링 <span class="text-xs text-cyan">AIDT</span></div>
+              <div style="display:flex; gap:2px;">
+                <div style="flex:2; height:8px; border-radius:4px; background:var(--glass);"></div>
+                <div style="flex:3; height:8px; border-radius:4px; background:linear-gradient(90deg,var(--cyan),#7C4DFF);"></div>
+                <div style="flex:2; height:8px; border-radius:4px; background:var(--glass);"></div>
+                <div style="flex:3; height:8px; border-radius:4px; background:linear-gradient(90deg,var(--cyan),#7C4DFF);"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:4px;">
+                <span class="text-xs text-gray" style="opacity:0.3;">3월</span>
+                <span class="text-xs text-gray">5월</span>
+                <span class="text-xs text-gray">7월</span>
+                <span class="text-xs text-gray">10월</span>
+                <span class="text-xs text-gray">12월</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  const sectionMap = { 1: [1,2], 2: [3,4,5], 3: [6] };
+  const sectionNav = document.getElementById('sectionNav');
+
+  function updateSlide(next, direction) {
+    if (next < 0 || next >= total || next === current) return;
+    const cur = slides[current];
+    const nxt = slides[next];
+
+    // exit direction
+    cur.classList.remove('active');
+    if (direction === 'forward') {
+      cur.classList.add('exit-left');
+    } else {
+      cur.style.transform = 'translateX(60px) scale(0.97)';
+      cur.style.opacity = '0';
+    }
+
+    // prep incoming
+    if (direction === 'forward') {
+      nxt.style.transform = 'translateX(60px) scale(0.97)';
+    } else {
+      nxt.style.transform = 'translateX(-60px) scale(0.97)';
+    }
+    nxt.style.opacity = '0';
+
+    // force reflow
+    void nxt.offsetWidth;
+
+    // remove exit class after transition
+    setTimeout(() => {
+      cur.classList.remove('exit-left');
+      cur.style.transform = '';
+      cur.style.opacity = '';
+    }, 650);
+
+    // activate
+    nxt.classList.add('active');
+    nxt.style.transform = '';
+    nxt.style.opacity = '';
+
+    current = next;
+    updateUI();
+
+    // TO-BE arrow animation on slide 5
+    if (current === 4) {
+      const arrow = document.querySelector('.tobe-arrow');
+      if (arrow) {
+        setTimeout(() => arrow.style.opacity = '1', 1200);
+      }
+    }
+  }
+
+  function updateUI() {
+    // Counter
+    document.getElementById('counterCurrent').textContent = String(current + 1).padStart(2, '0');
+    document.getElementById('counterTotal').textContent = String(total).padStart(2, '0');
+
+    // Section nav visibility
+    const sec = slides[current].dataset.section;
+    if (sec === '0') {
+      sectionNav.classList.remove('show');
+    } else {
+      sectionNav.classList.add('show');
+    }
+
+    // Section dot states
+    const currentSection = parseInt(sec) || 0;
+    document.querySelectorAll('.section-dot').forEach(dot => {
+      const s = parseInt(dot.dataset.section);
+      dot.classList.remove('active', 'completed');
+      if (s === currentSection) dot.classList.add('active');
+      else if (s < currentSection) dot.classList.add('completed');
+    });
+
+    // Section lines
+    document.getElementById('line1').classList.toggle('active', currentSection >= 2);
+    document.getElementById('line2').classList.toggle('active', currentSection >= 3);
+  }
+
+  window.nextSlide = function() {
+    updateSlide(current + 1, 'forward');
+  };
+  window.prevSlide = function() {
+    updateSlide(current - 1, 'backward');
+  };
+  window.goToSection = function(sec) {
+    const target = sectionMap[sec];
+    if (target && target[0] !== undefined) {
+      const dir = target[0] > current ? 'forward' : 'backward';
+      updateSlide(target[0], dir);
+    }
+  };
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+    else if (e.key === 'ArrowLeft') prevSlide();
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+  });
+
+  updateUI();
+})();
+</script>
+</body>
+</html>
