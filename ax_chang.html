@@ -839,30 +839,19 @@
             </p>
           </div>
           <!-- Loop illustration -->
-          <svg width="220" height="90" viewBox="0 0 220 90">
-            <defs>
-              <marker id="arrowR" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M0,0 L8,4 L0,8 Z" fill="var(--teal)"/>
-              </marker>
-              <marker id="arrowL" viewBox="0 0 8 8" refX="1" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M8,0 L0,4 L8,8 Z" fill="var(--cyan)"/>
-              </marker>
-            </defs>
-            <!-- Generate box -->
-            <rect x="8" y="30" width="80" height="30" rx="8" fill="rgba(0,191,166,0.2)" stroke="var(--teal)" stroke-width="1.5"/>
-            <text x="48" y="50" fill="var(--teal)" font-size="12" text-anchor="middle" font-weight="600">Generate</text>
-            <!-- Refine box -->
-            <rect x="132" y="30" width="80" height="30" rx="8" fill="rgba(0,229,255,0.15)" stroke="var(--cyan)" stroke-width="1.5"/>
-            <text x="172" y="50" fill="var(--cyan)" font-size="12" text-anchor="middle" font-weight="600">Refine</text>
-            <!-- Top arrow: Generate → Refine (위로 크게 우회) -->
-            <path d="M 88 38 C 110 10, 110 10, 132 38" fill="none" stroke="var(--teal)" stroke-width="1.5" marker-end="url(#arrowR)"/>
-            <!-- Bottom arrow: Refine → Generate (아래로 크게 우회) -->
-            <path d="M 132 52 C 110 80, 110 80, 88 52" fill="none" stroke="var(--cyan)" stroke-width="1.5" marker-end="url(#arrowL)"/>
-          </svg>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="padding:8px 20px; border-radius:8px; background:rgba(0,191,166,0.2); border:1.5px solid var(--teal);">
+              <span style="color:var(--teal); font-size:13px; font-weight:600;">Generate</span>
+            </div>
+            <span style="font-size:36px; background:linear-gradient(90deg,#00BFA6,#00E5FF); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; line-height:1;">∞</span>
+            <div style="padding:8px 20px; border-radius:8px; background:rgba(0,229,255,0.15); border:1.5px solid var(--cyan);">
+              <span style="color:var(--cyan); font-size:13px; font-weight:600;">Refine</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div style="flex:1.4; display:flex; align-items:center; justify-content:center;" class="anim-item">
-        <img src="waterfall.png" alt="Waterfall vs Agile vs AI" style="width:100%; height:100%; object-fit:contain; border-radius:16px;">
+      <div style="flex:1.4; align-self:stretch; overflow:hidden;" class="anim-item">
+        <img src="waterfall.png" alt="Waterfall vs Agile vs AI" style="width:100%; height:100%; object-fit:contain; border-radius:16px; display:block;">
       </div>
     </div>
   </div>
@@ -933,46 +922,70 @@
       <h2><span class="accent">AI-Native</span></h2>
       <p class="text-sm text-gray" style="margin-top:6px;">기획 / 프로젝트 브리프로 안건 발제</p>
     </div>
-    <div class="slide-body" style="flex-direction:column; gap:0;">
-      <div style="flex:1; overflow-y:auto;">
-        <div class="step-item anim-item">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <div class="step-title">협업 규칙 설정</div>
-            <div class="step-desc">기술 스택, 컴포넌트 및 디렉토리 구조 설계 규칙, 코드 스타일 가이드 등<br>역할 및 범위 설정</div>
-            <div class="step-roles">
-              <div style="display:inline-flex; align-items:center; gap:8px; border:1.5px solid rgba(0,191,166,0.5); border-radius:10px; padding:6px 12px; background:rgba(0,191,166,0.06);">
-                <span class="role role-planner">기획</span>
-                <span style="color:var(--gray); font-size:11px;">+</span>
-                <span class="role role-dev">개발</span>
-              </div>
-            </div>
+    <style>
+      @keyframes arrowFlow {
+        0%   { opacity:0.3; transform:translateX(-4px); }
+        50%  { opacity:1;   transform:translateX(4px);  }
+        100% { opacity:0.3; transform:translateX(-4px); }
+      }
+      .flow-arrow-anim { animation: arrowFlow 1.6s ease-in-out infinite; }
+    </style>
+    <div class="slide-body" style="flex-direction:column; gap:20px;">
+      <div style="flex:1; display:flex; align-items:stretch; gap:0;">
+
+        <!-- STEP 1 -->
+        <div class="glass-card anim-item" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:28px 20px; gap:14px; text-align:center; border-color:rgba(0,191,166,0.3);">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#0A1628;flex-shrink:0;">1</div>
+          <div class="fw-700" style="font-size:17px;">협업 규칙 설정</div>
+          <p class="text-sm text-gray" style="line-height:1.7; flex:1;">기술 스택, 컴포넌트 및 디렉토리 구조 설계 규칙, 코드 스타일 가이드 등 역할 및 범위 설정</p>
+          <div style="display:inline-flex; align-items:center; gap:8px; border:1.5px solid rgba(0,191,166,0.5); border-radius:10px; padding:6px 12px; background:rgba(0,191,166,0.06);">
+            <span class="role role-planner">기획</span>
+            <span style="color:var(--gray); font-size:11px;">+</span>
+            <span class="role role-dev">개발</span>
           </div>
         </div>
-        <div class="step-item anim-item">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <div class="step-title">바이브 코딩 & 코드 리뷰</div>
-            <div class="step-desc">
-              <span class="role role-planner" style="margin-right:4px;">기획</span> 바이브 코딩<br>
-              <span class="role role-dev" style="margin-right:4px;">개발</span> 코드 리뷰, 성능 최적화 (깃에서 히스토리 및 소스 관리 → 즉각 수정 push, merge)
-            </div>
+
+        <!-- 화살표 1→2 -->
+        <div style="display:flex; align-items:center; justify-content:center; flex-shrink:0; padding:0 4px;">
+          <svg class="flow-arrow-anim" width="32" height="48" viewBox="0 0 32 48" fill="none">
+            <defs><linearGradient id="ag1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#00BFA6"/><stop offset="100%" stop-color="#00E5FF"/></linearGradient></defs>
+            <path d="M4 6 L26 24 L4 42" stroke="url(#ag1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 10 L28 24 L12 38" stroke="url(#ag1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+          </svg>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="glass-card anim-item" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:28px 20px; gap:14px; text-align:center;">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),#7C4DFF);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0;">2</div>
+          <div class="fw-700" style="font-size:17px;">바이브 코딩 & 코드 리뷰</div>
+          <div class="text-sm text-gray" style="line-height:1.8; flex:1; text-align:left; width:100%;">
+            <span class="role role-planner" style="margin-right:4px;">기획</span> 바이브 코딩<br><br>
+            <span class="role role-dev" style="margin-right:4px;">개발</span> 코드 리뷰, 성능 최적화<br>
+            <span style="opacity:0.55; font-size:12px;">(깃 히스토리 및 소스 관리 → 즉각 수정 push, merge)</span>
           </div>
         </div>
-        <div class="step-item anim-item">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <div class="step-title">자동 검수 → 최종 판단</div>
-            <div class="step-desc">자동 검수 후 → 최종 완성 여부 판단 및 의사결정</div>
-            <div class="step-roles">
-              <div style="display:inline-flex; align-items:center; gap:8px; border:1.5px solid rgba(0,191,166,0.5); border-radius:10px; padding:6px 12px; background:rgba(0,191,166,0.06);">
-                <span class="role role-planner">기획</span>
-                <span style="color:var(--gray); font-size:11px;">+</span>
-                <span class="role role-dev">개발</span>
-              </div>
-            </div>
+
+        <!-- 화살표 2→3 -->
+        <div style="display:flex; align-items:center; justify-content:center; flex-shrink:0; padding:0 4px;">
+          <svg class="flow-arrow-anim" width="32" height="48" viewBox="0 0 32 48" fill="none" style="animation-delay:0.5s;">
+            <defs><linearGradient id="ag2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#00BFA6"/><stop offset="100%" stop-color="#00E5FF"/></linearGradient></defs>
+            <path d="M4 6 L26 24 L4 42" stroke="url(#ag2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 10 L28 24 L12 38" stroke="url(#ag2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+          </svg>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="glass-card anim-item" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:28px 20px; gap:14px; text-align:center; border-color:rgba(0,191,166,0.3);">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent-yellow),var(--accent-orange));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#0A1628;flex-shrink:0;">3</div>
+          <div class="fw-700" style="font-size:17px;">자동 검수 → 최종 판단</div>
+          <p class="text-sm text-gray" style="line-height:1.7; flex:1;">자동 검수 후 → 최종 완성 여부 판단 및 의사결정</p>
+          <div style="display:inline-flex; align-items:center; gap:8px; border:1.5px solid rgba(0,191,166,0.5); border-radius:10px; padding:6px 12px; background:rgba(0,191,166,0.06);">
+            <span class="role role-planner">기획</span>
+            <span style="color:var(--gray); font-size:11px;">+</span>
+            <span class="role role-dev">개발</span>
           </div>
         </div>
+
       </div>
       <div class="note-box anim-item">
         <strong>특이 사항</strong><br>
@@ -999,14 +1012,14 @@
           </div>
           <div class="timeline-item anim-item">
             <div class="timeline-period">3월 — 9월</div>
-            <div class="timeline-title">레거시 코딩 서비스 고도화</div>
-            <div class="timeline-desc">레거시 코딩 서비스 및 플랫폼 대상으로 고도화 작업</div>
+            <div class="timeline-title">하이브리드 서비스 고도화</div>
+            <div class="timeline-desc">레거시 코딩의 서비스 및 플랫폼 대상으로 AX 전환 적용하여 기능 고도화 작업</div>
             <span class="timeline-tag tag-cbs">Target CBS</span>
           </div>
           <div class="timeline-item anim-item">
             <div class="timeline-period">5월 — 7월 / 10월 — 12월</div>
             <div class="timeline-title">리팩토링</div>
-            <div class="timeline-desc">기존 시스템 리팩토링 진행</div>
+            <div class="timeline-desc">기존 시스템을 AX 최적화를 위해 전체 리팩토링 진행</div>
             <span class="timeline-tag tag-aidt">Target AIDT</span>
           </div>
         </div>
