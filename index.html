@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AX 전환 방법 - 에듀테크 플랫폼 서비스 기획 Core</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        .slide { display: none; height: 100vh; width: 100vw; padding: 4rem; background: #f8fafc; }
+        .active { display: flex; flex-direction: column; justify-content: center; }
+        .gradient-text { background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card { background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); padding: 2rem; transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="overflow-hidden font-sans text-slate-800">
+
+    <div class="slide active animate__animated animate__fadeIn">
+        <div class="text-center">
+            <h2 class="text-2xl font-bold text-blue-600 mb-4">에듀테크 플랫폼 서비스 기획 Core</h2>
+            <h1 class="text-7xl font-black mb-8 leading-tight">AX 전환 방법</h1>
+            <div class="w-24 h-2 bg-blue-500 mx-auto"></div>
+        </div>
+    </div>
+
+    <div class="slide animate__animated animate__fadeIn">
+        <h2 class="text-4xl font-bold mb-12">배경: 범용 LLM외 AI 도입은 아직 초기</h2>
+        <div class="grid grid-cols-2 gap-8 items-center">
+            <div class="space-y-6">
+                <p class="text-2xl leading-relaxed">AI가 <span class="font-bold text-blue-600">빠른 속도로 진화</span>하고 있습니다.</p>
+                <div class="card bg-blue-50 border-l-8 border-blue-500">
+                    <p class="text-xl">90%의 기업이 AI 기술을 도입하고 있으나</p>
+                    <p class="text-4xl font-black mt-2 text-red-500">성공 사례는 단 5%</p>
+                    <p class="text-sm text-slate-500 mt-2">(25년 7월 MIT 리포트 기준)</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-inner">
+                <div class="flex items-end gap-4 h-64">
+                    <div class="bg-slate-200 w-full h-[80%] relative"><span class="absolute -top-8 w-full text-center">80%</span></div>
+                    <div class="bg-blue-400 w-full h-[60%] relative"><span class="absolute -top-8 w-full text-center">60%</span></div>
+                    <div class="bg-slate-300 w-full h-[50%] relative"><span class="absolute -top-8 w-full text-center">50%</span></div>
+                    <div class="bg-blue-600 w-full h-[5%] relative animate__animated animate__pulse animate__infinite"><span class="absolute -top-8 w-full font-bold text-red-500 text-center">5%</span></div>
+                </div>
+                <div class="flex justify-between mt-4 text-xs font-bold">
+                    <span>Investigated</span><span>Piloted</span><span>Successfully Implemented</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide animate__animated animate__fadeIn">
+        <h2 class="text-4xl font-bold mb-12">목표: 효율적 조직 달성 및 자동화</h2>
+        <div class="grid grid-cols-3 gap-6">
+            <div class="card border-t-4 border-blue-500">
+                <h3 class="text-xl font-bold mb-4">신규 구축</h3>
+                <p>서비스 및 플랫폼의 혁신적 신규 구축</p>
+            </div>
+            <div class="card border-t-4 border-purple-500">
+                <h3 class="text-xl font-bold mb-4">유지보수</h3>
+                <p>기존 서비스의 안정적인 고도화 및 유지관리</p>
+            </div>
+            <div class="card border-t-4 border-green-500">
+                <h3 class="text-xl font-bold mb-4">자동화</h3>
+                <p>운영 안정화 및 프로세스 전반의 자동화 달성</p>
+            </div>
+        </div>
+        <p class="mt-12 text-center text-2xl font-semibold text-slate-600 italic font-serif">"성공적으로 트렌드에 발맞추어 가야 함"</p>
+    </div>
+
+    <div class="slide animate__animated animate__fadeIn">
+        <h2 class="text-4xl font-bold mb-8">워크 플로우의 변화</h2>
+        <div class="flex gap-4 mb-8">
+            <button onclick="toggleWorkflow('asis')" id="btn-asis" class="px-6 py-2 rounded-full bg-slate-800 text-white font-bold">AS-IS (Waterfall)</button>
+            <button onclick="toggleWorkflow('tobe')" id="btn-tobe" class="px-6 py-2 rounded-full bg-slate-200 text-slate-700 font-bold">TO-BE (AI-Native)</button>
+        </div>
+        
+        <div id="asis-content" class="grid grid-cols-3 gap-8">
+            <div class="card text-center bg-slate-100 opacity-80">
+                <div class="text-4xl mb-4">📝</div>
+                <h3 class="font-bold">기획 (기획자)</h3>
+            </div>
+            <div class="card text-center bg-slate-100 opacity-80">
+                <div class="text-4xl mb-4">💻</div>
+                <h3 class="font-bold">구현 (개발자)</h3>
+            </div>
+            <div class="card text-center bg-slate-100 opacity-80">
+                <div class="text-4xl mb-4">🔍</div>
+                <h3 class="font-bold">디버깅 (수동)</h3>
+            </div>
+        </div>
+
+        <div id="tobe-content" class="hidden grid grid-cols-3 gap-8">
+            <div class="card text-center border-2 border-blue-500 shadow-lg shadow-blue-100">
+                <div class="text-4xl mb-4">🤖</div>
+                <h3 class="font-bold text-blue-600">구현 (기획자)</h3>
+                <p class="text-sm mt-2 font-bold">Generation</p>
+            </div>
+            <div class="card text-center border-2 border-purple-500 shadow-lg shadow-purple-100">
+                <div class="text-4xl mb-4">🛠️</div>
+                <h3 class="font-bold text-purple-600">최적화 (개발자)</h3>
+                <p class="text-sm mt-2 font-bold">Refinement</p>
+            </div>
+            <div class="card text-center border-2 border-green-500 shadow-lg shadow-green-100">
+                <div class="text-4xl mb-4">⚡</div>
+                <h3 class="font-bold text-green-600">디버깅 (자동)</h3>
+                <p class="text-sm mt-2 font-bold">Automation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide animate__animated animate__fadeIn">
+        <h2 class="text-4xl font-bold mb-8">AI-Native 협업 규칙</h2>
+        <div class="space-y-4">
+            <div class="flex items-center gap-6 p-4 bg-white rounded-lg shadow-sm border-l-4 border-slate-400">
+                <span class="text-2xl font-bold text-slate-400">Step 1</span>
+                <div>
+                    <p class="font-bold">기획 & 개발 협업 규칙 설정</p>
+                    <p class="text-sm text-slate-500">기술 스택, 컴포넌트 구조 설계 규칙, 코드 스타일 가이드 수립</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-6 p-4 bg-blue-50 rounded-lg shadow-sm border-l-4 border-blue-500">
+                <span class="text-2xl font-bold text-blue-500">Step 2</span>
+                <div class="flex-1">
+                    <p class="font-bold text-blue-700">바이브 코딩 & 코드 리뷰</p>
+                    <p class="text-sm text-blue-600">기획자의 생성(Generation)과 개발자의 성능 최적화(Refinement) 병행</p>
+                </div>
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">Vibe Coding</span>
+            </div>
+            <div class="flex items-center gap-6 p-4 bg-green-50 rounded-lg shadow-sm border-l-4 border-green-500">
+                <span class="text-2xl font-bold text-green-500">Step 3</span>
+                <div>
+                    <p class="font-bold text-green-700">최종 완성 및 의사결정</p>
+                    <p class="text-sm text-green-600">자동 검수 프로세스 후 최종 완성 여부 판단</p>
+                </div>
+            </div>
+        </div>
+        <p class="mt-8 text-sm text-slate-500 bg-slate-100 p-4 rounded italic">
+            ※ 기획Core 내 워크플로우 도입 초기 단계이므로, 개발자와 기획자가 실시간 논의를 통해 가이드를 보완하며 진행합니다. [cite: 33]
+        </p>
+    </div>
+
+    <div class="slide animate__animated animate__fadeIn">
+        <h2 class="text-4xl font-bold mb-12">2026 로드맵 및 일정</h2>
+        <div class="overflow-hidden rounded-xl border border-slate-200 shadow-lg">
+            <table class="w-full text-left">
+                <thead class="bg-slate-800 text-white">
+                    <tr>
+                        <th class="p-4 text-center">기간</th>
+                        <th class="p-4">주요 타겟 및 작업 내용</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 bg-white">
+                    <tr>
+                        <td class="p-6 text-center font-bold bg-blue-50">3월 ~ 9월</td>
+                        <td class="p-6">신규 서비스 및 플랫폼 대상 AX 전환 / 레거시 코딩 고도화 (Target CBS)</td>
+                    </tr>
+                    <tr>
+                        <td class="p-6 text-center font-bold bg-purple-50">5월 ~ 7월</td>
+                        <td class="p-6 text-slate-400 font-medium">1차 리팩토링 진행 (Target AIDT)</td>
+                    </tr>
+                    <tr>
+                        <td class="p-6 text-center font-bold bg-green-50 text-green-700">10월 ~ 12월</td>
+                        <td class="p-6">전사 서비스 리팩토링 및 AX 고도화 완료</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="fixed bottom-8 left-0 right-0 flex justify-center items-center gap-8">
+        <button onclick="prevSlide()" class="p-2 rounded-full bg-white shadow hover:bg-slate-100">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <span id="slide-num" class="font-bold text-slate-500">1 / 6</span>
+        <button onclick="nextSlide()" class="p-2 rounded-full bg-white shadow hover:bg-slate-100">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+    </div>
+
+    <div class="fixed top-0 left-0 h-1 bg-blue-500 transition-all duration-300" id="progress"></div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const slideNum = document.getElementById('slide-num');
+        const progress = document.getElementById('progress');
+
+        function updateSlide() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+            slideNum.innerText = `${currentSlide + 1} / ${slides.length}`;
+            progress.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function toggleWorkflow(type) {
+            const isAsis = type === 'asis';
+            document.getElementById('asis-content').classList.toggle('hidden', !isAsis);
+            document.getElementById('tobe-content').classList.toggle('hidden', isAsis);
+            
+            document.getElementById('btn-asis').className = isAsis ? 'px-6 py-2 rounded-full bg-slate-800 text-white font-bold' : 'px-6 py-2 rounded-full bg-slate-200 text-slate-700 font-bold';
+            document.getElementById('btn-tobe').className = !isAsis ? 'px-6 py-2 rounded-full bg-blue-600 text-white font-bold' : 'px-6 py-2 rounded-full bg-slate-200 text-slate-700 font-bold';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
