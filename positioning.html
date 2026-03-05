@@ -642,6 +642,49 @@
     z-index: 0;
   }
   #slides-wrap, #nav, #review-toggle, .review-note, #progress { z-index: 1; }
+
+  /* ── 시장 인사이트 박스 애니메이션 ── */
+  @keyframes insightGlow {
+    0%, 100% {
+      box-shadow: 0 0 8px rgba(201,168,76,0.2), 0 0 20px rgba(201,168,76,0.08);
+      border-color: rgba(201,168,76,0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(201,168,76,0.55), 0 0 48px rgba(201,168,76,0.25), 0 0 80px rgba(201,168,76,0.1);
+      border-color: rgba(201,168,76,0.8);
+    }
+  }
+  @keyframes sparkleTitle {
+    0%, 100% { text-shadow: 0 0 6px rgba(201,168,76,0.4); letter-spacing: 0.02em; }
+    50%       { text-shadow: 0 0 14px rgba(255,220,100,0.95), 0 0 30px rgba(201,168,76,0.6); letter-spacing: 0.04em; }
+  }
+  @keyframes starPop {
+    0%   { opacity: 0; transform: scale(0.4) rotate(0deg); }
+    40%  { opacity: 1; transform: scale(1.3) rotate(20deg); }
+    70%  { opacity: 1; transform: scale(0.9) rotate(-10deg); }
+    100% { opacity: 0; transform: scale(0.5) rotate(30deg); }
+  }
+  .insight-box {
+    position: relative;
+    overflow: visible;
+    animation: insightGlow 2.4s ease-in-out infinite;
+  }
+  .insight-title {
+    font-size: 16px !important;
+    animation: sparkleTitle 2.4s ease-in-out infinite;
+  }
+  .insight-star {
+    position: absolute;
+    pointer-events: none;
+    font-size: 13px;
+    animation: starPop 2.4s ease-in-out infinite;
+  }
+  .insight-star:nth-child(1) { top: -10px; left: 12%;  animation-delay: 0s; }
+  .insight-star:nth-child(2) { top: -14px; left: 38%;  animation-delay: 0.4s; }
+  .insight-star:nth-child(3) { top: -8px;  left: 65%;  animation-delay: 0.8s; }
+  .insight-star:nth-child(4) { top: -12px; left: 85%;  animation-delay: 1.2s; }
+  .insight-star:nth-child(5) { bottom: -10px; left: 25%; animation-delay: 0.6s; }
+  .insight-star:nth-child(6) { bottom: -8px;  left: 72%; animation-delay: 1.0s; }
 </style>
 </head>
 <body>
@@ -705,8 +748,14 @@
           <span class="tc-case">MagicSchool AI</span>
         </div>
       </div>
-      <div style="background:var(--surface);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 20px;font-size:12px;color:var(--text-mid);line-height:1.7;">
-        <strong style="color:var(--gold-light);">시장 인사이트</strong> — 에듀테크의 핵심 질문은 "콘텐츠 → 운영 → 교사 지원"으로 진화해왔습니다. 
+      <div class="insight-box" style="background:var(--surface);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:26px 28px;font-size:15px;color:var(--text-mid);line-height:1.9;">
+        <span class="insight-star">✦</span>
+        <span class="insight-star">✦</span>
+        <span class="insight-star">✦</span>
+        <span class="insight-star">✦</span>
+        <span class="insight-star">✦</span>
+        <span class="insight-star">✦</span>
+        <strong class="insight-title" style="color:var(--gold-light);">시장 인사이트</strong> — 에듀테크의 핵심 질문은 "콘텐츠 → 운영 → 교사 지원"으로 진화해왔습니다.
         현재 단계에서 승자는 <em style="color:var(--text);">교사의 시간을 아끼고, 학생 데이터를 의미 있게 해석해주는</em> 플랫폼입니다.
       </div>
     </div>
@@ -724,7 +773,7 @@
           <div class="pos-pillar">
             <div class="pp-label">축 1</div>
             <div class="pp-title">데이터 · 개인화 · AI</div>
-            <div class="pp-desc">시장 메가 트렌드에 올라타되,<br>공신력 있는 교육 도메인 데이터(교과서·학습 이력)를 보유에 차별성 부여</div>
+            <div class="pp-desc">시장 메가 트렌드에 올라타되,<br>공신력 있는 교육 도메인 데이터(교과서·학습 이력)에 차별성 부여</div>
           </div>
           <div class="pos-pillar">
             <div class="pp-label">축 2</div>
