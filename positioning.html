@@ -64,50 +64,50 @@
   /* ── NAVIGATION ── */
   #nav {
     position: fixed;
-    bottom: 32px;
+    bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
     z-index: 100;
     background: rgba(14,21,32,0.85);
     backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: 40px;
-    padding: 10px 20px;
+    padding: 5px 12px;
     white-space: nowrap;
   }
   #dots {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
   }
   #nav button {
     background: none;
     border: 1px solid var(--border);
     color: var(--text-mid);
-    width: 34px;
-    height: 34px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 8px;
     transition: all 0.2s;
     display: flex;align-items:center;justify-content:center;
   }
   #nav button:hover { border-color: var(--gold); color: var(--gold); }
   .dot {
-    width: 7px; height: 7px;
+    width: 4px; height: 4px;
     border-radius: 50%;
     background: var(--border);
     border: 1px solid var(--text-dim);
     cursor: pointer;
     transition: all 0.25s;
   }
-  .dot.active { background: var(--gold); border-color: var(--gold); width: 22px; border-radius: 4px; }
-  #slide-counter { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.1em; min-width: 40px; text-align:center; }
+  .dot.active { background: var(--gold); border-color: var(--gold); width: 12px; border-radius: 3px; }
+  #slide-counter { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; min-width: 28px; text-align:center; }
 
   /* ── SLIDE HEADER ── */
   .slide-header {
