@@ -449,38 +449,40 @@
     padding: 28px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 18px;
   }
   .feat-item {
     display: flex;
-    gap: 16px;
-    padding: 16px;
+    gap: 24px;
+    padding: 24px 28px;
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 10px;
+    flex: 1;
+    align-items: flex-start;
     transition: border-color 0.2s, transform 0.2s;
   }
   .feat-item:hover { border-color: var(--gold); transform: translateX(4px); }
   .feat-num {
     font-family: 'DM Mono', monospace;
-    font-size: 22px;
+    font-size: 32px;
     font-weight: 500;
     color: rgba(201,168,76,0.3);
-    min-width: 28px;
+    min-width: 40px;
     line-height: 1;
     margin-top: 2px;
   }
   .feat-content {}
   .feat-title {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   }
   .feat-desc {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--text-dim);
-    line-height: 1.6;
+    line-height: 1.7;
   }
   .teacher-link {
     margin-top: 4px;
@@ -782,7 +784,7 @@
           </div>
           <div class="pos-pillar">
             <div class="pp-label">축 3</div>
-            <div class="pp-title">핵심 모트 (Moat)</div>
+            <div class="pp-title">검증된 콘텐츠 제공</div>
             <div class="pp-desc">교과서 콘텐츠 자산 보유 → AI 환각 없는 교과 연계 문항 생성 가능</div>
           </div>
         </div>
