@@ -626,16 +626,50 @@
     ╚══════════════════════════════════════════════════╝ */
 const presentations = [
   {
-    title: "신사업 포지셔닝",
-    desc: "신 사업에 대한 소개.",
-    file: "positioning.html",         // 같은 폴더 내 html 파일 경로
+    title: "신사업 전략,
+    desc: "신 사업에 적용한 전략 소개.",
+    file: "strategy.html",         // 같은 폴더 내 html 파일 경로
+    icon: "🚀",
+    cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
+    category: "전략",                      // 전략 | 기술 | 보고 | 교육
+    tags: [
+      { label: "2026 에듀테크", color: "blue" },
+      { label: "플랫폼", color: "green" },
+      { label: "서비스", color: "purple" }
+    ],
+    date: "2026-02-24",
+    status: "draft"                       // live  // live | draft
+  },
+
+  const presentations = [
+  {
+    title: "플랫폼,
+    desc: "issamGPT보다, 구글 클래스룸보다 좋은 플랫폼.",
+    file: "https://new-platform-plan.vercel.app/",         // 같은 폴더 내 html 파일 경로
     icon: "🚀",
     cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
     category: "보고",                      // 전략 | 기술 | 보고 | 교육
     tags: [
-      { label: "2026 에듀테크 경향", color: "blue" },
+      { label: "2026 에듀테크", color: "blue" },
       { label: "플랫폼", color: "green" },
-      { label: "서비스", color: "purple" }
+      { label: "사업", color: "purple" }
+    ],
+    date: "2026-02-24",
+    status: "draft"                       // live  // live | draft
+  },
+
+const presentations = [
+  {
+    title: "학습심리정서검사,
+    desc: "학생을 더 잘 이해하고 지도하기 위한 서비스.",
+    file: "https://musical-malasada-ab1351.netlify.app/",         // 같은 폴더 내 html 파일 경로
+    icon: "🚀",
+    cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
+    category: "보고",                      // 전략 | 기술 | 보고 | 교육
+    tags: [
+      { label: "2026 에듀테크", color: "blue" },
+      { label: "서비스", color: "green" },
+      { label: "사업", color: "purple" }
     ],
     date: "2026-02-24",
     status: "draft"                       // live  // live | draft
@@ -691,7 +725,7 @@ function render() {
       </div>`;
   } else {
     grid.innerHTML = filtered.map((p, i) => `
-      <a class="card" href="${p.file}" style="animation-delay:${i * 0.05}s;">
+      <a class="card" href="${p.file}" ${p.file.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''} style="animation-delay:${i * 0.05}s;">
         <div class="card-cover">
           <div class="card-cover-gradient" style="background:${p.cover};">
             <span class="card-cover-icon">${p.icon}</span>
@@ -715,7 +749,7 @@ function render() {
     tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-tertiary);">조건에 맞는 프레젠테이션이 없습니다.</td></tr>`;
   } else {
     tbody.innerHTML = filtered.map(p => `
-      <tr onclick="window.location.href='${p.file}'">
+      <tr onclick="${p.file.startsWith('http') ? `window.open('${p.file}','_blank','noopener,noreferrer')` : `window.location.href='${p.file}'`}">
         <td>
           <div class="table-title">
             <span class="table-title-icon">${p.icon}</span>
