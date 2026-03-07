@@ -20,12 +20,12 @@
   --blue: #4a9eff;
   --red: #e05c5c;
   --text: #e4e8f0;
-  --text-mid: #9aa3b8;
+  --text-mid: #b8c2d4;
   --text-dim: #5a6278;
   --sidebar-w: 220px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:16px;font-weight:500;}
 
 /* ── LAYOUT ── */
 #app{display:flex;height:100vh;width:100vw;}
@@ -183,7 +183,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* ── SLIDE COMPONENTS ── */
 .slide-h1 {
   font-family: 'Noto Serif KR', serif;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 900;
   color: var(--text);
   letter-spacing: -0.02em;
@@ -192,7 +192,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 }
 .slide-h1 em { font-style: normal; color: var(--gold-l); }
 .slide-sub {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-dim);
   margin-bottom: 28px;
   letter-spacing: 0.01em;
@@ -200,7 +200,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .tag {
   display: inline-block;
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   padding: 3px 10px;
@@ -236,11 +236,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   line-height: 1;
   margin-bottom: 10px;
 }
-.card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.card-body { font-size: 12px; color: var(--text-mid); line-height: 1.7; }
+.card-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.card-body { font-size: 14px; color: var(--text-mid); line-height: 1.75; }
 .card-label {
   font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.15em;
+  font-size: 11px; letter-spacing: 0.15em;
   text-transform: uppercase; color: var(--text-dim);
   margin-bottom: 8px;
 }
@@ -259,10 +259,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .tl-item:last-child  { border-radius: 0 10px 10px 0; border-left: none; }
 .tl-item:not(:first-child):not(:last-child) { border-left: none; }
 .tl-item.hl { background: linear-gradient(135deg, var(--s1), rgba(201,168,76,0.05)); border-color: rgba(201,168,76,0.3); }
-.tl-era { font-family:'DM Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:0.08em; margin-bottom:6px; }
-.tl-kw { font-family:'Noto Serif KR',serif; font-size:16px; font-weight:700; color:var(--gold-l); margin-bottom:8px; line-height:1.3; }
-.tl-q { font-size:12px; color:var(--text-mid); line-height:1.6; margin-bottom:10px; }
-.chip { display:inline-block; font-size:11px; padding:2px 8px; border-radius:12px; background:rgba(56,201,176,0.08); border:1px solid rgba(56,201,176,0.18); color:var(--teal); margin:2px 2px 0 0; }
+.tl-era { font-family:'DM Mono',monospace; font-size:12px; color:var(--text-dim); letter-spacing:0.08em; margin-bottom:6px; }
+.tl-kw { font-family:'Noto Serif KR',serif; font-size:20px; font-weight:700; color:var(--gold-l); margin-bottom:8px; line-height:1.3; }
+.tl-q { font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:10px; }
+.chip { display:inline-block; font-size:13px; padding:3px 10px; border-radius:12px; background:rgba(56,201,176,0.08); border:1px solid rgba(56,201,176,0.18); color:var(--teal); margin:2px 2px 0 0; }
 
 /* QUOTE BOX */
 .quote {
@@ -270,13 +270,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   border-left: 3px solid var(--gold);
   border-radius: 0 8px 8px 0;
   padding: 14px 16px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-mid);
   line-height: 1.75;
   margin-bottom: 10px;
   font-style: italic;
 }
-.quote-src { display:block; margin-top:6px; font-style:normal; font-family:'DM Mono',monospace; font-size:10px; color:var(--text-dim); letter-spacing:0.08em; }
+.quote-src { display:block; margin-top:6px; font-style:normal; font-family:'DM Mono',monospace; font-size:12px; color:var(--text-dim); letter-spacing:0.08em; }
 
 /* COMPARISON TABLE */
 .cmp { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
@@ -285,18 +285,18 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   padding:16px 20px 14px;
   border-bottom:1px solid var(--border);
   font-family:'Noto Serif KR',serif;
-  font-size:16px; font-weight:700;
+  font-size:19px; font-weight:700;
 }
 .cmp-head.max { color:var(--blue); }
 .cmp-head.min { color:var(--teal); }
 .cmp-body { padding:16px 20px; }
-.cmp-row { display:flex; gap:8px; margin-bottom:8px; font-size:12px; color:var(--text-mid); line-height:1.6; }
+.cmp-row { display:flex; gap:8px; margin-bottom:8px; font-size:14px; color:var(--text-mid); line-height:1.6; }
 .cmp-row::before { content:'▸'; color:var(--text-dim); flex-shrink:0; margin-top:1px; }
 
 /* BIZ TABLE */
-.biz-table { width:100%; border-collapse:collapse; font-size:12px; }
+.biz-table { width:100%; border-collapse:collapse; font-size:14px; }
 .biz-table th {
-  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.12em;
+  font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em;
   text-transform:uppercase; color:var(--text-dim);
   padding:8px 14px; text-align:left;
   border-bottom:1px solid var(--border);
@@ -311,7 +311,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .biz-table tr:last-child td { border-bottom:none; }
 .biz-table tr:hover td { background:rgba(255,255,255,0.02); }
 .biz-table td:first-child { color:var(--text); font-weight:600; }
-.price { font-family:'DM Mono',monospace; color:var(--gold-l); font-size:13px; }
+.price { font-family:'DM Mono',monospace; color:var(--gold-l); font-size:15px; }
 
 /* FUNNEL */
 .funnel { display:flex; flex-direction:column; gap:0; }
@@ -325,16 +325,16 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .fn-row:last-child  { border-radius:0 0 10px 10px; }
 .fn-row:hover { border-color:var(--border2); z-index:1; position:relative; }
 .fn-badge {
-  font-family:'DM Mono',monospace; font-size:10px;
-  padding:3px 10px; border-radius:20px; min-width:52px; text-align:center;
+  font-family:'DM Mono',monospace; font-size:12px;
+  padding:4px 12px; border-radius:20px; min-width:60px; text-align:center;
   flex-shrink:0;
 }
 .fn-free  { background:rgba(56,201,176,0.1);  border:1px solid rgba(56,201,176,0.3);  color:var(--teal); }
 .fn-plus  { background:rgba(74,158,255,0.1);  border:1px solid rgba(74,158,255,0.3);  color:var(--blue); }
 .fn-pro   { background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.35); color:var(--gold); }
 .fn-mkt   { background:rgba(224,92,92,0.08);  border:1px solid rgba(224,92,92,0.25);  color:var(--red); }
-.fn-text { font-size:12px; color:var(--text-mid); line-height:1.6; }
-.fn-price { margin-left:auto; font-family:'DM Mono',monospace; font-size:12px; color:var(--gold-l); flex-shrink:0; }
+.fn-text { font-size:14px; color:var(--text-mid); line-height:1.6; }
+.fn-price { margin-left:auto; font-family:'DM Mono',monospace; font-size:14px; color:var(--gold-l); flex-shrink:0; }
 
 /* INSIGHT BOX */
 .insight {
@@ -342,21 +342,21 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   border:1px solid rgba(56,201,176,0.2);
   border-radius:10px;
   padding:16px 20px;
-  font-size:12px; color:var(--text-mid); line-height:1.75;
+  font-size:14px; color:var(--text-mid); line-height:1.75;
 }
 .insight strong { color:var(--teal); }
 
 /* TITLE SLIDE */
 .title-wrap { display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height:100%; }
-.t-kicker { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; margin-bottom:22px; }
+.t-kicker { font-family:'DM Mono',monospace; font-size:13px; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; margin-bottom:22px; }
 .t-main { font-family:'Noto Serif KR',serif; font-size:52px; font-weight:900; letter-spacing:-0.03em;
   background:linear-gradient(135deg,#fff 0%,var(--gold-l) 100%);
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   margin-bottom:10px; line-height:1.15;
 }
-.t-sub { font-size:15px; color:var(--text-dim); margin-bottom:48px; }
+.t-sub { font-size:18px; color:var(--text-dim); margin-bottom:48px; }
 .t-divider { width:50px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:0 auto 40px; }
-.t-meta { display:flex; gap:28px; font-family:'DM Mono',monospace; font-size:11px; color:var(--text-dim); letter-spacing:0.08em; }
+.t-meta { display:flex; gap:28px; font-family:'DM Mono',monospace; font-size:13px; color:var(--text-dim); letter-spacing:0.08em; }
 .t-meta span { color:var(--gold-l); }
 
 /* GRID BG */
@@ -390,9 +390,9 @@ body::before {
   color:var(--teal); background:rgba(56,201,176,0.1); border:1px solid rgba(56,201,176,0.3);
   padding:2px 8px; border-radius:10px;
 }
-.tc-n { font-family:'DM Mono',monospace; font-size:20px; color:rgba(201,168,76,0.2); margin-bottom:6px; }
-.tc-t { font-size:14px; font-weight:700; color:var(--text); margin-bottom:4px; }
-.tc-d { font-size:11px; color:var(--text-mid); line-height:1.6; }
+.tc-n { font-family:'DM Mono',monospace; font-size:24px; color:rgba(201,168,76,0.2); margin-bottom:6px; }
+.tc-t { font-size:17px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.tc-d { font-size:13px; color:var(--text-mid); line-height:1.6; }
 
 /* SCROLL */
 .slide::-webkit-scrollbar { width:4px; }
@@ -507,7 +507,7 @@ body::before {
         </div>
         <div style="display:flex;flex-direction:column;gap:7px;">
           <div style="display:grid;grid-template-columns:210px 1fr 36px;align-items:center;gap:10px;">
-            <div style="font-size:11px;color:var(--text);text-align:right;line-height:1.4;font-weight:600;">AI-powered educational games <span style="font-family:'DM Mono',monospace;font-size:8px;padding:1px 6px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.35);border-radius:10px;color:var(--gold);font-weight:400;margin-left:3px;">우리 서비스</span></div>
+            <div style="font-size:11px;color:var(--text);text-align:right;line-height:1.4;font-weight:600;">AI-powered educational games <span style="font-family:'DM Mono',monospace;font-size:8px;padding:1px 6px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.35);border-radius:10px;color:var(--gold);font-weight:400;margin-left:3px;"></span></div>
             <div style="position:relative;height:20px;background:var(--s2);border-radius:3px;overflow:hidden;"><div style="position:absolute;left:0;top:0;bottom:0;width:85%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:3px;"></div></div>
             <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--gold-l);">51%</div>
           </div>
@@ -610,10 +610,7 @@ body::before {
               <span style="padding:5px 12px;background:rgba(74,158,255,0.12);border:1px solid rgba(74,158,255,0.35);border-radius:20px;font-size:13px;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace;">Horizontal</span>
               <span style="padding:5px 12px;background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.2);border-radius:20px;font-size:13px;font-weight:600;color:var(--blue);font-family:'DM Mono',monospace;">Google Classroom형</span>
             </div>
-            <div class="cmp-row">1번의 로그인으로 많은 서비스를 간단하게 이용</div>
-            <div class="cmp-row">서비스 간 데이터 조회 및 AI 인사이트 제공</div>
-            <div class="cmp-row">교사가 직접 서비스를 조합하는 수업 설계 허브</div>
-            <div class="cmp-row">인프라 활성화 트렌드 대응 → 장기적 락인 효과</div>
+            <div class="cmp-row">1번의 로그인으로 많은 서비스를 간단하게 이용.</div>
             <div style="margin-top:12px;padding:10px;background:rgba(74,158,255,0.06);border:1px solid rgba(74,158,255,0.2);border-radius:8px;font-size:11px;color:var(--blue);">
               <strong>목표:</strong> 교사 워크플로우 전체를 감싸는 허브
             </div>
@@ -632,8 +629,6 @@ body::before {
               <span style="padding:5px 12px;background:rgba(56,201,176,0.08);border:1px solid rgba(56,201,176,0.2);border-radius:20px;font-size:13px;font-weight:600;color:var(--teal);font-family:'DM Mono',monospace;">Kahoot형</span>
             </div>
             <div class="cmp-row">전문성 있는 분야에 특화된 기능으로 사용자 만족도 극대화</div>
-            <div class="cmp-row">게임 서비스: 학습 몰입·동기부여 영역 특화</div>
-            <div class="cmp-row">학습심리정서검사: 상담·SEL 영역 특화</div>
             <div class="cmp-row">각 서비스 독립 출시 → 빠른 시장 검증 가능</div>
             <div style="margin-top:12px;padding:10px;background:rgba(56,201,176,0.06);border:1px solid rgba(56,201,176,0.2);border-radius:8px;font-size:11px;color:var(--teal);">
               <strong>목표:</strong> 각 영역 최강 특화 서비스
@@ -654,13 +649,13 @@ body::before {
           <div class="card teal-edge">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
               <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;">트렌드 대응</span>
-              <span style="font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:12px;color:var(--gold);letter-spacing:0.08em;">AI 실전화 · 학습 결과</span>
+              <span style="font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:12px;color:var(--gold);letter-spacing:0.08em;">인프라 활성화</span>
             </div>
             <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
               <span style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:var(--teal);white-space:nowrap;">기능 01</span>
-              <span style="font-size:15px;font-weight:700;color:var(--text);">사용 현황 대시보드 & 데이터 AI 서칭</span>
+              <span style="font-size:15px;font-weight:700;color:var(--text);">플랫폼 구축</span>
             </div>
-            <div class="card-body">플랫폼 내 서비스별 사용 현황을 직관적으로 시각화. 서비스 DB 기반 AI 서칭으로 "이 학생 최근 게임 성적"을 자연어로 바로 조회.</div>
+            <div class="card-body">상호운용성 확보. 추후 파트너 서비스 온보딩을 위한 인프라 기반 마련.</div>
           </div>
           <div class="card teal-edge">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
@@ -676,13 +671,13 @@ body::before {
           <div class="card teal-edge">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
               <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;">트렌드 대응</span>
-              <span style="font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:12px;color:var(--gold);letter-spacing:0.08em;">인프라 활성화</span>
+              <span style="font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:12px;color:var(--gold);letter-spacing:0.08em;">AI 실전화 · 학습 결과</span>
             </div>
             <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
               <span style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:var(--teal);white-space:nowrap;">기능 03</span>
-              <span style="font-size:15px;font-weight:700;color:var(--text);">플랫폼 구축</span>
+              <span style="font-size:15px;font-weight:700;color:var(--text);">사용 현황 대시보드 & 데이터 AI 서칭</span>
             </div>
-            <div class="card-body">상호운용성 확보. 추후 파트너 서비스 온보딩을 위한 인프라 기반 마련.</div>
+            <div class="card-body">플랫폼 내 서비스별 사용 현황을 직관적으로 시각화. 서비스 DB 기반 AI 서칭으로 "이 학생 최근 게임 성적"을 자연어로 바로 조회.</div>
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:12px;">
@@ -941,9 +936,9 @@ body::before {
           <div style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:0;">
             <!-- 독립 서비스 박스 -->
             <div style="border:1px solid rgba(56,201,176,0.35);border-radius:10px;padding:14px 16px;background:rgba(56,201,176,0.04);">
-              <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">독립 서비스 (Min)</div>
+              <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">독립 서비스 (Min) 게임 서비스</div>
               <div style="display:flex;flex-direction:column;gap:5px;">
-                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-mid);"><span style="color:var(--teal);font-size:9px;">ㄴ</span> 게임</div>
+                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-mid);"><span style="color:var(--teal);font-size:9px;">ㄴ</span> Quiz Paryt</div>
                 <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-mid);"><span style="color:var(--teal);font-size:9px;">ㄴ</span> 마켓플레이스</div>
               </div>
             </div>
