@@ -732,7 +732,6 @@ function render() {
           <div class="card-desc">${p.desc}</div>
           <div class="card-meta">
             ${p.tags.map(t => `<span class="tag tag-${t.color}">${t.label}</span>`).join('')}
-            <span class="card-date">${p.date}</span>
           </div>
           <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
             <span onclick="window.open('${p.file}','_blank','noopener,noreferrer');"
