@@ -258,7 +258,26 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .tl-item:first-child { border-radius: 10px 0 0 10px; }
 .tl-item:last-child  { border-radius: 0 10px 10px 0; border-left: none; }
 .tl-item:not(:first-child):not(:last-child) { border-left: none; }
-.tl-item.hl { background: linear-gradient(135deg, var(--s1), rgba(201,168,76,0.05)); border-color: rgba(201,168,76,0.3); }
+.tl-item.hl {
+  background: linear-gradient(135deg, var(--s1), rgba(201,168,76,0.05));
+  border-color: rgba(201,168,76,0.3);
+  position: relative;
+  overflow: hidden;
+}
+@keyframes shimmer {
+  0%   { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
+  30%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translateX(200%) skewX(-15deg); opacity: 0; }
+}
+.tl-item.hl::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.18) 50%, transparent 100%);
+  animation: shimmer 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
 .tl-era { font-family:'DM Mono',monospace; font-size:12px; color:var(--text-dim); letter-spacing:0.08em; margin-bottom:6px; }
 .tl-kw { font-family:'Noto Serif KR',serif; font-size:20px; font-weight:700; color:var(--gold-l); margin-bottom:8px; line-height:1.3; }
 .tl-q { font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:10px; }
@@ -610,9 +629,10 @@ body::before {
               <span style="padding:5px 12px;background:rgba(74,158,255,0.12);border:1px solid rgba(74,158,255,0.35);border-radius:20px;font-size:13px;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace;">Horizontal</span>
               <span style="padding:5px 12px;background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.2);border-radius:20px;font-size:13px;font-weight:600;color:var(--blue);font-family:'DM Mono',monospace;">Google Classroom형</span>
             </div>
+            <div class="cmp-row">누구나 쉽게 사용할 수 있는 플랫폼</div>
             <div class="cmp-row">1번의 로그인으로 많은 서비스를 간단하게 이용.</div>
             <div style="margin-top:12px;padding:10px;background:rgba(74,158,255,0.06);border:1px solid rgba(74,158,255,0.2);border-radius:8px;font-size:11px;color:var(--blue);">
-              <strong>목표:</strong> 교사 워크플로우 전체를 감싸는 허브
+              <strong>목표:</strong> 사용자의 워크플로우 전체를 감싸는 허브
             </div>
           </div>
         </div>
@@ -906,7 +926,28 @@ body::before {
         <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;">서비스 가치 구조</div>
         <div style="display:flex;flex-direction:column;gap:12px;">
 
-          <!-- Row 1: 플랫폼 → 가치 선순환 -->
+          <!-- Row 1: 독립 서비스 → 가치 창출 -->
+          <div style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:0;">
+            <!-- 독립 서비스 박스 -->
+            <div style="border:1px solid rgba(56,201,176,0.35);border-radius:10px;padding:14px 16px;background:rgba(56,201,176,0.04);">
+              <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">독립 서비스 (Min) 게임 서비스</div>
+              <div style="display:flex;flex-direction:column;gap:5px;">
+                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-mid);"><span style="color:var(--teal);font-size:9px;">ㄴ</span> Quiz Party</div>
+                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-mid);"><span style="color:var(--teal);font-size:9px;">ㄴ</span> 마켓플레이스</div>
+              </div>
+            </div>
+            <!-- 화살표 -->
+            <div style="display:flex;justify-content:center;align-items:center;">
+              <span style="font-size:18px;color:var(--teal);">&#8594;</span>
+            </div>
+            <!-- 가치 창출 -->
+            <div style="border:1px solid rgba(56,201,176,0.35);border-radius:10px;padding:14px 16px;background:rgba(56,201,176,0.06);">
+              <div style="font-size:16px;font-weight:800;color:var(--teal);margin-bottom:4px;">가치 창출</div>
+              <div style="font-size:11px;color:var(--text-mid);line-height:1.6;">영역 특화 기능으로 단독 시장 공략.<br>빠른 출시·검증·수익화 가능</div>
+            </div>
+          </div>
+
+          <!-- Row 2: 플랫폼 → 가치 선순환 -->
           <div style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:0;">
             <!-- 플랫폼 박스 -->
             <div style="border:1px solid rgba(74,158,255,0.35);border-radius:10px;padding:14px 16px;background:rgba(74,158,255,0.04);">
@@ -929,27 +970,6 @@ body::before {
                 <div style="font-size:11px;color:var(--text-mid);line-height:1.6;">서비스 데이터가 플랫폼 AI를 강화하고,<br>플랫폼이 서비스 확산을 다시 촉진</div>
               </div>
               <div style="font-size:26px;opacity:0.7;">♾️</div>
-            </div>
-          </div>
-
-          <!-- Row 2: 독립 서비스 → 가치 창출 -->
-          <div style="display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:0;">
-            <!-- 독립 서비스 박스 -->
-            <div style="border:1px solid rgba(56,201,176,0.35);border-radius:10px;padding:14px 16px;background:rgba(56,201,176,0.04);">
-              <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">독립 서비스 (Min) 게임 서비스</div>
-              <div style="display:flex;flex-direction:column;gap:5px;">
-                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-mid);"><span style="color:var(--teal);font-size:9px;">ㄴ</span> Quiz Paryt</div>
-                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-mid);"><span style="color:var(--teal);font-size:9px;">ㄴ</span> 마켓플레이스</div>
-              </div>
-            </div>
-            <!-- 화살표 -->
-            <div style="display:flex;justify-content:center;align-items:center;">
-              <span style="font-size:18px;color:var(--teal);">&#8594;</span>
-            </div>
-            <!-- 가치 창출 -->
-            <div style="border:1px solid rgba(56,201,176,0.35);border-radius:10px;padding:14px 16px;background:rgba(56,201,176,0.06);">
-              <div style="font-size:16px;font-weight:800;color:var(--teal);margin-bottom:4px;">가치 창출</div>
-              <div style="font-size:11px;color:var(--text-mid);line-height:1.6;">영역 특화 기능으로 단독 시장 공략.<br>빠른 출시·검증·수익화 가능</div>
             </div>
           </div>
 
