@@ -702,7 +702,7 @@ function render() {
       </div>`;
   } else {
     grid.innerHTML = filtered.map((p, i) => `
-      <a class="card" href="${p.file}" ${p.file.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''} style="animation-delay:${i * 0.05}s;">
+      <a class="card" href="${p.file}" target="_blank" rel="noopener noreferrer" style="animation-delay:${i * 0.05}s;">
         <div class="card-cover">
           <div class="card-cover-gradient" style="background:${p.cover};">
             <span class="card-cover-icon">${p.icon}</span>
@@ -726,7 +726,7 @@ function render() {
     tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-tertiary);">조건에 맞는 프레젠테이션이 없습니다.</td></tr>`;
   } else {
     tbody.innerHTML = filtered.map(p => `
-      <tr onclick="${p.file.startsWith('http') ? `window.open('${p.file}','_blank','noopener,noreferrer')` : `window.location.href='${p.file}'`}">
+      <tr onclick="window.open('${p.file}','_blank','noopener,noreferrer')">
         <td>
           <div class="table-title">
             <span class="table-title-icon">${p.icon}</span>
