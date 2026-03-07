@@ -644,6 +644,7 @@ const presentations = [
     title: "플랫폼",
     desc: "issamGPT보다, 구글 클래스룸보다 좋은 플랫폼.",
     file: "https://new-platform-plan.vercel.app/",
+    proto: "https://new-platform-wireframe.vercel.app/",
     icon: "🐚",
     cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
     category: "보고",
@@ -731,6 +732,14 @@ function render() {
             ${p.tags.map(t => `<span class="tag tag-${t.color}">${t.label}</span>`).join('')}
             <span class="card-date">${p.date}</span>
           </div>
+          ${p.proto ? `<div style="margin-top:10px;">
+            <a href="${p.proto}" target="_blank" rel="noopener noreferrer"
+               onclick="event.stopPropagation();"
+               style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--gold-l);background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:4px 12px;text-decoration:none;transition:background 0.15s;"
+               onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">
+              &#9654; 프로토타입
+            </a>
+          </div>` : ''}
         </div>
       </a>
     `).join('');
