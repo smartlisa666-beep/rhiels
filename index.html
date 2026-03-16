@@ -1,712 +1,940 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Presentations — 에듀테크 플랫폼 서비스 기획 Core</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  /* ══════════════════════════════════════
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentations — 에듀테크 플랫폼 서비스 기획 Core</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════
      DESIGN TOKENS
      노션 감성 — warm neutral, editorial clean
      ══════════════════════════════════════ */
-  :root {
-    --bg: #FAFAF8;
-    --bg-hover: #F3F3EE;
-    --bg-card: #FFFFFF;
-    --surface: #F5F5F0;
-    --border: #E8E5DF;
-    --border-hover: #D4D0C8;
-    --text-primary: #1A1A1A;
-    --text-secondary: #6B6B6B;
-    --text-tertiary: #9B9B9B;
-    --accent: #2383E2;
-    --accent-soft: rgba(35,131,226,0.08);
-    --accent-hover: rgba(35,131,226,0.12);
-    --tag-blue: #D3E5EF;
-    --tag-blue-text: #1B6B93;
-    --tag-green: #DBEDDB;
-    --tag-green-text: #2B6B3C;
-    --tag-orange: #FADEC9;
-    --tag-orange-text: #9B5C30;
-    --tag-purple: #E3D9F0;
-    --tag-purple-text: #6940A5;
-    --tag-red: #FFE2DD;
-    --tag-red-text: #B33B3B;
-    --tag-gray: #E8E5DF;
-    --tag-gray-text: #6B6B6B;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
-    --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
-    --radius: 8px;
-    --radius-lg: 12px;
-    --font-sans: 'Noto Sans KR', -apple-system, sans-serif;
-    --font-serif: 'Playfair Display', Georgia, serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --header-height: 56px;
-    --sidebar-width: 260px;
-    --max-content: 960px;
-  }
+    :root {
+      --bg: #FAFAF8;
+      --bg-hover: #F3F3EE;
+      --bg-card: #FFFFFF;
+      --surface: #F5F5F0;
+      --border: #E8E5DF;
+      --border-hover: #D4D0C8;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9B9B9B;
+      --accent: #2383E2;
+      --accent-soft: rgba(35, 131, 226, 0.08);
+      --accent-hover: rgba(35, 131, 226, 0.12);
+      --tag-blue: #D3E5EF;
+      --tag-blue-text: #1B6B93;
+      --tag-green: #DBEDDB;
+      --tag-green-text: #2B6B3C;
+      --tag-orange: #FADEC9;
+      --tag-orange-text: #9B5C30;
+      --tag-purple: #E3D9F0;
+      --tag-purple-text: #6940A5;
+      --tag-red: #FFE2DD;
+      --tag-red-text: #B33B3B;
+      --tag-gray: #E8E5DF;
+      --tag-gray-text: #6B6B6B;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08);
+      --radius: 8px;
+      --radius-lg: 12px;
+      --font-sans: 'Noto Sans KR', -apple-system, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --header-height: 56px;
+      --sidebar-width: 260px;
+      --max-content: 960px;
+    }
 
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { font-size: 15px; }
-  body {
-    font-family: var(--font-sans);
-    color: var(--text-primary);
-    background: var(--bg);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  /* ══════ LAYOUT ══════ */
-  .layout {
-    display: flex;
-    min-height: 100vh;
-  }
+    html {
+      font-size: 15px;
+    }
 
-  /* ── Sidebar ── */
-  .sidebar {
-    width: var(--sidebar-width);
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    padding: 20px 12px;
-    position: fixed;
-    top: 0; left: 0; bottom: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 50;
-    transition: transform 0.3s;
-  }
-  .sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 10px;
-    margin-bottom: 24px;
-  }
-  .sidebar-brand-icon {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    background: var(--text-primary);
-    color: var(--bg);
-    display: flex; align-items:center; justify-content:center;
-    font-size: 14px;
-    font-weight: 700;
-    font-family: var(--font-serif);
-  }
-  .sidebar-brand-text {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: -0.3px;
-  }
-  .sidebar-section {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 0 12px;
-    margin: 20px 0 8px;
-  }
-  .sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.15s;
-    text-decoration: none;
-    user-select: none;
-  }
-  .sidebar-item:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
-  }
-  .sidebar-item.active {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 500;
-  }
-  .sidebar-item-icon {
-    width: 20px;
-    text-align: center;
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-  .sidebar-count {
-    margin-left: auto;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--text-tertiary);
-    background: var(--bg);
-    padding: 1px 6px;
-    border-radius: 4px;
-  }
-  .sidebar-footer {
-    margin-top: auto;
-    padding: 12px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--text-tertiary);
-  }
+    body {
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  /* ── Main Content ── */
-  .main {
-    flex: 1;
-    margin-left: var(--sidebar-width);
-    min-height: 100vh;
-  }
+    /* ══════ LAYOUT ══════ */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
 
-  /* ── Header ── */
-  .page-header {
-    max-width: var(--max-content);
-    margin: 0 auto;
-    padding: 60px 40px 0;
-  }
-  .page-header-emoji {
-    font-size: 48px;
-    margin-bottom: 12px;
-    display: inline-block;
-    animation: float 3s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-  .page-header h1 {
-    font-family: var(--font-serif);
-    font-size: 40px;
-    font-weight: 600;
-    letter-spacing: -1px;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-  }
-  .page-header-desc {
-    font-size: 15px;
-    color: var(--text-secondary);
-    font-weight: 300;
-    max-width: 560px;
-    line-height: 1.7;
-  }
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 20px 12px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      transition: transform 0.3s;
+    }
 
-  /* ── Toolbar ── */
-  .toolbar {
-    max-width: var(--max-content);
-    margin: 0 auto;
-    padding: 28px 40px 0;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .search-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 8px 14px;
-    flex: 1;
-    min-width: 200px;
-    max-width: 360px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .search-box:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-soft);
-  }
-  .search-box svg {
-    flex-shrink: 0;
-    color: var(--text-tertiary);
-  }
-  .search-box input {
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    color: var(--text-primary);
-    width: 100%;
-  }
-  .search-box input::placeholder { color: var(--text-tertiary); }
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      margin-bottom: 24px;
+    }
 
-  .filter-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--bg-card);
-    font-size: 13px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: var(--font-sans);
-    white-space: nowrap;
-  }
-  .filter-btn:hover {
-    border-color: var(--border-hover);
-    background: var(--bg-hover);
-  }
-  .filter-btn.active {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
+    .sidebar-brand-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--text-primary);
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-serif);
+    }
 
-  .view-toggle {
-    margin-left: auto;
-    display: flex;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .view-toggle button {
-    padding: 7px 12px;
-    border: none;
-    background: var(--bg-card);
-    color: var(--text-tertiary);
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.15s;
-    display: flex; align-items:center; justify-content:center;
-  }
-  .view-toggle button:not(:last-child) { border-right: 1px solid var(--border); }
-  .view-toggle button.active {
-    background: var(--text-primary);
-    color: var(--bg);
-  }
-  .view-toggle button:hover:not(.active) {
-    background: var(--bg-hover);
-  }
+    .sidebar-brand-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
 
-  /* ══════ CARD VIEW ══════ */
-  .card-grid {
-    max-width: var(--max-content);
-    margin: 0 auto;
-    padding: 24px 40px 60px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
+    .sidebar-section {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 12px;
+      margin: 20px 0 8px;
+    }
 
-  .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.25s;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-  }
-  .card:hover {
-    border-color: var(--border-hover);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-  }
-  .card-cover {
-    height: 148px;
-    position: relative;
-    overflow: hidden;
-  }
-  .card-cover-gradient {
-    width: 100%; height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .card-cover-icon {
-    font-size: 40px;
-    opacity: 0.9;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
-  }
-  .card-body {
-    padding: 16px 18px 18px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .card-title {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .card-desc {
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    margin-bottom: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    flex: 1;
-  }
-  .card-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .tag {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 500;
-    white-space: nowrap;
-  }
-  .tag-blue { background: var(--tag-blue); color: var(--tag-blue-text); }
-  .tag-green { background: var(--tag-green); color: var(--tag-green-text); }
-  .tag-orange { background: var(--tag-orange); color: var(--tag-orange-text); }
-  .tag-purple { background: var(--tag-purple); color: var(--tag-purple-text); }
-  .tag-red { background: var(--tag-red); color: var(--tag-red-text); }
-  .tag-gray { background: var(--tag-gray); color: var(--tag-gray-text); }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+      user-select: none;
+    }
 
-  .card-date {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    font-family: var(--font-mono);
-    margin-left: auto;
-  }
+    .sidebar-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
 
-  /* ══════ TABLE VIEW ══════ */
-  .table-container {
-    max-width: var(--max-content);
-    margin: 0 auto;
-    padding: 24px 40px 60px;
-    display: none;
-  }
-  .table-container.show { display: block; }
-  .card-grid.hide { display: none; }
+    .sidebar-item.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 500;
+    }
 
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-  .data-table thead th {
-    text-align: left;
-    padding: 10px 16px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-  }
-  .data-table tbody tr {
-    transition: background 0.1s;
-    cursor: pointer;
-  }
-  .data-table tbody tr:hover {
-    background: var(--bg-hover);
-  }
-  .data-table tbody tr:not(:last-child) td {
-    border-bottom: 1px solid var(--border);
-  }
-  .data-table td {
-    padding: 12px 16px;
-    font-size: 13px;
-    vertical-align: middle;
-  }
-  .table-title {
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .table-title-icon { font-size: 16px; }
-  .table-tags { display: flex; gap: 4px; flex-wrap: wrap; }
-  .table-date {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-tertiary);
-  }
-  .table-status {
-    display: flex; align-items:center; gap: 6px;
-    font-size: 12px;
-  }
-  .status-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-  }
-  .status-dot.live { background: #4CAF50; box-shadow: 0 0 6px rgba(76,175,80,0.4); }
-  .status-dot.draft { background: var(--text-tertiary); }
+    .sidebar-item-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
 
-  /* ══════ Empty State ══════ */
-  .empty-state {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--text-tertiary);
-    grid-column: 1 / -1;
-  }
-  .empty-state-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
-  .empty-state-text { font-size: 14px; }
+    .sidebar-count {
+      margin-left: auto;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      background: var(--bg);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
 
-  /* ══════ Mobile ══════ */
-  .sidebar-toggle {
-    display: none;
-    position: fixed;
-    top: 14px; left: 14px;
-    z-index: 60;
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--bg-card);
-    color: var(--text-primary);
-    font-size: 18px;
-    cursor: pointer;
-    align-items:center; justify-content:center;
-    box-shadow: var(--shadow-sm);
-  }
-  .sidebar-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.3);
-    z-index: 40;
-  }
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
 
-  @media (max-width: 768px) {
-    .sidebar { transform: translateX(-100%); }
-    .sidebar.open { transform: translateX(0); }
-    .sidebar-toggle { display: flex; }
-    .sidebar-overlay.show { display: block; }
-    .main { margin-left: 0; }
-    .page-header { padding: 36px 20px 0; }
-    .page-header h1 { font-size: 28px; }
-    .toolbar { padding: 20px 20px 0; }
-    .card-grid { padding: 16px 20px 40px; grid-template-columns: 1fr; }
-    .table-container { padding: 16px 20px 40px; overflow-x: auto; }
-    .search-box { max-width: none; }
-  }
+    /* ── Main Content ── */
+    .main {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
 
-  /* ══════ Animations ══════ */
-  .card { opacity: 0; transform: translateY(16px); animation: cardIn 0.5s forwards; }
-  .card:nth-child(1) { animation-delay: 0.05s; }
-  .card:nth-child(2) { animation-delay: 0.10s; }
-  .card:nth-child(3) { animation-delay: 0.15s; }
-  .card:nth-child(4) { animation-delay: 0.20s; }
-  .card:nth-child(5) { animation-delay: 0.25s; }
-  .card:nth-child(6) { animation-delay: 0.30s; }
-  @keyframes cardIn {
-    to { opacity:1; transform: translateY(0); }
-  }
-  .page-header-emoji, .page-header h1, .page-header-desc {
-    opacity: 0; transform: translateY(12px);
-    animation: fadeIn 0.6s forwards;
-  }
-  .page-header h1 { animation-delay: 0.1s; }
-  .page-header-desc { animation-delay: 0.2s; }
-  @keyframes fadeIn {
-    to { opacity:1; transform:translateY(0); }
-  }
-</style>
+    /* ── Header ── */
+    .page-header {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 60px 40px 0;
+    }
+
+    .page-header-emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .page-header h1 {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -1px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .page-header-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 28px 40px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 14px;
+      flex: 1;
+      min-width: 200px;
+      max-width: 360px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .search-box svg {
+      flex-shrink: 0;
+      color: var(--text-tertiary);
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-primary);
+      width: 100%;
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font-sans);
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-hover);
+    }
+
+    .filter-btn.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .view-toggle {
+      margin-left: auto;
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .view-toggle button {
+      padding: 7px 12px;
+      border: none;
+      background: var(--bg-card);
+      color: var(--text-tertiary);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .view-toggle button:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+
+    .view-toggle button.active {
+      background: var(--text-primary);
+      color: var(--bg);
+    }
+
+    .view-toggle button:hover:not(.active) {
+      background: var(--bg-hover);
+    }
+
+    /* ══════ CARD VIEW ══════ */
+    .card-grid {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 24px 40px 60px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .card-cover {
+      height: 148px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-cover-gradient {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-cover-icon {
+      font-size: 40px;
+      opacity: 0.9;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+    }
+
+    .card-body {
+      padding: 16px 18px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .tag-blue {
+      background: var(--tag-blue);
+      color: var(--tag-blue-text);
+    }
+
+    .tag-green {
+      background: var(--tag-green);
+      color: var(--tag-green-text);
+    }
+
+    .tag-orange {
+      background: var(--tag-orange);
+      color: var(--tag-orange-text);
+    }
+
+    .tag-purple {
+      background: var(--tag-purple);
+      color: var(--tag-purple-text);
+    }
+
+    .tag-red {
+      background: var(--tag-red);
+      color: var(--tag-red-text);
+    }
+
+    .tag-gray {
+      background: var(--tag-gray);
+      color: var(--tag-gray-text);
+    }
+
+    .card-date {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      margin-left: auto;
+    }
+
+    /* ══════ TABLE VIEW ══════ */
+    .table-container {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 24px 40px 60px;
+      display: none;
+    }
+
+    .table-container.show {
+      display: block;
+    }
+
+    .card-grid.hide {
+      display: none;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .data-table thead th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .data-table tbody tr {
+      transition: background 0.1s;
+      cursor: pointer;
+    }
+
+    .data-table tbody tr:hover {
+      background: var(--bg-hover);
+    }
+
+    .data-table tbody tr:not(:last-child) td {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    .table-title {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table-title-icon {
+      font-size: 16px;
+    }
+
+    .table-tags {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .table-date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .table-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .status-dot.live {
+      background: #4CAF50;
+      box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+    }
+
+    .status-dot.draft {
+      background: var(--text-tertiary);
+    }
+
+    /* ══════ Empty State ══════ */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-tertiary);
+      grid-column: 1 / -1;
+    }
+
+    .empty-state-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .empty-state-text {
+      font-size: 14px;
+    }
+
+    /* ══════ Mobile ══════ */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 60;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 18px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 40;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-toggle {
+        display: flex;
+      }
+
+      .sidebar-overlay.show {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .page-header {
+        padding: 36px 20px 0;
+      }
+
+      .page-header h1 {
+        font-size: 28px;
+      }
+
+      .toolbar {
+        padding: 20px 20px 0;
+      }
+
+      .card-grid {
+        padding: 16px 20px 40px;
+        grid-template-columns: 1fr;
+      }
+
+      .table-container {
+        padding: 16px 20px 40px;
+        overflow-x: auto;
+      }
+
+      .search-box {
+        max-width: none;
+      }
+    }
+
+    /* ══════ Animations ══════ */
+    .card {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: cardIn 0.5s forwards;
+    }
+
+    .card:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: 0.10s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+
+    .card:nth-child(4) {
+      animation-delay: 0.20s;
+    }
+
+    .card:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+
+    .card:nth-child(6) {
+      animation-delay: 0.30s;
+    }
+
+    @keyframes cardIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-header-emoji,
+    .page-header h1,
+    .page-header-desc {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeIn 0.6s forwards;
+    }
+
+    .page-header h1 {
+      animation-delay: 0.1s;
+    }
+
+    .page-header-desc {
+      animation-delay: 0.2s;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-<div class="layout">
-  <!-- ══════ Sidebar ══════ -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="sidebar-brand-icon">P</div>
-      <div class="sidebar-brand-text">기획 Core</div>
-    </div>
-
-    <div class="sidebar-section">Menu</div>
-    <a class="sidebar-item active" onclick="filterCategory('all')">
-      <span class="sidebar-item-icon">📋</span>
-      전체 프레젠테이션
-      <span class="sidebar-count" id="countAll">0</span>
-    </a>
-    <a class="sidebar-item" onclick="filterCategory('전략')">
-      <span class="sidebar-item-icon">🎯</span>
-      전략
-    </a>
-    <a class="sidebar-item" onclick="filterCategory('기술')">
-      <span class="sidebar-item-icon">⚙️</span>
-      기술
-    </a>
-    <a class="sidebar-item" onclick="filterCategory('보고')">
-      <span class="sidebar-item-icon">📊</span>
-      보고
-    </a>
-    <a class="sidebar-item" onclick="filterCategory('교육')">
-      <span class="sidebar-item-icon">📚</span>
-      교육
-    </a>
-
-    <div class="sidebar-section">바로가기</div>
-    <a class="sidebar-item" href="#" onclick="alert('새 프레젠테이션 등록은 presentations 배열에 항목을 추가하세요.')">
-      <span class="sidebar-item-icon">➕</span>
-      새 프레젠테이션 등록
-    </a>
-
-    <div class="sidebar-footer">
-      에듀테크 플랫폼 서비스 기획 Core<br>
-      © 2026
-    </div>
-  </aside>
-
-  <!-- ══════ Main ══════ -->
-  <main class="main">
-    <div class="page-header">
-      <div class="page-header-emoji">🎬</div>
-      <h1>Presentations</h1>
-      <p class="page-header-desc">
-        에듀테크 플랫폼 서비스 기획 Core의 프레젠테이션 모음입니다.<br>
-        카드를 클릭하면 프레젠테이션이 열립니다.
-      </p>
-    </div>
-
-    <!-- Toolbar -->
-    <div class="toolbar">
-      <div class="search-box">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input type="text" placeholder="프레젠테이션 검색..." id="searchInput" oninput="handleSearch()">
+  <div class="layout">
+    <!-- ══════ Sidebar ══════ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">P</div>
+        <div class="sidebar-brand-text">기획 Core</div>
       </div>
-      <button class="filter-btn active" data-status="all" onclick="filterStatus(this, 'all')">전체</button>
-      <button class="filter-btn" data-status="live" onclick="filterStatus(this, 'live')">🟢 완료</button>
-      <button class="filter-btn" data-status="draft" onclick="filterStatus(this, 'draft')">⚫ 준비중</button>
 
-      <div class="view-toggle">
-        <button class="active" onclick="setView('card', this)" title="카드 뷰">⊞</button>
-        <button onclick="setView('table', this)" title="테이블 뷰">☰</button>
+      <div class="sidebar-section">Menu</div>
+      <a class="sidebar-item active" onclick="filterCategory('all')">
+        <span class="sidebar-item-icon">📋</span>
+        전체 프레젠테이션
+        <span class="sidebar-count" id="countAll">0</span>
+      </a>
+      <a class="sidebar-item" onclick="filterCategory('전략')">
+        <span class="sidebar-item-icon">🎯</span>
+        전략
+      </a>
+      <a class="sidebar-item" onclick="filterCategory('기술')">
+        <span class="sidebar-item-icon">⚙️</span>
+        기술
+      </a>
+      <a class="sidebar-item" onclick="filterCategory('보고')">
+        <span class="sidebar-item-icon">📊</span>
+        보고
+      </a>
+      <a class="sidebar-item" onclick="filterCategory('교육')">
+        <span class="sidebar-item-icon">📚</span>
+        교육
+      </a>
+
+      <div class="sidebar-section">바로가기</div>
+      <a class="sidebar-item" href="#" onclick="alert('새 프레젠테이션 등록은 presentations 배열에 항목을 추가하세요.')">
+        <span class="sidebar-item-icon">➕</span>
+        새 프레젠테이션 등록
+      </a>
+
+      <div class="sidebar-footer">
+        에듀테크 플랫폼 서비스 기획 Core<br>
+        © 2026
       </div>
-    </div>
+    </aside>
 
-    <!-- Card Grid -->
-    <div class="card-grid" id="cardGrid"></div>
+    <!-- ══════ Main ══════ -->
+    <main class="main">
+      <div class="page-header">
+        <div class="page-header-emoji">🎬</div>
+        <h1>Presentations</h1>
+        <p class="page-header-desc">
+          에듀테크 플랫폼 서비스 기획 Core의 프레젠테이션 모음입니다.<br>
+          카드를 클릭하면 프레젠테이션이 열립니다.
+        </p>
+      </div>
 
-    <!-- Table View -->
-    <div class="table-container" id="tableView">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>제목</th>
-            <th>카테고리</th>
-            <th>상태</th>
-            <th>날짜</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-  </main>
-</div>
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="search-box">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input type="text" placeholder="프레젠테이션 검색..." id="searchInput" oninput="handleSearch()">
+        </div>
+        <button class="filter-btn active" data-status="all" onclick="filterStatus(this, 'all')">전체</button>
+        <button class="filter-btn" data-status="live" onclick="filterStatus(this, 'live')">🟢 완료</button>
+        <button class="filter-btn" data-status="draft" onclick="filterStatus(this, 'draft')">⚫ 준비중</button>
 
-<script>
-/*  ╔══════════════════════════════════════════════════╗
-    ║  📌 여기에 프레젠테이션 항목을 추가하세요!       ║
-    ║  새 html이 생기면 아래 배열에 객체를 추가하면    ║
-    ║  자동으로 카드와 테이블에 반영됩니다.            ║
-    ╚══════════════════════════════════════════════════╝ */
-const presentations = [
-  {
-    title: "플랫폼",
-    desc: "issamGPT보다, 구글 클래스룸보다 좋은 플랫폼.",
-    file: "https://new-tool-plan.vercel.app/",
-    proto: "https://new-platform-wireframe-v2.vercel.app/",
-    icon: "🐚",
-    cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
-    category: "보고",
-    tags: [
-      { label: "2026 에듀테크", color: "blue" },
-      { label: "플랫폼", color: "green" },
-      { label: "사업", color: "purple" }
-    ],
-    date: "2026-02-24",
-    status: "draft"
-  },
-  {
-    title: "학습심리정서검사",
-    desc: "학생을 더 잘 이해하고 지도하기 위한 서비스.",
-    file: "https://pt-meta.vercel.app/",
-    proto: "https://meta-dashboard-lemon.vercel.app/dashboard",
-    icon: "❤️‍🩹",
-    cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
-    category: "보고",
-    tags: [
-      { label: "2026 에듀테크", color: "blue" },
-      { label: "서비스", color: "green" },
-      { label: "사업", color: "purple" }
-    ],
-    date: "2026-02-24",
-    status: "draft"
-  },
+        <div class="view-toggle">
+          <button class="active" onclick="setView('card', this)" title="카드 뷰">⊞</button>
+          <button onclick="setView('table', this)" title="테이블 뷰">☰</button>
+        </div>
+      </div>
 
-    {
-    title: "게임",
-    desc: "재미있게 공부하는 학생들을 위한 서비스.",
-    file: "https://visang-game-report.vercel.app/",
-    proto: ["https://game-omega-hazel.vercel.app/dashboard", "https://game-omega-hazel.vercel.app/student"],
-    protoLabels: ["프로토1", "프로토2"],
-    icon: "🎮",
-    cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
-    category: "보고",
-    tags: [
-      { label: "2026 에듀테크", color: "blue" },
-      { label: "서비스", color: "green" },
-      { label: "사업", color: "purple" }
-    ],
-    date: "2026-02-24",
-    status: "draft"
-  },
-];
+      <!-- Card Grid -->
+      <div class="card-grid" id="cardGrid"></div>
 
-// ══════ State ══════
-let currentCategory = 'all';
-let currentStatus = 'all';
-let searchQuery = '';
+      <!-- Table View -->
+      <div class="table-container" id="tableView">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>제목</th>
+              <th>카테고리</th>
+              <th>상태</th>
+              <th>날짜</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
 
-// ══════ Render ══════
-function render() {
-  const filtered = presentations.filter(p => {
-    const matchCat = currentCategory === 'all' || p.category === currentCategory;
-    const matchStatus = currentStatus === 'all' || p.status === currentStatus;
-    const matchSearch = searchQuery === '' ||
-      p.title.toLowerCase().includes(searchQuery) ||
-      p.desc.toLowerCase().includes(searchQuery) ||
-      p.tags.some(t => t.label.toLowerCase().includes(searchQuery));
-    return matchCat && matchStatus && matchSearch;
-  });
+  <script>
+    /*  ╔══════════════════════════════════════════════════╗
+        ║  📌 여기에 프레젠테이션 항목을 추가하세요!       ║
+        ║  새 html이 생기면 아래 배열에 객체를 추가하면    ║
+        ║  자동으로 카드와 테이블에 반영됩니다.            ║
+        ╚══════════════════════════════════════════════════╝ */
+    const presentations = [
+      {
+        title: "AI Tool 플랫폼 (슈퍼티쳐)",
+        desc: "교사 니즈 분석을 통한 AI 서비스 기반의 플랫폼 구축 및 사업화 전략 보고",
+        file: "platform.html",
+        icon: "🚀",
+        cover: "linear-gradient(135deg, #0A0A0F 0%, #14141E 50%, #00F0FF 100%)",
+        category: "전략",
+        tags: [
+          { label: "사업기획", color: "blue" },
+          { label: "마켓리서치", color: "purple" },
+          { label: "B2B/B2G", color: "red" }
+        ],
+        date: "2026-03-16",
+        status: "live"
+      },
+      {
+        title: "플랫폼",
+        desc: "issamGPT보다, 구글 클래스룸보다 좋은 플랫폼.",
+        file: "https://new-tool-plan.vercel.app/",
+        proto: "https://new-platform-wireframe-v2.vercel.app/",
+        icon: "🐚",
+        cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
+        category: "보고",
+        tags: [
+          { label: "2026 에듀테크", color: "blue" },
+          { label: "플랫폼", color: "green" },
+          { label: "사업", color: "purple" }
+        ],
+        date: "2026-02-24",
+        status: "draft"
+      },
+      {
+        title: "학습심리정서검사",
+        desc: "학생을 더 잘 이해하고 지도하기 위한 서비스.",
+        file: "https://pt-meta.vercel.app/",
+        proto: "https://meta-dashboard-lemon.vercel.app/dashboard",
+        icon: "❤️‍🩹",
+        cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
+        category: "보고",
+        tags: [
+          { label: "2026 에듀테크", color: "blue" },
+          { label: "서비스", color: "green" },
+          { label: "사업", color: "purple" }
+        ],
+        date: "2026-02-24",
+        status: "draft"
+      },
 
-  // Count
-  document.getElementById('countAll').textContent = presentations.length;
+      {
+        title: "게임",
+        desc: "재미있게 공부하는 학생들을 위한 서비스.",
+        file: "https://visang-game-report.vercel.app/",
+        proto: ["https://game-omega-hazel.vercel.app/dashboard", "https://game-omega-hazel.vercel.app/student"],
+        protoLabels: ["프로토1", "프로토2"],
+        icon: "🎮",
+        cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
+        category: "보고",
+        tags: [
+          { label: "2026 에듀테크", color: "blue" },
+          { label: "서비스", color: "green" },
+          { label: "사업", color: "purple" }
+        ],
+        date: "2026-02-24",
+        status: "draft"
+      },
+    ];
 
-  // Card view
-  const grid = document.getElementById('cardGrid');
-  if (filtered.length === 0) {
-    grid.innerHTML = `
+    // ══════ State ══════
+    let currentCategory = 'all';
+    let currentStatus = 'all';
+    let searchQuery = '';
+
+    // ══════ Render ══════
+    function render() {
+      const filtered = presentations.filter(p => {
+        const matchCat = currentCategory === 'all' || p.category === currentCategory;
+        const matchStatus = currentStatus === 'all' || p.status === currentStatus;
+        const matchSearch = searchQuery === '' ||
+          p.title.toLowerCase().includes(searchQuery) ||
+          p.desc.toLowerCase().includes(searchQuery) ||
+          p.tags.some(t => t.label.toLowerCase().includes(searchQuery));
+        return matchCat && matchStatus && matchSearch;
+      });
+
+      // Count
+      document.getElementById('countAll').textContent = presentations.length;
+
+      // Card view
+      const grid = document.getElementById('cardGrid');
+      if (filtered.length === 0) {
+        grid.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">🔍</div>
         <div class="empty-state-text">조건에 맞는 프레젠테이션이 없습니다.</div>
       </div>`;
-  } else {
-    grid.innerHTML = filtered.map((p, i) => `
+      } else {
+        grid.innerHTML = filtered.map((p, i) => `
       <div class="card" style="animation-delay:${i * 0.05}s;">
         <div class="card-cover">
           <div class="card-cover-gradient" style="background:${p.cover};">
@@ -726,12 +954,13 @@ function render() {
               &#9654; PT 보기
             </span>
             ${p.proto ? (Array.isArray(p.proto) ? p.proto : [p.proto]).map((url, i) => {
-              const label = p.protoLabels ? p.protoLabels[i] : (i === 0 ? '프로토타입' : `프로토${i+1}`);
-              return `<span onclick="window.open('${url}','_blank','noopener,noreferrer');"
+          const label = p.protoLabels ? p.protoLabels[i] : (i === 0 ? '프로토타입' : `프로토${i + 1}`);
+          return `<span onclick="window.open('${url}','_blank','noopener,noreferrer');"
               style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:600;color:#7C5C00;background:#FFF8E6;border:1px solid #E8D48A;border-radius:6px;padding:6px 10px;cursor:pointer;transition:background 0.15s;"
               onmouseover="this.style.background='#FFF0C0'" onmouseout="this.style.background='#FFF8E6'">
               &#9670; ${label}
-            </span>`;}).join('') : ''}
+            </span>`;
+        }).join('') : ''}
             ${p.simple ? `<span onclick="window.open('${p.simple}','_blank','noopener,noreferrer');"
               style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:600;color:#1A5C2A;background:#EDFAF1;border:1px solid #7DD4A0;border-radius:6px;padding:6px 10px;cursor:pointer;transition:background 0.15s;"
               onmouseover="this.style.background='#C8F0D8'" onmouseout="this.style.background='#EDFAF1'">
@@ -741,14 +970,14 @@ function render() {
         </div>
       </div>
     `).join('');
-  }
+      }
 
-  // Table view
-  const tbody = document.getElementById('tableBody');
-  if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-tertiary);">조건에 맞는 프레젠테이션이 없습니다.</td></tr>`;
-  } else {
-    tbody.innerHTML = filtered.map(p => `
+      // Table view
+      const tbody = document.getElementById('tableBody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-tertiary);">조건에 맞는 프레젠테이션이 없습니다.</td></tr>`;
+      } else {
+        tbody.innerHTML = filtered.map(p => `
       <tr onclick="window.open('${p.file}','_blank','noopener,noreferrer')">
         <td>
           <div class="table-title">
@@ -766,43 +995,44 @@ function render() {
         <td><span class="table-date">${p.date}</span></td>
       </tr>
     `).join('');
-  }
-}
+      }
+    }
 
-// ══════ Handlers ══════
-function filterCategory(cat) {
-  currentCategory = cat;
-  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  render();
-}
+    // ══════ Handlers ══════
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      render();
+    }
 
-function filterStatus(btn, status) {
-  currentStatus = status;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  render();
-}
+    function filterStatus(btn, status) {
+      currentStatus = status;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    }
 
-function handleSearch() {
-  searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
-  render();
-}
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+      render();
+    }
 
-function setView(view, btn) {
-  document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('cardGrid').classList.toggle('hide', view === 'table');
-  document.getElementById('tableView').classList.toggle('show', view === 'table');
-}
+    function setView(view, btn) {
+      document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('cardGrid').classList.toggle('hide', view === 'table');
+      document.getElementById('tableView').classList.toggle('show', view === 'table');
+    }
 
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebarOverlay').classList.toggle('show');
-}
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebarOverlay').classList.toggle('show');
+    }
 
-// ══════ Init ══════
-render();
-</script>
+    // ══════ Init ══════
+    render();
+  </script>
 </body>
+
 </html>
