@@ -35,6 +35,10 @@
             --font-family: 'Pretendard', sans-serif;
         }
 
+        html {
+            font-size: 112.5%;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -45,9 +49,20 @@
             font-family: var(--font-family);
             background-color: var(--bg-dark);
             color: var(--text-main);
+            font-size: 1.125rem;
             overflow-x: hidden;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--accent-primary);
+            color: #04131A;
+        }
+
+        ::-moz-selection {
+            background: var(--accent-primary);
+            color: #04131A;
         }
 
         /* hide scrollbar for sleek look */
@@ -158,7 +173,7 @@
        TYPOGRAPHY & UTILITIES
        ========================================================================= */
         h1 {
-            font-size: 5rem;
+            font-size: 5.2rem;
             font-weight: 800;
             letter-spacing: -0.03em;
             line-height: 1.1;
@@ -173,7 +188,7 @@
         }
 
         h2 {
-            font-size: 3rem;
+            font-size: 3.25rem;
             font-weight: 700;
             margin-bottom: 2rem;
             color: #FFF;
@@ -195,7 +210,7 @@
         }
 
         p.subtitle {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             color: var(--text-muted);
             max-width: 800px;
             margin-bottom: 3rem;
@@ -260,7 +275,7 @@
             align-items: center;
             gap: 10px;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 1rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             opacity: 0;
@@ -338,7 +353,7 @@
         }
 
         .ocean-title {
-            font-size: 1.4rem;
+            font-size: 1.55rem;
             font-weight: 700;
             margin-bottom: 1rem;
             display: flex;
@@ -347,7 +362,7 @@
         }
 
         .ocean-badge {
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             padding: 4px 10px;
             border-radius: 20px;
             font-weight: 600;
@@ -364,7 +379,7 @@
         }
 
         .ocean-desc {
-            font-size: 1rem;
+            font-size: 1.08rem;
             color: var(--text-muted);
         }
 
@@ -397,13 +412,13 @@
         }
 
         .stat-num {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             color: #FFF;
         }
 
         .stat-label {
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
         }
 
@@ -416,7 +431,7 @@
             padding: 1rem;
             border-bottom: 1px solid var(--glass-border);
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1.05rem;
         }
 
         .needs-list li strong {
@@ -452,33 +467,47 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 2.5rem 2rem 2rem;
             text-align: center;
             transition: all 0.4s ease;
             cursor: pointer;
         }
 
         .plan-card:hover {
-            transform: translateY(-10px) scale(1.05);
+            transform: translateY(-8px);
             border-color: var(--accent-primary);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
+            background: rgba(0, 240, 255, 0.05);
+            box-shadow: 0 16px 40px rgba(0, 240, 255, 0.18);
         }
 
         .plan-badge {
             position: absolute;
-            top: -15px;
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--accent-secondary);
             color: #FFF;
-            padding: 5px 15px;
+            padding: 7px 18px;
             border-radius: 20px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            white-space: nowrap;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        }
+
+        .plan-badge-inline {
+            position: static;
+            transform: none;
+            display: inline-block;
+            padding: 7px 18px;
+            font-size: 1rem;
+            box-shadow: none;
+            vertical-align: middle;
+            line-height: 1;
         }
 
         .plan-title {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             font-weight: 700;
             margin: 1.5rem 0 1rem;
             color: #FFF;
@@ -495,7 +524,7 @@
             background: var(--bg-surface);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.3rem;
             transition: all 0.3s ease;
         }
 
@@ -514,13 +543,13 @@
         }
 
         .func-num {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: var(--accent-tertiary);
         }
 
         .func-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: #FFF;
             line-height: 1.2;
@@ -531,10 +560,10 @@
         }
 
         .func-list li {
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             color: var(--text-muted);
-            margin-bottom: 0.8rem;
-            padding-left: 1.2rem;
+            margin-bottom: 0.65rem;
+            padding-left: 1rem;
             position: relative;
         }
 
@@ -548,11 +577,115 @@
         /* Additional highlight tags for functions */
         .tag-todo {
             display: inline-block;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             background: rgba(255, 255, 255, 0.1);
             padding: 2px 6px;
             border-radius: 4px;
             margin-left: 5px;
+        }
+
+        .platform-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .platform-row+.platform-row {
+            margin-top: 1.25rem;
+        }
+
+        .platform-row-text {
+            color: #FFF;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .platform-row-title {
+            font-size: 1.32rem;
+            font-weight: 700;
+            color: #FFF;
+            line-height: 1.2;
+            flex-shrink: 0;
+        }
+
+        .platform-footer-row {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .platform-footer-main {
+            color: #FFF;
+        }
+
+        .platform-footer-secondary {
+            color: #FFF;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .func-plan-group {
+            margin-top: 0.4rem;
+            padding: 0.85rem 0.9rem;
+            border-radius: 12px;
+            background: rgba(0, 240, 255, 0.07);
+            border: 1px solid rgba(0, 240, 255, 0.18);
+            padding-left: 0.9rem !important;
+        }
+
+        .func-plan-group::before {
+            content: none !important;
+        }
+
+        .func-plan-group-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.55rem;
+        }
+
+        .func-plan-group-list {
+            list-style: none;
+        }
+
+        .func-plan-group-list li {
+            position: relative;
+            padding-left: 0.95rem;
+            margin-bottom: 0.45rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .func-plan-group-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+
+        .func-inline-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.18rem 0.5rem;
+            border-radius: 999px;
+            background: rgba(255, 0, 160, 0.12);
+            border: 1px solid rgba(255, 0, 160, 0.25);
+            color: #FFF;
+            font-weight: 700;
+        }
+
+        .platform-note {
+            margin-top: 0.9rem;
+            text-align: right;
+            font-size: 0.82rem;
+            color: var(--text-muted);
         }
 
         /* Slide 6: Business Model */
@@ -583,14 +716,14 @@
         }
 
         .bm-title {
-            font-size: 1.4rem;
+            font-size: 1.55rem;
             font-weight: 700;
             margin-bottom: 1rem;
             color: #FFF;
         }
 
         .bm-desc {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
         }
@@ -599,9 +732,228 @@
             background: rgba(0, 240, 255, 0.1);
             padding: 1rem;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--accent-primary);
             font-weight: 500;
+        }
+
+        .glass-panel h3 {
+            font-size: 1.6rem;
+        }
+
+        .structure-grid .func-title span {
+            font-size: 0.95rem !important;
+        }
+
+        .structure-grid .plan-badge {
+            font-size: 0.8rem !important;
+        }
+
+        .inline-popup-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: #FFF;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: left;
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 240, 255, 0.7);
+            text-decoration-thickness: 3px;
+            text-underline-offset: 0.18em;
+            transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .inline-popup-trigger::after {
+            content: 'Click';
+            display: inline-block;
+            padding: 0.12rem 0.5rem;
+            border-radius: 999px;
+            background: rgba(0, 240, 255, 0.15);
+            color: var(--accent-primary);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            vertical-align: middle;
+        }
+
+        .inline-popup-trigger:hover {
+            color: var(--accent-primary);
+            text-shadow: 0 0 12px rgba(0, 240, 255, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .inline-popup-trigger.inline-popup-trigger-soft {
+            color: var(--accent-primary);
+            font-weight: 700;
+            text-decoration-color: rgba(0, 240, 255, 0.45);
+            text-decoration-thickness: 2px;
+        }
+
+        .inline-popup-trigger.inline-popup-trigger-soft::after {
+            content: 'Check';
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        .image-modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(5, 8, 16, 0.78);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            z-index: 999;
+        }
+
+        .image-modal.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .image-modal-dialog {
+            position: relative;
+            width: min(1100px, 92vw);
+            max-height: 88vh;
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            background: rgba(20, 20, 30, 0.94);
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+        }
+
+        .image-modal-stage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-modal-dialog img {
+            display: block;
+            width: 100%;
+            max-height: calc(88vh - 2rem);
+            object-fit: contain;
+            border-radius: 16px;
+        }
+
+        .image-modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 52px;
+            height: 52px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            color: #111;
+            font-size: 1.9rem;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+        }
+
+        .image-modal-nav.prev {
+            left: 16px;
+        }
+
+        .image-modal-nav.next {
+            right: 16px;
+        }
+
+        .image-modal-counter {
+            margin-top: 0.85rem;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: -16px;
+            right: -16px;
+            width: 44px;
+            height: 44px;
+            border: 0;
+            border-radius: 50%;
+            background: #FFF;
+            color: #111;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+        }
+
+        .detail-modal-dialog {
+            width: min(900px, 92vw);
+            padding: 2rem 2rem 1.5rem;
+        }
+
+        .detail-modal-content {
+            max-height: calc(88vh - 3rem);
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .detail-modal-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #FFF;
+            margin-bottom: 1.25rem;
+        }
+
+        .detail-modal-section {
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .detail-modal-section h4 {
+            font-size: 1.15rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.85rem;
+        }
+
+        .detail-modal-list {
+            list-style: none;
+        }
+
+        .detail-modal-list li {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+
+        .detail-modal-list li::before {
+            content: '-';
+            position: absolute;
+            left: 0;
+            color: var(--accent-tertiary);
+        }
+
+        .detail-modal-link {
+            color: var(--accent-primary);
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 0.18em;
+            word-break: break-all;
         }
 
         /* Staggered animation delays for lists/grids */
@@ -635,7 +987,7 @@
         <!-- ==================== TITLE SLIDE ==================== -->
         <section class="slide slide-intro is-visible">
             <div class="content">
-                <h1>AI 서비스 플랫폼,<br>교사 지원 Tool 모음Zip 📂</h1>
+                <h1>AI 서비스 플랫폼,<br>교사 지원 Tool 모음Zip</h1>
                 <p class="subtitle">교사 니즈 분석을 통한 AI 서비스 기반 플랫폼 구축</p>
 
                 <div class="scroll-indicator">
@@ -659,8 +1011,8 @@
                                 자료 생성 & 행정 업무
                                 <span class="ocean-badge badge-red">Red Ocean</span>
                             </div>
-                            <p class="ocean-desc">교과목 문항/PPT 자동생성, 평어/리포트 생성, 나이스 기안 작성.<br>
-                                <strong>경쟁사:</strong> 쌤지피티, Magic School AI, 기존 서비스 다수 포진
+                            <p class="ocean-desc">문항/PPT 자동생성, 평어/리포트 생성, 기안 작성.<br>
+                                <strong>경쟁사: </strong>issamGPT, MagicSchoolAI, 서비스 다수
                             </p>
                         </div>
 
@@ -669,9 +1021,9 @@
                                 학급 관리 & 교실 운영
                                 <span class="ocean-badge badge-blue">Blue Ocean 🎯</span>
                             </div>
-                            <p class="ocean-desc">학생/학부모 상담 지도, 예측 불가능한 학급 및 수업 운영 보조.<br>
-                                <strong>기회:</strong> 두드러지는 특화 경쟁사 부재 (Wee클래스 외).<br>
-                                <span style="color:#FFF;">→ '학심정' & '플랫폼'으로 강력한 커버리지 확보 가능.</span>
+                            <p class="ocean-desc">학생/학부모 상담지도, 학급/수업 운영 보조.<br>
+                                <strong>기회:</strong> 두드러지는 특화 경쟁사 부재.<br>
+                                <span style="color:#FFF;">→ '학심정' & 'AI 서비스 플랫폼'으로<br>→ 강력한 커버리지 확보 가능.<br></span>
                             </p>
                         </div>
                     </div>
@@ -685,15 +1037,17 @@
                                 AI 사용법에 대한 교육
                             </li>
                             <li>
-                                <strong>002. 처음 교사가 되었을 때 가장 어려웠던 점</strong>
+                                <strong><button type="button" class="inline-popup-trigger"
+                                        data-modal-target="survey-modal">002. 처음 교사가 되었을 때 가장 어려웠던 점</button></strong>
                                 학급 관리: 학부모, 학생 지도<br>
-                                행정 업무: 나이스 및 에듀파인 기안 처리<br>
-                                <span style="color: var(--accent-tertiary); font-weight: 600;">⭐️ 교실 운영: 담임 업무, 연구 수업,
-                                    입시 지도, 동아리 등 운영의 어려움</span>
+                                행정 업무: 나이스 및 에듀파인 처리<br>
+                                <span style="color: var(--accent-tertiary); font-weight: 600;">⭐️교실 운영⭐️ <br> 담임 업무, 연구
+                                    수업,
+                                    입시 지도, 동아리 등 운영의 어려움<br></span>
                             </li>
                             <li>
                                 <strong>003. 선생님께서 사용하시는 AI 툴</strong>
-                                GPT &gt; 제미나이 &gt; 코파일럿 &gt; 노션 &gt; 기타 (Notebook LM, 캔바, 뤼튼 등)<br>
+                                GPT &gt; 제미나이 &gt; 코파일럿 &gt; 노션 &gt; 기타 (노트북LM, 캔바)<br>
                                 <div
                                     style="margin-top: 5px; padding-left: 10px; border-left: 2px solid var(--accent-primary);">
                                     <span style="color: #FFF;">⭐️ 창체, 동아리와 같은 학생들의 협업 또는 학습 툴로 활용</span><br>
@@ -726,7 +1080,7 @@
         <section class="slide">
             <div class="content">
                 <h2>02. 4월 런칭 타이밍 플랜</h2>
-                <p class="subtitle">새 학기 적응이 끝난 4월, AI 사용이 익숙한 20~30대 교사들을 대상으로</p>
+                <p class="subtitle">새 학기 적응이 끝난 4월, <br>AI 사용이 익숙한 <strong>20~30대 교사들을</strong> 대상으로<br></p>
 
                 <div class="timeline">
                     <div class="plan-card stagger-item stagger-1">
@@ -734,8 +1088,10 @@
                         <div style="font-size: 3rem; margin-top: 1rem;">🧑‍🏫</div>
                         <h3 class="plan-title">24시간 선배님</h3>
                         <p style="color: var(--text-muted); font-size: 0.95rem;">
-                            물어볼 데 없는 교사들을 위한 맞춤형 AI 멘토.<br><br>
-                            교육 정책 변화, 수업 활용안, 학생 지도 등 예측 불가능한 학교 행정에 대한 즉각적인 솔루션 제공.
+                            물어볼 데 없는 교사들을 위한 <br><button type="button"
+                                class="inline-popup-trigger inline-popup-trigger-soft"
+                                data-modal-target="mentor-modal">맞춤형 AI 멘토</button>. "척척박사"<br><br><br>
+                            교육 정책 변화, 수업 활용안, 학생 지도 등 <br>예측 불가능한 학교 행정에 대한<br><br>즉각적인 솔루션 제공.<br>
                         </p>
                     </div>
 
@@ -744,18 +1100,21 @@
                         <div style="font-size: 3rem; margin-top: 1rem;">📦</div>
                         <h3 class="plan-title">스타터 Kit</h3>
                         <p style="color: var(--text-muted); font-size: 0.95rem;">
-                            초보 선생님들을 위한 에센셜 키트.<br><br>
-                            수업 준비, 학생 관리, 스마트 메모장 등 학급 경영 및 교실 운영에 즉시 투입 가능한 실무 도구 모음.
+                            초보 선생님들을 위한 <button type="button" class="inline-popup-trigger inline-popup-trigger-soft"
+                                data-modal-target="kit-modal">에센셜 3종 도구</button>.<br>"오아", "쌤 시그널", "자비스"<br><br><br>
+                            수업 준비, 학생 관리, 스마트 메모장 등 <br>학급 경영 및 교실 운영에 즉시 투입 가능한<br><br>실무 도구 모음.<br>
                         </p>
                     </div>
 
                     <div class="plan-card stagger-item stagger-3">
                         <span class="plan-badge" style="background: var(--accent-tertiary);">Plan C</span>
                         <div style="font-size: 3rem; margin-top: 1rem;">💻</div>
-                        <h3 class="plan-title">학생용 AI 교육 Tool</h3>
+                        <h3 class="plan-title">학생용 AI 학습 챗봇</h3>
                         <p style="color: var(--text-muted); font-size: 0.95rem;">
-                            안전하고 목적성 있는 학생 주도형 AI 학습 도구.<br><br>
-                            AI 무분별 사용에 대한 교사의 우려를 해소하는 통제된 환경의 프롬프트 실험실.
+                            안전하고 재미있는 학생용 AI 학습 도구. <br><button type="button"
+                                class="inline-popup-trigger inline-popup-trigger-soft"
+                                data-modal-target="aimate-modal">"AI mate"</button><br><br><br>
+                            AI 무분별 사용에 대한 교사의 우려를 <br>해소하는 통제된 환경에서의 AI 챗봇.<br>
                         </p>
                     </div>
                 </div>
@@ -775,22 +1134,19 @@
                         <span
                             style="color: var(--accent-primary); font-weight: 700; margin-right: 15px; font-size: 1.1rem;">01.
                             통합 코어</span>
-                        <span style="color: #FFF;">교사 / 학생 회원가입 및 로그인 (V-Lounge)</span>
+                        <span style="color: #FFF;">교사 / 학생 회원가입 및 로그인 </span>
                     </div>
 
-                    <!-- 02 AI 무물 챗봇 -->
+                    <!-- 02 척척박사 챗봇 -->
                     <div
-                        style="margin-bottom: 1.5rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--accent-secondary);">
-                        <div>
-                            <span style="color: #FFF; font-weight: 700; margin-right: 15px; font-size: 1.1rem;">02. AI
-                                무물 챗봇 ZIP</span>
-                            <span class="plan-badge"
-                                style="position: static; transform: none; display: inline-block; padding: 2px 8px; font-size: 0.75rem; background: var(--accent-secondary); margin-right: 10px;">Plan
-                                A</span>
-                        </div>
-                        <div style="display: flex; gap: 2rem; color: var(--text-muted); font-size: 0.9rem;">
-                            <div><strong>[단기]</strong> 척척박사 챗봇 (교육정책 변화, 수업 활용 사례 - 비바샘)</div>
-                            <div><strong>[장기]</strong> 스타 강사 선배 챗봇 (RAG 기반 페르소나, 향후 수익배분)</div>
+                        style="border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                        <div class="platform-row">
+                            <span class="platform-row-title">02. 맞춤형 AI 멘토</span>
+                            <span class="platform-row-text">
+                                <span class="func-inline-box">척척박사 AI 챗봇 <span class="plan-badge"
+                                        style="position: static; transform: none; display: inline-block; padding: 2px 8px; font-size: 0.7rem; background: var(--accent-secondary); box-shadow: none; margin-left: 2px;">Plan
+                                        A</span></span>
+                            </span>
                         </div>
                     </div>
 
@@ -801,15 +1157,15 @@
                             <div class="func-header">
                                 <span class="func-num">001</span>
                                 <span class="func-title">AI 와우 자료 생성<br><span
-                                        style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted); display:block; margin-top:4px;">과목별
-                                        특성과 공교육 과정에 Fit한 수업 자료</span></span>
+                                        style="font-size: 0.72rem; font-weight: 400; color:var(--text-muted); display:block; margin-top:4px;">공교육에
+                                        Fit한 자료</span></span>
                             </div>
                             <ul class="func-list">
-                                <li>저작툴 (aka 캔바)</li>
-                                <li>쌍둥이 문항</li>
-                                <li>디지털라이징 OCR</li>
-                                <li>코파일럿 by 콘서</li>
-                                <li>매캔</li>
+                                <li>AI 저작툴</li>
+                                <li>AI 쌍둥이 문항 생성</li>
+                                <li>AI 디지털라이징 OCR</li>
+                                <li>AI 코파일럿</li>
+                                <li>매스캔버스</li>
                             </ul>
                         </div>
 
@@ -817,15 +1173,15 @@
                             <div class="func-header">
                                 <span class="func-num">002</span>
                                 <span class="func-title">AI 도파민 수업 도구<br><span
-                                        style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">교사 ↔ 학생
+                                        style="font-size: 0.72rem; font-weight: 400; color:var(--text-muted);">교사 ↔ 학생
                                         상호작용</span></span>
                             </div>
                             <ul class="func-list">
                                 <li>게임 (수업용)</li>
-                                <li>경제교육 APP</li>
-                                <li>프롬프트 실험실 <span class="plan-badge"
-                                        style="position: static; transform: none; display: inline-block; padding: 2px 6px; font-size: 0.65rem; background: var(--accent-tertiary); margin-left: 5px; vertical-align: middle; line-height: 1;">Plan
-                                        C</span></li>
+                                <li>경제교육 학습 공간</li>
+                                <li><span class="func-inline-box">AI mate <span class="plan-badge"
+                                            style="position: static; transform: none; display: inline-block; padding: 2px 6px; font-size: 0.58rem; background: var(--accent-tertiary); margin-left: 2px; vertical-align: middle; line-height: 1; box-shadow: none;">Plan
+                                            C</span></span></li>
                             </ul>
                         </div>
 
@@ -833,21 +1189,22 @@
                             <div class="func-header">
                                 <span class="func-num">003</span>
                                 <span class="func-title">AI 굉장한 운영 도구<br><span
-                                        style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">Blue Ocean
+                                        style="font-size: 0.72rem; font-weight: 400; color:var(--text-muted);">Blue
+                                        Ocean
                                         타겟팅</span></span>
                             </div>
                             <ul class="func-list">
                                 <li>학습심리정서검사</li>
-                                <li>자리/시간표 배치</li>
-                                <li>쌤 시그널 (감정코멘트) <span class="plan-badge"
-                                        style="position: static; transform: none; display: inline-block; padding: 2px 6px; font-size: 0.65rem; background: var(--accent-primary); color: #000; margin-left: 5px; vertical-align: middle; line-height: 1;">Plan
-                                        B</span></li>
-                                <li>자비스 (비서/리마인드) <span class="plan-badge"
-                                        style="position: static; transform: none; display: inline-block; padding: 2px 6px; font-size: 0.65rem; background: var(--accent-primary); color: #000; margin-left: 5px; vertical-align: middle; line-height: 1;">Plan
-                                        B</span></li>
-                                <li>AI 수업 스타터 <span class="plan-badge"
-                                        style="position: static; transform: none; display: inline-block; padding: 2px 6px; font-size: 0.65rem; background: var(--accent-primary); color: #000; margin-left: 5px; vertical-align: middle; line-height: 1;">Plan
-                                        B</span></li>
+                                <li>한글릿 APP</li>
+                                <li class="func-plan-group">
+                                    <ul class="func-plan-group-list">
+                                        <li>오아 <span class="plan-badge"
+                                                style="position: static; transform: none; display: inline-block; padding: 2px 8px; font-size: 0.7rem; background: var(--accent-primary); color: #000; box-shadow: none; margin-left: 6px;">Plan
+                                                B</span></li>
+                                        <li>쌤 시그널</li>
+                                        <li>자비스</li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
 
@@ -855,8 +1212,8 @@
                             <div class="func-header">
                                 <span class="func-num">004</span>
                                 <span class="func-title">AI 기특한 학습도구<br><span
-                                        style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">학생 Solo
-                                        play</span></span>
+                                        style="font-size: 0.72rem; font-weight: 400; color:var(--text-muted);">학생 자기주도학습
+                                        공간</span></span>
                             </div>
                             <ul class="func-list">
                                 <li>게임 (복습용)</li>
@@ -866,15 +1223,21 @@
                     </div>
 
                     <!-- 04 워크스페이스 -->
-                    <div
-                        style="border-top: 1px solid var(--glass-border); padding-top: 1.5rem; display: flex; align-items: center;">
-                        <span
-                            style="color: var(--accent-tertiary); font-weight: 700; margin-right: 15px; font-size: 1.1rem;">04.
-                            워크스페이스</span>
-                        <span style="color: #FFF;">기록 (함께한 날, 즐찾 앱, GA 지표 대시보드)</span>
+                    <div class="platform-footer-row">
+                        <div class="platform-row">
+                            <span style="color: #FFF; font-weight: 700; margin-right: 15px; font-size: 1.1rem;">04.
+                                워크스페이스</span>
+                            <span class="platform-footer-main">서비스 사용 현황 (like GA 분석 지표)</span>
+                        </div>
+                        <div class="platform-row">
+                            <span class="platform-footer-secondary">05. 커뮤니티</span>
+                            <span class="platform-footer-main">사용자 소통 공간</span>
+                        </div>
                     </div>
 
                 </div>
+
+                <p class="platform-note">일부 기능에 대한 명칭은 예시입니다.</p>
             </div>
         </section>
 
@@ -882,40 +1245,45 @@
         <section class="slide">
             <div class="content">
                 <h2>04. 비즈니스 모델 & 수익화 전략</h2>
-                <p class="subtitle">공공 예산 및 교육청 단위를 타겟팅한 확실한 B2B/B2G 수익 구조 창출</p>
+                <p class="subtitle">공공 예산을 타겟팅한 B2C부터 B2S, B2G 수익 구조 창출</p>
 
                 <div class="bm-grid">
 
                     <div class="bm-card stagger-item stagger-1">
                         <h3 class="bm-title">01. 교사 연수 지원금</h3>
                         <p class="bm-desc">
-                            2026년부터 교원직무연수비 사용 가능 범위가 'AI 유료 구독료'로 확대 (인천시교육청 사례).<br><br>
-                            수업 설계, 학생 평가, 행정 업무에 특화된 우리 플랫폼의 도구들을 <strong>교사 개인이 연수비로 개별 구독</strong>할 수 있는 활로 확보.
+                            2026년부터 교원직무연수비 사용 가능 범위가 'AI 유료 구독료'로 확대<br><button type="button"
+                                class="inline-popup-trigger inline-popup-trigger-soft"
+                                data-modal-target="incheon-modal">인천시교육청 사례</button><br><br><br>
+                            수업 설계, 학생 지도 및 행정 업무에 특화된 우리 플랫폼의 도구들을 <strong>교사 개인이 연수비로 개별 구독</strong>할 수 있는 활로 확보.
                         </p>
                         <div class="bm-highlight">
-                            Target: 교사 개인 구독 전환 (B2C/B2B 성격)
+                            Target: 교사 개인 구독 전환 (B2C/B2S 성격)
                         </div>
                     </div>
 
                     <div class="bm-card stagger-item stagger-2">
                         <h3 class="bm-title">02. 디지털 선도 예산</h3>
                         <p class="bm-desc">
-                            전국 1,900개 디지털 선도학교 및 3만 4천 명의 교실혁명 선도교사 양성에 대규모 특별교부금(학교당 평균 3,400만 원) 투입 중.<br><br>
+                            전국 1,900개 디지털 선도학교 및 <br>3만 4천 명의 교실혁명 선도교사 양성에<br><br>대규모 특별교부금(학교당 평균3,400만원)<br><br>올해
+                            마지막 해(2024년~2026년)).<br><br><br><br>
                             우리 플랫폼의 AI 지원도구 및 AI 코스웨어 도구를 <strong>선도학교 예산으로 도입</strong> 제안.
                         </p>
                         <div class="bm-highlight">
-                            Target: 단위 학교 예산 수주 (B2B 성격)
+                            Target: 학교 예산 수주 (B2S 성격)
                         </div>
                     </div>
 
                     <div class="bm-card stagger-item stagger-3">
                         <h3 class="bm-title">03. 교육청 단위 일괄 계약</h3>
                         <p class="bm-desc">
-                            대전교육청의 AIEP 플랫폼 연동 사례처럼, 유료 서드파티 앱들을 교육청 예산(수억 원 단위)으로 일괄 구매하여 교사에게 무료 제공.<br><br>
-                            자체 플랫폼(V-Lounge)과 연동 가능한 형태로 패키징하여 <strong>시도교육청 단위 엔터프라이즈 계약</strong> 추진.
+                            <button type="button" class="inline-popup-trigger inline-popup-trigger-soft"
+                                data-modal-target="daejeon-modal">대전교육청의 AIEP 플랫폼</button> <br>사례처럼, 유료 서드파티 앱들을
+                            교육청<br><br>예산으로 일괄 구매하여 교사에게 무료 제공.<br><br>
+                            우리 플랫폼 또는 서비스를 연동 가능한<br>형태로 패키징하여 <strong>시도교육청 단위<br><br> 엔터프라이즈 계약</strong> 추진.<br>
                         </p>
                         <div class="bm-highlight">
-                            Target: 시도교육청 대규모 계약 (B2G 성격)
+                            Target: 시도교육청 계약 (B2G 성격)
                         </div>
                     </div>
 
@@ -925,10 +1293,155 @@
 
     </div>
 
+    <div class="image-modal" id="survey-modal" aria-hidden="true">
+        <div class="image-modal-dialog">
+            <button type="button" class="image-modal-close" aria-label="팝업 닫기">&times;</button>
+            <div class="image-modal-stage">
+                <button type="button" class="image-modal-nav prev" aria-label="이전 이미지">&#8249;</button>
+                <img src="비바샘 설문조사.png" alt="비바샘 설문조사 이미지" id="survey-modal-image">
+                <button type="button" class="image-modal-nav next" aria-label="다음 이미지">&#8250;</button>
+            </div>
+            <div class="image-modal-counter" id="survey-modal-counter">1 / 3</div>
+        </div>
+    </div>
+
+    <div class="image-modal" id="mentor-modal" aria-hidden="true">
+        <div class="image-modal-dialog detail-modal-dialog">
+            <button type="button" class="image-modal-close" aria-label="팝업 닫기">&times;</button>
+            <div class="detail-modal-content">
+                <h3 class="detail-modal-title">맞춤형 AI 멘토</h3>
+                <section class="detail-modal-section">
+                    <h4>1) 단기 프로젝트</h4>
+                    <ul class="detail-modal-list">
+                        <li>교육부에서 공개한 정보, 비바샘의 우수 수업 사례 데이터를 기반으로</li>
+                        <li>선생님이 궁금한 것을 언제, 어디서나 물어볼 수 있는 AI 챗봇으로 시작</li>
+                        <li>커뮤니티 공간에서 선생님들이 공유한 자료도 활용할 수 있도록 확장 예정 (저작권 확인 필요)</li>
+                    </ul>
+                </section>
+                <section class="detail-modal-section">
+                    <h4>2) 중장기 프로젝트</h4>
+                    <ul class="detail-modal-list">
+                        <li>스타 강사를 섭외하여, 지니고 있는 노하우 및 자료를 모두 데이터화</li>
+                        <li>스타 강사에 빙의한 챗봇을 만들어서 제공 (예:이상선쌤봇, 재현쌤봇 등)</li>
+                        <li>선생님은 스타 강사봇에게 자유롭게 질문하여서, 꿀팁도 받고 위로도 받고</li>
+                        <li>이후 섭외한 강사 외에 사용자가 직접 챗봇을 등록하여 <br>구독자수에 따른 R/S 구조 가능하게 확장 (like 유투브)<br></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-modal" id="kit-modal" aria-hidden="true">
+        <div class="image-modal-dialog detail-modal-dialog">
+            <button type="button" class="image-modal-close" aria-label="팝업 닫기">&times;</button>
+            <div class="detail-modal-content">
+                <h3 class="detail-modal-title">에센셜 키트</h3>
+                <section class="detail-modal-section">
+                    <h4>1) 단기 프로젝트</h4>
+                    <ul class="detail-modal-list">
+                        <li>비바샘 자료를 데이터화</li>
+                        <li>선생님들이 입력한 상황에 맞추어 LLM 제공하는 것으로 시작</li>
+                    </ul>
+                </section>
+                <section class="detail-modal-section">
+                    <h4>2) 중장기 프로젝트</h4>
+                    <ul class="detail-modal-list">
+                        <li>해당 플랫폼에 탑재되는 서비스가 많아지면</li>
+                        <li>선생님들이 입력한 상황에 맞추어 알맞은 서비스를 제공하는 것으로 연계성 확장</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-modal" id="aimate-modal" aria-hidden="true">
+        <div class="image-modal-dialog detail-modal-dialog">
+            <button type="button" class="image-modal-close" aria-label="팝업 닫기">&times;</button>
+            <div class="detail-modal-content">
+                <h3 class="detail-modal-title">AI mate</h3>
+                <section class="detail-modal-section">
+                    <h4>1) 단기 프로젝트</h4>
+                    <ul class="detail-modal-list">
+                        <li>선생님이 키워드만 입력하면 학습용 챗봇으로 커스터마이징 가능한 것으로 시작</li>
+                    </ul>
+                </section>
+                <section class="detail-modal-section">
+                    <h4>2) 중장기 프로젝트</h4>
+                    <ul class="detail-modal-list">
+                        <li>AI를 단순한 학습 도구를 넘어선 교육 경험으로 확장</li>
+                        <li>AI 윤리, 할루시네이션 탐지 등 학생의 건강한 AI 활용을 돕는 교육용 Tool로 확장하는 방향을 검토 중</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-modal" id="incheon-modal" aria-hidden="true">
+        <div class="image-modal-dialog detail-modal-dialog">
+            <button type="button" class="image-modal-close" aria-label="팝업 닫기">&times;</button>
+            <div class="detail-modal-content">
+                <h3 class="detail-modal-title">인천시교육청 사례</h3>
+                <section class="detail-modal-section">
+                    <h4>관련 링크</h4>
+                    <a class="detail-modal-link" href="http://www.yeonsu.info/news/articleView.html?idxno=54834"
+                        target="_blank" rel="noreferrer">http://www.yeonsu.info/news/articleView.html?idxno=54834</a>
+                </section>
+                <section class="detail-modal-section">
+                    <h4>주요 내용</h4>
+                    <p style="color: var(--text-main); line-height: 1.8;">
+                        오는 3월부터는 기존 항목 외에도 수업 설계나 학생 평가, 행정 업무와 직접적으로 관련된 AI 도구 유료 구독료를 직무연수비로 결제할 수 있다.
+                        또한 교원 개인의 역량 개발을 위한 학습용 애플리케이션 사용료 등도 지원 범위에 포함되어 교사들의 자율적인 디지털 학습이 가능해진다.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-modal" id="daejeon-modal" aria-hidden="true">
+        <div class="image-modal-dialog detail-modal-dialog">
+            <button type="button" class="image-modal-close" aria-label="팝업 닫기">&times;</button>
+            <div class="detail-modal-content">
+                <h3 class="detail-modal-title">대전교육청 AIEP 플랫폼 연동 사례</h3>
+                <section class="detail-modal-section">
+                    <h4>관련 링크</h4>
+                    <a class="detail-modal-link" href="https://www.localtoday.co.kr/news/articleView.html?idxno=407056"
+                        target="_blank"
+                        rel="noreferrer">https://www.localtoday.co.kr/news/articleView.html?idxno=407056</a>
+                </section>
+                <section class="detail-modal-section">
+                    <h4>주요 내용</h4>
+                    <ul class="detail-modal-list">
+                        <li>대전시교육청은 교원의 디지털 교육 전문성 강화와 학생 맞춤형 수업 환경 조성을 위해 AI 및 디지털 도구 구독 서비스 지원을 대폭 확대한다고 4일 밝혔다.</li>
+                        <li>이번 사업은 지난해 실시된 ‘교원 AI 디지털 역량 강화 연수’ 평가에서 최우수 교육청으로 선정돼 확보한 인센티브 4억 7000만 원 중 3억 원을 투입해 추진한다.
+                        </li>
+                        <li>시교육청은 사전 교원 설문조사를 통해 교육 현장 활용도가 높은 도구들을 우선 선정하며 현장 중심 행정에 무게를 뒀다. 지원 대상은 ‘자작자작’, ‘퀴즈앤’, ‘웍스
+                            AI’, ‘패들렛’ 등 신규 4종이며, 기존 ‘캔바’, ‘미리캔버스’를 포함해 총 6종의 유료 서비스를 학교 현장에 전면 제공한다.</li>
+                        <li>지원 체계의 핵심은 시교육청의 독자적인 인공지능 교수학습 플랫폼 ‘AIEP’와의 연동이다. 일선 교사들은 별도의 회원 가입 절차 없이 ‘원패스(One-Pass)’
+                            로그인을 통해 모든 도구를 즉시 활용할 수 있는 환경을 갖췄다.</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Intersection Observer for scroll animations
         document.addEventListener("DOMContentLoaded", () => {
             const slides = document.querySelectorAll('.slide');
+            const modalTriggers = document.querySelectorAll('[data-modal-target]');
+            const modals = document.querySelectorAll('.image-modal');
+            const surveyModal = document.getElementById('survey-modal');
+            const closeButtons = document.querySelectorAll('.image-modal-close');
+            const modalImage = document.getElementById('survey-modal-image');
+            const modalCounter = document.getElementById('survey-modal-counter');
+            const prevButton = surveyModal?.querySelector('.image-modal-nav.prev');
+            const nextButton = surveyModal?.querySelector('.image-modal-nav.next');
+            const surveyImages = [
+                { src: '비바샘 설문조사.png', alt: '비바샘 설문조사 이미지 1' },
+                { src: '비바샘 설문조사_1.png', alt: '비바샘 설문조사 이미지 2' },
+                { src: '비바샘 설문조사_2.png', alt: '비바샘 설문조사 이미지 3' }
+            ];
+            let currentImageIndex = 0;
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -942,6 +1455,97 @@
 
             slides.forEach(slide => {
                 observer.observe(slide);
+            });
+
+            const renderModalImage = () => {
+                if (!modalImage || !modalCounter) return;
+                const currentImage = surveyImages[currentImageIndex];
+                modalImage.src = currentImage.src;
+                modalImage.alt = currentImage.alt;
+                modalCounter.textContent = `${currentImageIndex + 1} / ${surveyImages.length}`;
+            };
+
+            const showPrevImage = () => {
+                currentImageIndex = (currentImageIndex - 1 + surveyImages.length) % surveyImages.length;
+                renderModalImage();
+            };
+
+            const showNextImage = () => {
+                currentImageIndex = (currentImageIndex + 1) % surveyImages.length;
+                renderModalImage();
+            };
+
+            const openModal = (modalId) => {
+                const targetModal = document.getElementById(modalId);
+                if (!targetModal) return;
+                if (modalId === 'survey-modal') {
+                    renderModalImage();
+                }
+                targetModal.classList.add('is-open');
+                targetModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeModal = (targetModal) => {
+                if (!targetModal) return;
+                targetModal.classList.remove('is-open');
+                targetModal.setAttribute('aria-hidden', 'true');
+                const hasOpenModal = Array.from(modals).some((modalItem) => modalItem.classList.contains('is-open'));
+                if (!hasOpenModal) {
+                    document.body.style.overflow = '';
+                }
+            };
+
+            const closeAllModals = () => {
+                modals.forEach((modalItem) => {
+                    modalItem.classList.remove('is-open');
+                    modalItem.setAttribute('aria-hidden', 'true');
+                });
+                document.body.style.overflow = '';
+            };
+
+            modalTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    openModal(trigger.dataset.modalTarget);
+                });
+            });
+
+            closeButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    closeModal(button.closest('.image-modal'));
+                });
+            });
+
+            prevButton?.addEventListener('click', showPrevImage);
+            nextButton?.addEventListener('click', showNextImage);
+
+            modals.forEach((modalItem) => {
+                modalItem.addEventListener('click', (event) => {
+                    if (event.target === modalItem) {
+                        closeModal(modalItem);
+                    }
+                });
+            });
+
+            document.addEventListener('keydown', (event) => {
+                const isSurveyModalOpen = surveyModal?.classList.contains('is-open');
+                const hasOpenModal = Array.from(modals).some((modalItem) => modalItem.classList.contains('is-open'));
+
+                if (!hasOpenModal) {
+                    return;
+                }
+
+                if (event.key === 'Escape') {
+                    closeAllModals();
+                }
+
+                if (event.key === 'ArrowLeft' && isSurveyModalOpen) {
+                    showPrevImage();
+                }
+
+                if (event.key === 'ArrowRight' && isSurveyModalOpen) {
+                    showNextImage();
+                }
             });
         });
     </script>
