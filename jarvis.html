@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자비스 (AI 비서) 프로토타입</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX compilation in browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F3F4F6;
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            color: #111827;
+        }
+
+        /* lucide 아이콘 스타일링을 위한 헬퍼 클래스 */
+        i[data-lucide] {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        button {
+            transition: all 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .task-item {
+            transition: all 0.2s ease;
+        }
+        .task-item:hover {
+            border-color: #D1D5DB !important;
+            transform: translateX(4px);
+        }
+
+        .quick-action {
+            transition: all 0.2s ease;
+        }
+        .quick-action:hover {
+            background: rgba(255,255,255,0.2) !important;
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Design System Tokens
+        const C = {
+            surface: '#FFFFFF',
+            surfaceAlt: '#F8F9FA',
+            bg: '#F3F4F6',
+            border: '#E5E7EB',
+            borderLight: '#F3F4F6',
+            text: '#111827',
+            textSec: '#6B7280',
+            textTer: '#9CA3AF',
+            accent: '#00F0FF',
+            primary: '#4F46E5',
+        };
+
+        const Jarvis = () => {
+            const { useState, useEffect } = React;
+            
+            // lucide 아이콘 렌더링을 위한 Effect
+            useEffect(() => {
+                lucide.createIcons();
+            });
+
+            return (
+                <div style={{
+                    minHeight: '100vh',
+                    padding: '24px 28px',
+                    boxSizing: 'border-box'
+                }}>
+                    {/* Header */}
+                    <header style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '24px',
+                        maxWidth: '1200px',
+                        margin: '0 auto 24px auto'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{
+                                width: '40px',
+                                height: '40px',
+                                borderRadius: '10px',
+                                background: `linear-gradient(135deg, ${C.primary}, ${C.accent})`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#fff'
+                            }}>
+                                <i data-lucide="sparkles" style={{width: '24px', height: '24px'}}></i>
+                            </div>
+                            <div>
+                                <h1 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>자비스 (AI 비서)</h1>
+                                <p style={{ fontSize: '0.9rem', color: C.textSec, margin: '4px 0 0 0' }}>선생님의 남은 업무를 똑똑하게 챙겨드릴게요.</p>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                            <button style={{
+                                background: C.surface,
+                                border: `1px solid ${C.border}`,
+                                padding: '8px 16px',
+                                borderRadius: '20px',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem',
+                                fontWeight: '600',
+                                display: 'flex',
+                                gap: '8px',
+                                alignItems: 'center'
+                            }}>
+                                <i data-lucide="bell" style={{width: '16px', height: '16px'}}></i> 알림 (3)
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main style={{
+                        maxWidth: '1200px',
+                        margin: '0 auto',
+                        display: 'grid',
+                        gridTemplateColumns: '2fr 1fr',
+                        gap: '24px'
+                    }}>
+                        
+                        {/* Left Column */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                            
+                            {/* AI Briefing Card */}
+                            <section style={{
+                                background: C.surface,
+                                borderRadius: '16px',
+                                padding: '32px',
+                                border: `1px solid ${C.border}`,
+                                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                            }}>
+                                <h2 style={{ fontSize: '1.3rem', fontWeight: '700', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <i data-lucide="sparkles" style={{width: '20px', height: '20px', color: C.primary}}></i> 오늘의 AI 브리핑
+                                </h2>
+                                <div style={{
+                                    background: C.surfaceAlt,
+                                    padding: '24px',
+                                    borderRadius: '12px',
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.8',
+                                    color: C.text,
+                                    borderLeft: `4px solid ${C.primary}`
+                                }}>
+                                    "선생님, 오늘 <strong>3교시 끝나고 학부모 상담(김민수 학생 어머니)</strong>이 예정되어 있습니다.<br/>어제 요약해둔 <span style={{color: C.primary, cursor: 'pointer', textDecoration: 'underline', fontWeight: '600'}}>상담 자가진단표</span>를 미리 확인하시겠어요?<br/><br/>그리고 금요일까지 제출해야 하는 <strong>방과후 학교 운영 기안</strong>의 초안을 제가 작성해볼까요?"
+                                </div>
+                                <div style={{ marginTop: '24px', display: 'flex', gap: '12px' }}>
+                                    <button style={{
+                                        background: C.primary,
+                                        color: '#fff',
+                                        border: 'none',
+                                        padding: '12px 24px',
+                                        borderRadius: '8px',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        fontSize: '0.95rem'
+                                    }}>기안 초안 작성하기</button>
+                                    <button style={{
+                                        background: '#fff',
+                                        color: C.text,
+                                        border: `1px solid ${C.border}`,
+                                        padding: '12px 24px',
+                                        borderRadius: '8px',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        fontSize: '0.95rem'
+                                    }}>상담 자료 열기</button>
+                                </div>
+                            </section>
+
+                            {/* Task List */}
+                            <section style={{
+                                background: C.surface,
+                                borderRadius: '16px',
+                                padding: '32px',
+                                border: `1px solid ${C.border}`
+                            }}>
+                                <h2 style={{ fontSize: '1.3rem', fontWeight: '700', marginBottom: '20px', display: 'flex', justifyContent: 'space-between' }}>
+                                    스마트 할 일 목록
+                                    <button style={{ background: 'none', border: 'none', color: C.textSec, cursor: 'pointer', fontSize: '0.9rem', fontWeight: '600' }}>전체보기</button>
+                                </h2>
+
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                    {[
+                                        { title: '수학 단원평가 채점 및 나이스 입력', time: '오늘까지', urgent: true },
+                                        { title: '김민수 학부모 상담', time: '13:00 - 13:30', urgent: false },
+                                        { title: '방과후 학교 운영 기안 제출', time: '금요일까지', urgent: false }
+                                    ].map((task, i) => (
+                                        <div key={i} className="task-item" style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between',
+                                            padding: '20px',
+                                            border: `1px solid ${C.border}`,
+                                            borderRadius: '12px',
+                                            background: task.urgent ? '#FEF2F2' : C.surface,
+                                            cursor: 'pointer'
+                                        }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                                <div style={{ color: task.urgent ? '#EF4444' : C.textTer }}>
+                                                    <i data-lucide="check-circle" style={{width: '24px', height: '24px'}}></i>
+                                                </div>
+                                                <div>
+                                                    <div style={{ fontWeight: '600', fontSize: '1.05rem', color: C.text, marginBottom: '6px' }}>{task.title}</div>
+                                                    <div style={{ fontSize: '0.85rem', color: C.textSec, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                        <i data-lucide="clock" style={{width: '14px', height: '14px'}}></i> {task.time}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <i data-lucide="more-vertical" style={{width: '20px', height: '20px', color: C.textTer}}></i>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+
+                        </div>
+
+                        {/* Right Column */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                            
+                            {/* Mini Calendar / Schedule */}
+                            <section style={{
+                                background: C.surface,
+                                borderRadius: '16px',
+                                padding: '32px',
+                                border: `1px solid ${C.border}`
+                            }}>
+                                <h2 style={{ fontSize: '1.3rem', fontWeight: '700', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <i data-lucide="calendar" style={{width: '20px', height: '20px'}}></i> 오늘 시간표
+                                </h2>
+
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    {[
+                                        { period: '1교시', subject: '국어', current: false },
+                                        { period: '2교시', subject: '수학', current: true },
+                                        { period: '3교시', subject: '공강 (업무처리)', current: false },
+                                        { period: '4교시', subject: '사회', current: false },
+                                    ].map((cls, i) => (
+                                        <div key={i} style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            padding: '16px',
+                                            borderRadius: '10px',
+                                            background: cls.current ? '#EEF2FF' : C.surfaceAlt,
+                                            borderLeft: cls.current ? `4px solid ${C.primary}` : '4px solid transparent',
+                                            boxShadow: cls.current ? '0 2px 4px rgba(79, 70, 229, 0.1)' : 'none'
+                                        }}>
+                                            <span style={{ fontSize: '0.95rem', fontWeight: '700', width: '70px', color: cls.current ? C.primary : C.textSec }}>
+                                                {cls.period}
+                                            </span>
+                                            <span style={{ fontWeight: typeof cls.subject === 'string' && cls.subject.includes('공강') ? '400' : '600', color: C.text, fontSize: '1.05rem' }}>{cls.subject}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+
+                            {/* Quick AI Tools */}
+                            <section style={{
+                                background: 'linear-gradient(135deg, #111827 0%, #1F2937 100%)',
+                                borderRadius: '16px',
+                                padding: '32px',
+                                color: '#fff'
+                            }}>
+                                <h2 style={{ fontSize: '1.3rem', fontWeight: '700', marginBottom: '20px', color: '#fff' }}>
+                                    빠른 비서 액션
+                                </h2>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    <div className="quick-action" style={{
+                                        background: 'rgba(255,255,255,0.1)',
+                                        padding: '24px 16px',
+                                        borderRadius: '12px',
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        border: '1px solid rgba(255,255,255,0.05)'
+                                    }}>
+                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px', color: C.accent }}>
+                                            <i data-lucide="message-square" style={{width: '28px', height: '28px'}}></i>
+                                        </div>
+                                        <div style={{ fontSize: '0.95rem', fontWeight: '600' }}>학부모 알림장</div>
+                                    </div>
+                                    <div className="quick-action" style={{
+                                        background: 'rgba(255,255,255,0.1)',
+                                        padding: '24px 16px',
+                                        borderRadius: '12px',
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        border: '1px solid rgba(255,255,255,0.05)'
+                                    }}>
+                                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px', color: C.accent }}>
+                                            <i data-lucide="file-text" style={{width: '28px', height: '28px'}}></i>
+                                        </div>
+                                        <div style={{ fontSize: '0.95rem', fontWeight: '600' }}>공문 초안</div>
+                                    </div>
+                                </div>
+                            </section>
+
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Jarvis />);
+    </script>
+</body>
+</html>
