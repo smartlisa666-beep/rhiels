@@ -1,727 +1,935 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>사업 기획서 - 에듀테크 플랫폼</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <style>
-    /* =========================================================================
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사업 기획서 - 에듀테크 플랫폼</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* =========================================================================
        DESIGN TOKENS & RESET
        ========================================================================= */
-    :root {
-      --bg-dark: #0A0A0F;
-      --bg-surface: #14141E;
-      --bg-surface-light: rgba(255, 255, 255, 0.05);
-      
-      --accent-primary: #00F0FF;
-      --accent-secondary: #7000FF;
-      --accent-tertiary: #FF00A0;
-      
-      --text-main: #FFFFFF;
-      --text-muted: #A0A5B5;
-      --text-dark: #12121A;
-      
-      --glass-bg: rgba(20, 20, 30, 0.6);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      
-      --font-family: 'Pretendard', sans-serif;
-    }
+        :root {
+            --bg-dark: #0A0A0F;
+            --bg-surface: #14141E;
+            --bg-surface-light: rgba(255, 255, 255, 0.05);
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+            --accent-primary: #00F0FF;
+            --accent-secondary: #7000FF;
+            --accent-tertiary: #FF00A0;
 
-    body {
-      font-family: var(--font-family);
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      overflow-x: hidden;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+            --text-main: #FFFFFF;
+            --text-muted: #A0A5B5;
+            --text-dark: #12121A;
 
-    /* hide scrollbar for sleek look */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg-dark); }
-    ::-webkit-scrollbar-thumb { background: var(--bg-surface-light); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+            --glass-bg: rgba(20, 20, 30, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
-    /* =========================================================================
+            --font-family: 'Pretendard', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* hide scrollbar for sleek look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-surface-light);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* =========================================================================
        LAYOUT (Scroll Snap Container)
        ========================================================================= */
-    .slide-container {
-      height: 100vh;
-      width: 100vw;
-      overflow-y: scroll;
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-    }
+        .slide-container {
+            height: 100vh;
+            width: 100vw;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
 
-    .slide {
-      height: 100vh;
-      width: 100vw;
-      scroll-snap-align: start;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem;
-      overflow: hidden;
-    }
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            overflow: hidden;
+        }
 
-    /* Background Gradients & Glows */
-    .bg-glow {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      z-index: 0;
-      opacity: 0.4;
-      animation: pulseGlow 8s infinite alternate ease-in-out;
-    }
-    
-    .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--accent-secondary); }
-    .glow-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: var(--accent-primary); opacity: 0.2; animation-delay: -4s;}
-    .glow-3 { top: 40%; left: 30%; width: 40vw; height: 40vw; background: var(--accent-tertiary); opacity: 0.15; animation-delay: -2s; }
+        /* Background Gradients & Glows */
+        .bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: 0;
+            opacity: 0.4;
+            animation: pulseGlow 8s infinite alternate ease-in-out;
+        }
 
-    @keyframes pulseGlow {
-      0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
-      100% { transform: scale(1.1) translate(20px, -20px); opacity: 0.5; }
-    }
+        .glow-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: var(--accent-secondary);
+        }
 
-    /* Content Wrapper */
-    .content {
-      position: relative;
-      z-index: 10;
-      max-width: 1200px;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+        .glow-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: var(--accent-primary);
+            opacity: 0.2;
+            animation-delay: -4s;
+        }
 
-    /* =========================================================================
+        .glow-3 {
+            top: 40%;
+            left: 30%;
+            width: 40vw;
+            height: 40vw;
+            background: var(--accent-tertiary);
+            opacity: 0.15;
+            animation-delay: -2s;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                transform: scale(1) translate(0, 0);
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: scale(1.1) translate(20px, -20px);
+                opacity: 0.5;
+            }
+        }
+
+        /* Content Wrapper */
+        .content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* =========================================================================
        TYPOGRAPHY & UTILITIES
        ========================================================================= */
-    h1 {
-      font-size: 5rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #FFF 0%, var(--accent-primary) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      transform: translateY(30px);
-      opacity: 0;
-      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    h2 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
-      color: #FFF;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      transform: translateY(30px);
-      opacity: 0;
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+        h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #FFF 0%, var(--accent-primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    h2::before {
-      content: '';
-      display: inline-block;
-      width: 40px;
-      height: 4px;
-      background: var(--accent-primary);
-      border-radius: 2px;
-    }
+        h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #FFF;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    p.subtitle {
-      font-size: 1.5rem;
-      color: var(--text-muted);
-      max-width: 800px;
-      margin-bottom: 3rem;
-      font-weight: 300;
-      transform: translateY(30px);
-      opacity: 0;
-      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
-    }
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 4px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
 
-    .glass-panel {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      padding: 2.5rem;
-      box-shadow: var(--glass-shadow);
-      transform: translateY(40px);
-      opacity: 0;
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
-    }
+        p.subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+        }
 
-    /* Animation Classes for Intersection Observer */
-    .slide.is-visible h1,
-    .slide.is-visible h2,
-    .slide.is-visible p.subtitle,
-    .slide.is-visible .glass-panel,
-    .slide.is-visible .stagger-item {
-      transform: translateY(0);
-      opacity: 1;
-    }
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--glass-shadow);
+            transform: translateY(40px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
 
-    /* =========================================================================
+        /* Animation Classes for Intersection Observer */
+        .slide.is-visible h1,
+        .slide.is-visible h2,
+        .slide.is-visible p.subtitle,
+        .slide.is-visible .glass-panel,
+        .slide.is-visible .stagger-item {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* =========================================================================
        SPECIFIC SLIDE STYLES
        ========================================================================= */
 
-    /* Slide 1: Intro */
-    .slide-intro {
-      text-align: center;
-      align-items: center;
-    }
-    .slide-intro .content {
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .slide-intro h1 {
-      background: linear-gradient(135deg, #FFF 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-    }
-    
-    .scroll-indicator {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      opacity: 0;
-      animation: fadeIn 2s ease forwards 1.5s;
-    }
-    
-    .mouse {
-      width: 26px;
-      height: 40px;
-      border: 2px solid var(--text-muted);
-      border-radius: 20px;
-      position: relative;
-    }
-    .mouse::before {
-      content: '';
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 6px;
-      background: var(--text-muted);
-      border-radius: 2px;
-      animation: scrollWheel 2s infinite;
-    }
+        /* Slide 1: Intro */
+        .slide-intro {
+            text-align: center;
+            align-items: center;
+        }
 
-    @keyframes scrollWheel {
-      0% { transform: translate(-50%, 0); opacity: 1; }
-      100% { transform: translate(-50%, 15px); opacity: 0; }
-    }
-    @keyframes fadeIn { to { opacity: 1; } }
+        .slide-intro .content {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
-    /* Slide 2 & 3: Market & Needs */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      height: 100%;
-    }
-    
-    .ocean-card {
-      padding: 2rem;
-      border-radius: 20px;
-      margin-bottom: 1.5rem;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease;
-    }
-    .ocean-card:hover { transform: translateY(-5px); }
-    
-    .red-ocean {
-      background: linear-gradient(135deg, rgba(255,0,0,0.1) 0%, rgba(20,20,30,0.8) 100%);
-      border-left: 4px solid #FF3B30;
-    }
-    .blue-ocean {
-      background: linear-gradient(135deg, rgba(0,240,255,0.1) 0%, rgba(20,20,30,0.8) 100%);
-      border-left: 4px solid var(--accent-primary);
-    }
-    
-    .ocean-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between;}
-    .ocean-badge { font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
-    .badge-red { background: rgba(255,59,48,0.2); color: #FF3B30; }
-    .badge-blue { background: rgba(0,240,255,0.2); color: var(--accent-primary); }
-    
-    .ocean-desc { font-size: 1rem; color: var(--text-muted); }
+        .slide-intro h1 {
+            background: linear-gradient(135deg, #FFF 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
 
-    /* Needs Stats */
-    .stat-circle {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: conic-gradient(var(--accent-primary) 52%, var(--bg-surface-light) 0);
-      position: relative;
-    }
-    .stat-circle::after {
-      content: '';
-      position: absolute;
-      inset: 10px;
-      background: var(--bg-surface);
-      border-radius: 50%;
-    }
-    .stat-content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-    }
-    .stat-num { font-size: 2rem; font-weight: 800; color: #FFF; }
-    .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards 1.5s;
+        }
 
-    .needs-list { list-style: none; margin-top: 1.5rem; }
-    .needs-list li {
-      padding: 1rem;
-      border-bottom: 1px solid var(--glass-border);
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-    .needs-list li strong { color: #FFF; display: block; margin-bottom: 0.2rem; }
+        .mouse {
+            width: 26px;
+            height: 40px;
+            border: 2px solid var(--text-muted);
+            border-radius: 20px;
+            position: relative;
+        }
 
-    /* Slide 4: Plan */
-    .timeline {
-      display: flex;
-      justify-content: space-between;
-      position: relative;
-      margin-top: 3rem;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--glass-border);
-      z-index: 0;
-    }
-    .plan-card {
-      position: relative;
-      z-index: 1;
-      width: 30%;
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      padding: 2rem;
-      text-align: center;
-      transition: all 0.4s ease;
-      cursor: pointer;
-    }
-    .plan-card:hover {
-      transform: translateY(-10px) scale(1.05);
-      border-color: var(--accent-primary);
-      box-shadow: 0 10px 30px rgba(0,240,255,0.2);
-    }
-    .plan-badge {
-      position: absolute;
-      top: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent-secondary);
-      color: #FFF;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-    .plan-title { font-size: 1.5rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #FFF; }
+        .mouse::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 2px;
+            animation: scrollWheel 2s infinite;
+        }
 
-    /* Slide 5: Platform Structure */
-    .structure-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-    
-    .func-group {
-      background: var(--bg-surface);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      transition: all 0.3s ease;
-    }
-    .func-group:hover {
-      border-color: var(--accent-tertiary);
-      background: rgba(255,0,160,0.05);
-    }
-    .func-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;}
-    .func-num { font-size: 1.2rem; font-weight: 800; color: var(--accent-tertiary); }
-    .func-title { font-size: 1.1rem; font-weight: 700; color: #FFF; line-height: 1.2;}
-    
-    .func-list { list-style: none; }
-    .func-list li {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 0.8rem;
-      padding-left: 1.2rem;
-      position: relative;
-    }
-    .func-list li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--accent-primary);
-    }
+        @keyframes scrollWheel {
+            0% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
 
-    /* Additional highlight tags for functions */
-    .tag-todo { display: inline-block; font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; margin-left: 5px; }
+            100% {
+                transform: translate(-50%, 15px);
+                opacity: 0;
+            }
+        }
 
-    /* Slide 6: Business Model */
-    .bm-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-    .bm-card {
-      background: var(--glass-bg);
-      border-top: 4px solid var(--accent-primary);
-      border-radius: 16px;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .bm-card::before {
-      content: '₩';
-      position: absolute;
-      right: -20px;
-      bottom: -20px;
-      font-size: 8rem;
-      font-weight: 900;
-      color: rgba(255,255,255,0.03);
-      line-height: 1;
-    }
-    .bm-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; color: #FFF; }
-    .bm-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-    .bm-highlight {
-      background: rgba(0,240,255,0.1);
-      padding: 1rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      color: var(--accent-primary);
-      font-weight: 500;
-    }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
 
-    /* Staggered animation delays for lists/grids */
-    .stagger-1 { transition-delay: 0.3s !important; }
-    .stagger-2 { transition-delay: 0.4s !important; }
-    .stagger-3 { transition-delay: 0.5s !important; }
-    .stagger-4 { transition-delay: 0.6s !important; }
+        /* Slide 2 & 3: Market & Needs */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 100%;
+        }
 
-  </style>
+        .ocean-card {
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .ocean-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .red-ocean {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, rgba(20, 20, 30, 0.8) 100%);
+            border-left: 4px solid #FF3B30;
+        }
+
+        .blue-ocean {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(20, 20, 30, 0.8) 100%);
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .ocean-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ocean-badge {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .badge-red {
+            background: rgba(255, 59, 48, 0.2);
+            color: #FF3B30;
+        }
+
+        .badge-blue {
+            background: rgba(0, 240, 255, 0.2);
+            color: var(--accent-primary);
+        }
+
+        .ocean-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* Needs Stats */
+        .stat-circle {
+            width: 150px;
+            height: 150px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: conic-gradient(var(--accent-primary) 52%, var(--bg-surface-light) 0);
+            position: relative;
+        }
+
+        .stat-circle::after {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            background: var(--bg-surface);
+            border-radius: 50%;
+        }
+
+        .stat-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #FFF;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .needs-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .needs-list li {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .needs-list li strong {
+            color: #FFF;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Slide 4: Plan */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--glass-border);
+            z-index: 0;
+        }
+
+        .plan-card {
+            position: relative;
+            z-index: 1;
+            width: 30%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-secondary);
+            color: #FFF;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .plan-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0 1rem;
+            color: #FFF;
+        }
+
+        /* Slide 5: Platform Structure */
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .func-group {
+            background: var(--bg-surface);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .func-group:hover {
+            border-color: var(--accent-tertiary);
+            background: rgba(255, 0, 160, 0.05);
+        }
+
+        .func-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .func-num {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent-tertiary);
+        }
+
+        .func-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #FFF;
+            line-height: 1.2;
+        }
+
+        .func-list {
+            list-style: none;
+        }
+
+        .func-list li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .func-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+
+        /* Additional highlight tags for functions */
+        .tag-todo {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+        }
+
+        /* Slide 6: Business Model */
+        .bm-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .bm-card {
+            background: var(--glass-bg);
+            border-top: 4px solid var(--accent-primary);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bm-card::before {
+            content: '₩';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.03);
+            line-height: 1;
+        }
+
+        .bm-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #FFF;
+        }
+
+        .bm-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .bm-highlight {
+            background: rgba(0, 240, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        /* Staggered animation delays for lists/grids */
+        .stagger-1 {
+            transition-delay: 0.3s !important;
+        }
+
+        .stagger-2 {
+            transition-delay: 0.4s !important;
+        }
+
+        .stagger-3 {
+            transition-delay: 0.5s !important;
+        }
+
+        .stagger-4 {
+            transition-delay: 0.6s !important;
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- Ambient Background Glows -->
-  <div class="bg-glow glow-1"></div>
-  <div class="bg-glow glow-2"></div>
-  <div class="bg-glow glow-3"></div>
+    <!-- Ambient Background Glows -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="bg-glow glow-3"></div>
 
-  <div class="slide-container">
-    
-    <!-- ==================== TITLE SLIDE ==================== -->
-    <section class="slide slide-intro is-visible">
-      <div class="content">
-        <h1>우리의 포지션,<br>그리고 새로운 비즈니스</h1>
-        <p class="subtitle">교사 니즈 분석을 통한 혁신적 에듀테크 플랫폼 구축 및 4월 런칭 계획안</p>
-        
-        <div class="scroll-indicator">
-          <span>Scroll down</span>
-          <div class="mouse"></div>
-        </div>
-      </div>
-    </section>
+    <div class="slide-container">
 
-    <!-- ==================== SECTION 01: 시장조사 & 포지셔닝 ==================== -->
-    <section class="slide">
-      <div class="content">
-        <h2>01. 현황 분석 및 포지셔닝</h2>
-        <div class="grid-2">
-          
-          <div class="glass-panel stagger-item stagger-1">
-            <h3 style="margin-bottom: 1.5rem; color: #FFF;">외부 시장 조사 (Red vs Blue Ocean)</h3>
-            
-            <div class="ocean-card red-ocean">
-              <div class="ocean-title">
-                자료 생성 & 행정 업무
-                <span class="ocean-badge badge-red">Red Ocean</span>
-              </div>
-              <p class="ocean-desc">교과목 문항/PPT 자동생성, 평어/리포트 생성, 나이스 기안.<br>
-              <strong>경쟁사:</strong> 쌤지피티, Magic School, 기존 서비스 다수 포진</p>
-            </div>
+        <!-- ==================== TITLE SLIDE ==================== -->
+        <section class="slide slide-intro is-visible">
+            <div class="content">
+                <h1>AI 서비스 플랫폼,<br>교사 지원 Tool 모음Zip 📂</h1>
+                <p class="subtitle">교사 니즈 분석을 통한 AI 서비스 기반 플랫폼 구축</p>
 
-            <div class="ocean-card blue-ocean">
-              <div class="ocean-title">
-                학급 관리 & 교실 운영
-                <span class="ocean-badge badge-blue">Blue Ocean 🎯</span>
-              </div>
-              <p class="ocean-desc">학생/학부모 상담 지도, 예측 불가능한 학급 운영 보조.<br>
-              <strong>기회:</strong> 두드러지는 특화 경쟁사 부재 (Wee클래스 외).<br>
-              <span style="color:#FFF;">→ '학심정' 등으로 강력한 커버리지 확보 가능.</span></p>
-            </div>
-          </div>
-
-          <div class="glass-panel stagger-item stagger-2">
-            <h3 style="margin-bottom: 1.5rem; color: #FFF;">교사 니즈 (Pain Points)</h3>
-            
-            <div style="display: flex; gap: 2rem; margin-bottom: 2rem; align-items: center;">
-              <div class="stat-circle">
-                <div class="stat-content">
-                  <span class="stat-num">52%</span>
-                  <span class="stat-label">ChatGPT 사용</span>
+                <div class="scroll-indicator">
+                    <span>Scroll down</span>
+                    <div class="mouse"></div>
                 </div>
-              </div>
-              <div>
-                <p style="color: #FFF; font-weight: 600; margin-bottom: 0.5rem;">"가장 화제인 키워드: AI 교육"</p>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">학생을 위한 AI 교육 및 교사 본인을 위한 AI 툴 사용법이 화두. 무분별한 도입에 따른 정서적 부작용 우려 존재.</p>
-              </div>
             </div>
+        </section>
 
-            <ul class="needs-list">
-              <li><strong>😭 가장 큰 어려움 1: 학급 관리/상담</strong> "각 반 문제 학생 지도, 학부모 민원, 예측 불가능한 교실 상황"</li>
-              <li><strong>📝 가장 큰 어려움 2: 행정/운영</strong> "나이스 시수 맞추기, 방과후 징수기안, 기안작성법 무지"</li>
-              <li><strong>🤝 가장 큰 어려움 3: 사람 관계</strong> "고립감, 업무 물어볼 곳 부재"</li>
-            </ul>
-          </div>
+        <!-- ==================== SECTION 01: 시장조사 & 포지셔닝 ==================== -->
+        <section class="slide">
+            <div class="content">
+                <h2>01. 현황 분석 및 포지셔닝</h2>
+                <div class="grid-2">
 
-        </div>
-      </div>
-    </section>
+                    <div class="glass-panel stagger-item stagger-1">
+                        <h3 style="margin-bottom: 1.5rem; color: #FFF;">외부 시장 조사 </h3>
 
-    <!-- ==================== SECTION 02: 4월 런칭 플랜 ==================== -->
-    <section class="slide">
-      <div class="content">
-        <h2>02. 4월 런칭 타이밍 플랜</h2>
-        <p class="subtitle">새 학기 적응이 끝난 4월, 교사들에게 진정으로 필요한 3가지 방향</p>
-        
-        <div class="timeline">
-          <div class="plan-card stagger-item stagger-1">
-            <span class="plan-badge">Plan A</span>
-            <div style="font-size: 3rem; margin-top: 1rem;">🧑‍🏫</div>
-            <h3 class="plan-title">24시간 선배님</h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem;">
-              업무를 물어볼 데 없는 신규 교사들을 위한 맞춤형 AI 멘토.<br><br>
-              나이스 기안, 업무 배정, 학부모 민원 대처법 등 예측 불가능한 학교 행정에 대한 즉각적인 솔루션 제공.
-            </p>
-          </div>
+                        <div class="ocean-card red-ocean">
+                            <div class="ocean-title">
+                                자료 생성 & 행정 업무
+                                <span class="ocean-badge badge-red">Red Ocean</span>
+                            </div>
+                            <p class="ocean-desc">교과목 문항/PPT 자동생성, 평어/리포트 생성, 나이스 기안 작성.<br>
+                                <strong>경쟁사:</strong> 쌤지피티, Magic School AI, 기존 서비스 다수 포진
+                            </p>
+                        </div>
 
-          <div class="plan-card stagger-item stagger-2">
-            <span class="plan-badge" style="background: var(--accent-primary); color: #000;">Plan B</span>
-            <div style="font-size: 3rem; margin-top: 1rem;">📦</div>
-            <h3 class="plan-title">스타터 Kit</h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem;">
-              학급 경영 및 교실 운영에 즉시 투입 가능한 실무 도구 모음.<br><br>
-              수업 시간표 배치, 학급 자리 배치, 쌤 시그널(감정 상태 파악) 등 운영 부담을 덜어주는 '회사 업무' 지원.
-            </p>
-          </div>
+                        <div class="ocean-card blue-ocean">
+                            <div class="ocean-title">
+                                학급 관리 & 교실 운영
+                                <span class="ocean-badge badge-blue">Blue Ocean 🎯</span>
+                            </div>
+                            <p class="ocean-desc">학생/학부모 상담 지도, 예측 불가능한 학급 및 수업 운영 보조.<br>
+                                <strong>기회:</strong> 두드러지는 특화 경쟁사 부재 (Wee클래스 외).<br>
+                                <span style="color:#FFF;">→ '학심정' & '플랫폼'으로 강력한 커버리지 확보 가능.</span>
+                            </p>
+                        </div>
+                    </div>
 
-          <div class="plan-card stagger-item stagger-3">
-            <span class="plan-badge" style="background: var(--accent-tertiary);">Plan C</span>
-            <div style="font-size: 3rem; margin-top: 1rem;">💻</div>
-            <h3 class="plan-title">학생용 AI 교육 Tool</h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem;">
-              안전하고 목적성 있는 학생 주도형 AI 학습 도구.<br><br>
-              AI 무분별 사용에 대한 교사의 우려를 해소하는 통제된 환경의 프롬프트 실험실 및 게임형 복습 툴.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+                    <div class="glass-panel stagger-item stagger-2">
+                        <h3 style="margin-bottom: 1.5rem; color: #FFF;">교사 니즈 (Pain Points)</h3>
 
-    <!-- ==================== SECTION 03: 플랫폼 구조 ==================== -->
-    <section class="slide">
-      <div class="content">
-        <h2>03. 핵심 플랫폼 아키텍처</h2>
-        <p class="subtitle">교사-학생 통합 계정부터 각 특화 그룹별 도구 모음까지</p>
-        
-        <div class="glass-panel" style="margin-bottom: 2rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
-            <div>
-              <span style="color: var(--accent-primary); font-weight: 700; margin-right: 15px;">01. 통합 코어</span>
-              <span style="color: #FFF;">교사 / 학생 회원가입 및 로그인 (V-Lounge)</span>
+                        <ul class="needs-list" style="margin-top: 0;">
+                            <li>
+                                <strong>001. 학교 현장에서 가장 화제인 키워드</strong>
+                                AI 사용법에 대한 교육
+                            </li>
+                            <li>
+                                <strong>002. 처음 교사가 되었을 때 가장 어려웠던 점</strong>
+                                학급 관리: 학부모, 학생 지도<br>
+                                행정 업무: 나이스 및 에듀파인 기안 처리<br>
+                                <span style="color: var(--accent-tertiary); font-weight: 600;">⭐️ 교실 운영: 업무 배정, 교실 환경
+                                    꾸미기, 담임 업무, 연구 수업, 입시 지도, 스카우트/동아리/보직 운영의 어려움</span>
+                            </li>
+                            <li>
+                                <strong>003. 선생님께서 사용하시는 AI 툴</strong>
+                                GPT &gt; 제미나이 &gt; 코파일럿 &gt; 노션 &gt; 기타 (Notebook LM, 캔바, snorkl, 웍스, 뤼튼, 감마)<br>
+                                <div
+                                    style="margin-top: 5px; padding-left: 10px; border-left: 2px solid var(--accent-primary);">
+                                    <span style="color: #FFF;">⭐️ 창체, 동아리와 같은 학생들의 협업 또는 학습 툴로 활용</span><br>
+                                    <span style="color: #FFF;">⭐️ 생기부 및 과세특과 같은 문구 작성</span><br>
+                                    <span style="color: #FFF;">⭐️ 이미지/PPT와 같은 자료 생성</span><br>
+                                    <span style="color: #FFF;">⭐️ 기록용 교무 업무에 활용</span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div
+                            style="margin-top: 2rem; padding: 1.5rem; background: rgba(0,240,255,0.05); border-radius: 12px; border: 1px solid rgba(0,240,255,0.2);">
+                            <p
+                                style="color: #FFF; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 1.2rem;">💡</span> 기대 효과
+                            </p>
+                            <p style="color: var(--accent-primary); font-size: 0.95rem; line-height: 1.5;">
+                                교사의 <strong>현실적인 니즈(Pain Points)</strong>와 아직 개척되지 않은 <strong>블루오션 영역</strong>의 교집합을
+                                정조준합니다.<br>
+                                흩어져 있는 AI 서비스들을 하나의 플랫폼으로 엮어 제공함으로써, 교사들의 실무적 어려움을 한 번에 해결합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div>
-              <span style="color: var(--accent-tertiary); font-weight: 700; margin-right: 15px;">04. 워크스페이스</span>
-              <span style="color: #FFF;">기록 (함께한 날, 즐찾 앱, GA 지표 대시보드)</span>
+        </section>
+
+        <!-- ==================== SECTION 02: 4월 런칭 플랜 ==================== -->
+        <section class="slide">
+            <div class="content">
+                <h2>02. 4월 런칭 타이밍 플랜</h2>
+                <p class="subtitle">새 학기 적응이 끝난 4월, AI 사용이 적극적인 20~30대 교사들을 대상으로 필요한 3가지 방향</p>
+
+                <div class="timeline">
+                    <div class="plan-card stagger-item stagger-1">
+                        <span class="plan-badge">Plan A</span>
+                        <div style="font-size: 3rem; margin-top: 1rem;">🧑‍🏫</div>
+                        <h3 class="plan-title">24시간 선배님</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">
+                            업무를 물어볼 데 없는 교사들을 위한 맞춤형 AI 멘토.<br><br>
+                            교육 정책 변화, 수업 활용안, 학생 지도 및 학부모 민원 대처법 등 예측 불가능한 학교 행정에 대한 즉각적인 솔루션 제공.
+                        </p>
+                    </div>
+
+                    <div class="plan-card stagger-item stagger-2">
+                        <span class="plan-badge" style="background: var(--accent-primary); color: #000;">Plan B</span>
+                        <div style="font-size: 3rem; margin-top: 1rem;">📦</div>
+                        <h3 class="plan-title">스타터 Kit</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">
+                            초보 선생님들을 위한 에센셜 키트.<br><br>
+                            수업 시작 도입 준비, 학생 관리 등 학급 경영 및 교실 운영에 즉시 투입 가능한 실무 도구 모음.
+                        </p>
+                    </div>
+
+                    <div class="plan-card stagger-item stagger-3">
+                        <span class="plan-badge" style="background: var(--accent-tertiary);">Plan C</span>
+                        <div style="font-size: 3rem; margin-top: 1rem;">💻</div>
+                        <h3 class="plan-title">학생용 AI 교육 Tool</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">
+                            안전하고 목적성 있는 학생 주도형 AI 학습 도구.<br><br>
+                            AI 무분별 사용에 대한 교사의 우려를 해소하는 통제된 환경의 프롬프트 실험실 및 게임형 복습 툴.
+                        </p>
+                    </div>
+                </div>
             </div>
-          </div>
+        </section>
 
-          <h3 style="color: #FFF; margin-bottom: 1.5rem;">03. 핵심 탐색 그룹 맵</h3>
-          <div class="structure-grid">
-            
-            <div class="func-group stagger-item stagger-1">
-              <div class="func-header">
-                <span class="func-num">001</span>
-                <span class="func-title">AI 와우 자료 생성</span>
-              </div>
-              <ul class="func-list">
-                <li>저작툴 (aka 캔바)</li>
-                <li>쌍둥이 문항</li>
-                <li>디지털라이징 OCR</li>
-                <li>코파일럿 by 콘서</li>
-                <li>매캔</li>
-              </ul>
+        <!-- ==================== SECTION 03: 플랫폼 구조 ==================== -->
+        <section class="slide">
+            <div class="content">
+                <h2>03. 핵심 플랫폼 아키텍처</h2>
+                <p class="subtitle">교사-학생 통합 계정부터 각 특화 그룹별 도구 모음까지</p>
+
+                <div class="glass-panel" style="margin-bottom: 2rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <span style="color: var(--accent-primary); font-weight: 700; margin-right: 15px;">01. 통합
+                                코어</span>
+                            <span style="color: #FFF;">교사 / 학생 회원가입 및 로그인 (V-Lounge)</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--accent-tertiary); font-weight: 700; margin-right: 15px;">04.
+                                워크스페이스</span>
+                            <span style="color: #FFF;">기록 (함께한 날, 즐찾 앱, GA 지표 대시보드)</span>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #FFF; margin-bottom: 1.5rem;">03. 핵심 탐색 그룹 맵</h3>
+                    <div class="structure-grid">
+
+                        <div class="func-group stagger-item stagger-1">
+                            <div class="func-header">
+                                <span class="func-num">001</span>
+                                <span class="func-title">AI 와우 자료 생성</span>
+                            </div>
+                            <ul class="func-list">
+                                <li>저작툴 (aka 캔바)</li>
+                                <li>쌍둥이 문항</li>
+                                <li>디지털라이징 OCR</li>
+                                <li>코파일럿 by 콘서</li>
+                                <li>매캔</li>
+                            </ul>
+                        </div>
+
+                        <div class="func-group stagger-item stagger-2">
+                            <div class="func-header">
+                                <span class="func-num">002</span>
+                                <span class="func-title">AI 도파민 수업 도구<br><span
+                                        style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">교사 ↔ 학생
+                                        상호작용</span></span>
+                            </div>
+                            <ul class="func-list">
+                                <li>게임 (수업용)</li>
+                                <li>경제교육 APP</li>
+                                <li>프롬프트 실험실 <span class="tag-todo">제작필요</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="func-group stagger-item stagger-3">
+                            <div class="func-header">
+                                <span class="func-num">003</span>
+                                <span class="func-title">AI 굉장한 운영 도구<br><span
+                                        style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">Blue Ocean
+                                        타겟팅</span></span>
+                            </div>
+                            <ul class="func-list">
+                                <li>학습심리정서검사</li>
+                                <li>자리/시간표 배치</li>
+                                <li>쌤 시그널 (감정코멘트)</li>
+                                <li>자비스 (비서/리마인드) <span class="tag-todo">제작필요</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="func-group stagger-item stagger-4">
+                            <div class="func-header">
+                                <span class="func-num">004</span>
+                                <span class="func-title">AI 기특한 학습도구<br><span
+                                        style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">학생 Solo
+                                        play</span></span>
+                            </div>
+                            <ul class="func-list">
+                                <li>게임 (복습용)</li>
+                                <li>스스로학습 w. AI튜터</li>
+                                <li style="color: var(--accent-primary); list-style-type: none;">※ QR 코드 입장 및<br>LNB 기록
+                                    연동 검토중</li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <!-- 02 AI 무물 챗봇 -->
+                    <div
+                        style="margin-top: 1.5rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <span style="color: #FFF; font-weight: 700; margin-right: 15px;">02. AI 무물 챗봇 ZIP</span>
+                            <span class="tag-todo">제작필요</span>
+                        </div>
+                        <div style="display: flex; gap: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+                            <div><strong>[단기]</strong> 척척박사 챗봇 (교육정책 변화, 수업 활용 사례 - 비바샘)</div>
+                            <div><strong>[장기]</strong> 스타 강사 선배 챗봇 (RAG 기반 페르소나, 향후 수익배분)</div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+        </section>
 
-            <div class="func-group stagger-item stagger-2">
-              <div class="func-header">
-                <span class="func-num">002</span>
-                <span class="func-title">AI 도파민 수업 도구<br><span style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">교사 ↔ 학생 상호작용</span></span>
-              </div>
-              <ul class="func-list">
-                <li>게임 (수업용)</li>
-                <li>경제교육 APP</li>
-                <li>프롬프트 실험실 <span class="tag-todo">제작필요</span></li>
-              </ul>
+        <!-- ==================== SECTION 04: 비즈니스 모델 ==================== -->
+        <section class="slide">
+            <div class="content">
+                <h2>04. 비즈니스 모델 & 수익화 전략</h2>
+                <p class="subtitle">공공 예산 및 교육청 단위를 타겟팅한 확실한 B2B/B2G 수익 구조 창출</p>
+
+                <div class="bm-grid">
+
+                    <div class="bm-card stagger-item stagger-1">
+                        <h3 class="bm-title">01. 교사 연수 지원금</h3>
+                        <p class="bm-desc">
+                            2026년부터 교원직무연수비 사용 가능 범위가 'AI 유료 구독료'로 확대 (인천시교육청 사례).<br><br>
+                            수업 설계, 학생 평가, 행정 업무에 특화된 우리 플랫폼의 도구들을 <strong>교사 개인이 연수비로 개별 구독</strong>할 수 있는 활로 확보.
+                        </p>
+                        <div class="bm-highlight">
+                            Target: 교사 개인 구독 전환 (B2C/B2B 성격)
+                        </div>
+                    </div>
+
+                    <div class="bm-card stagger-item stagger-2">
+                        <h3 class="bm-title">02. 디지털 선도 예산</h3>
+                        <p class="bm-desc">
+                            전국 1,900개 디지털 선도학교 및 3만 4천 명의 교실혁명 선도교사 양성에 대규모 특별교부금(학교당 평균 3,400만 원) 투입 중.<br><br>
+                            우리 플랫폼의 AI 코스웨어 및 '질문하는 수업' 특화 도구를 <strong>선도학교 예산으로 도입</strong> 제안.
+                        </p>
+                        <div class="bm-highlight">
+                            Target: 단위 학교 예산 수주 (B2B 성격)
+                        </div>
+                    </div>
+
+                    <div class="bm-card stagger-item stagger-3">
+                        <h3 class="bm-title">03. 교육청 단위 일괄 계약</h3>
+                        <p class="bm-desc">
+                            대전교육청의 AIEP 플랫폼 연동 사례처럼, 유료 서드파티 앱들을 교육청 예산(수억 원 단위)으로 일괄 구매하여 교사에게 무료 제공.<br><br>
+                            자체 플랫폼(V-Lounge)과 연동 가능한 형태로 패키징하여 <strong>시도교육청 단위 엔터프라이즈 계약</strong> 추진.
+                        </p>
+                        <div class="bm-highlight">
+                            Target: 시도교육청 대규모 계약 (B2G 성격)
+                        </div>
+                    </div>
+
+                </div>
             </div>
+        </section>
 
-            <div class="func-group stagger-item stagger-3">
-              <div class="func-header">
-                <span class="func-num">003</span>
-                <span class="func-title">AI 굉장한 운영 도구<br><span style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">Blue Ocean 타겟팅</span></span>
-              </div>
-              <ul class="func-list">
-                <li>학습심리정서검사</li>
-                <li>자리/시간표 배치</li>
-                <li>쌤 시그널 (감정코멘트)</li>
-                <li>자비스 (비서/리마인드) <span class="tag-todo">제작필요</span></li>
-              </ul>
-            </div>
+    </div>
 
-            <div class="func-group stagger-item stagger-4">
-              <div class="func-header">
-                <span class="func-num">004</span>
-                <span class="func-title">AI 기특한 학습도구<br><span style="font-size: 0.8rem; font-weight: 400; color:var(--text-muted);">학생 Solo play</span></span>
-              </div>
-              <ul class="func-list">
-                <li>게임 (복습용)</li>
-                <li>스스로학습 w. AI튜터</li>
-                <li style="color: var(--accent-primary); list-style-type: none;">※ QR 코드 입장 및<br>LNB 기록 연동 검토중</li>
-              </ul>
-            </div>
+    <script>
+        // Intersection Observer for scroll animations
+        document.addEventListener("DOMContentLoaded", () => {
+            const slides = document.querySelectorAll('.slide');
 
-          </div>
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.3 // Trigger when 30% of slide is visible
+            });
 
-          <!-- 02 AI 무물 챗봇 -->
-          <div style="margin-top: 1.5rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
-            <div>
-              <span style="color: #FFF; font-weight: 700; margin-right: 15px;">02. AI 무물 챗봇 ZIP</span>
-              <span class="tag-todo">제작필요</span>
-            </div>
-            <div style="display: flex; gap: 2rem; color: var(--text-muted); font-size: 0.9rem;">
-              <div><strong>[단기]</strong> 척척박사 챗봇 (교육정책 변화, 수업 활용 사례 - 비바샘)</div>
-              <div><strong>[장기]</strong> 스타 강사 선배 챗봇 (RAG 기반 페르소나, 향후 수익배분)</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== SECTION 04: 비즈니스 모델 ==================== -->
-    <section class="slide">
-      <div class="content">
-        <h2>04. 비즈니스 모델 & 수익화 전략</h2>
-        <p class="subtitle">공공 예산 및 교육청 단위를 타겟팅한 확실한 B2B/B2G 수익 구조 창출</p>
-
-        <div class="bm-grid">
-          
-          <div class="bm-card stagger-item stagger-1">
-            <h3 class="bm-title">01. 교사 연수 지원금</h3>
-            <p class="bm-desc">
-              2026년부터 교원직무연수비 사용 가능 범위가 'AI 유료 구독료'로 확대 (인천시교육청 사례).<br><br>
-              수업 설계, 학생 평가, 행정 업무에 특화된 우리 플랫폼의 도구들을 <strong>교사 개인이 연수비로 개별 구독</strong>할 수 있는 활로 확보.
-            </p>
-            <div class="bm-highlight">
-              Target: 교사 개인 구독 전환 (B2C/B2B 성격)
-            </div>
-          </div>
-
-          <div class="bm-card stagger-item stagger-2">
-            <h3 class="bm-title">02. 디지털 선도 예산</h3>
-            <p class="bm-desc">
-              전국 1,900개 디지털 선도학교 및 3만 4천 명의 교실혁명 선도교사 양성에 대규모 특별교부금(학교당 평균 3,400만 원) 투입 중.<br><br>
-              우리 플랫폼의 AI 코스웨어 및 '질문하는 수업' 특화 도구를 <strong>선도학교 예산으로 도입</strong> 제안.
-            </p>
-            <div class="bm-highlight">
-              Target: 단위 학교 예산 수주 (B2B 성격)
-            </div>
-          </div>
-
-          <div class="bm-card stagger-item stagger-3">
-            <h3 class="bm-title">03. 교육청 단위 일괄 계약</h3>
-            <p class="bm-desc">
-              대전교육청의 AIEP 플랫폼 연동 사례처럼, 유료 서드파티 앱들을 교육청 예산(수억 원 단위)으로 일괄 구매하여 교사에게 무료 제공.<br><br>
-              자체 플랫폼(V-Lounge)과 연동 가능한 형태로 패키징하여 <strong>시도교육청 단위 엔터프라이즈 계약</strong> 추진.
-            </p>
-            <div class="bm-highlight">
-              Target: 시도교육청 대규모 계약 (B2G 성격)
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <script>
-    // Intersection Observer for scroll animations
-    document.addEventListener("DOMContentLoaded", () => {
-      const slides = document.querySelectorAll('.slide');
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-          }
+            slides.forEach(slide => {
+                observer.observe(slide);
+            });
         });
-      }, {
-        threshold: 0.3 // Trigger when 30% of slide is visible
-      });
-
-      slides.forEach(slide => {
-        observer.observe(slide);
-      });
-    });
-  </script>
+    </script>
 </body>
+
 </html>
