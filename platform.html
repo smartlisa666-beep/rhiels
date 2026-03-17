@@ -343,13 +343,13 @@
         }
 
         .red-ocean {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, rgba(20, 20, 30, 0.8) 100%);
-            border-left: 4px solid #FF3B30;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.05) 0%, rgba(20, 20, 30, 0.8) 100%);
+            border: 1px solid rgba(255, 59, 48, 0.4);
         }
 
         .blue-ocean {
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(20, 20, 30, 0.8) 100%);
-            border-left: 4px solid var(--accent-primary);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, rgba(20, 20, 30, 0.8) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.4);
         }
 
         .ocean-title {
@@ -568,7 +568,7 @@
         }
 
         .func-list li::before {
-            content: '→';
+            content: '•';
             position: absolute;
             left: 0;
             color: var(--accent-primary);
@@ -696,12 +696,22 @@
         }
 
         .bm-card {
-            background: var(--glass-bg);
-            border-top: 4px solid var(--accent-primary);
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.6) 0%, rgba(20, 20, 30, 0.2) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 2rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .bm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 240, 255, 0.3);
         }
 
         .bm-card::before {
@@ -1010,6 +1020,66 @@
         .stagger-4 {
             transition-delay: 0.6s !important;
         }
+
+        .chatbot-avatars-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+        }
+
+        .chatbot-avatar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .chatbot-avatar-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .chatbot-avatar-circle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .avatar-active {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(0, 240, 255, 0.05));
+            border: 2px solid rgba(0, 240, 255, 0.5);
+        }
+
+        .avatar-planned {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            opacity: 0.4;
+            filter: grayscale(0.8);
+        }
+
+        .chatbot-avatar-name {
+            font-size: 0.8rem;
+            color: var(--text-main);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .chatbot-avatar-name.planned {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
     </style>
 </head>
 
@@ -1128,7 +1198,7 @@
                         <p style="color: var(--text-muted); font-size: 0.95rem;">
                             물어볼 데 없는 교사들을 위한 <br><button type="button"
                                 class="inline-popup-trigger inline-popup-trigger-soft"
-                                data-modal-target="mentor-modal">맞춤형 AI 멘토</button>. "척척박사"<br><br><br>
+                                data-modal-target="mentor-modal">AI 멘토</button>. "척척박사"<br><br><br>
                             교육 정책 변화, 수업 활용안, 학생 지도 등 <br>예측 불가능한 학교 행정에 대한<br><br>즉각적인 솔루션 제공.<br>
                         </p>
                     </div>
@@ -1147,12 +1217,14 @@
                     <div class="plan-card stagger-item stagger-3">
                         <span class="plan-badge" style="background: var(--accent-tertiary);">Plan C</span>
                         <div style="font-size: 3rem; margin-top: 1rem;">💻</div>
-                        <h3 class="plan-title">학생용 AI 학습 챗봇</h3>
+                        <h3 class="plan-title">학생용 AI 학습 도구</h3>
                         <p style="color: var(--text-muted); font-size: 0.95rem;">
-                            안전하고 재미있는 학생용 AI 학습 도구. <br><button type="button"
-                                class="inline-popup-trigger inline-popup-trigger-soft"
-                                data-modal-target="aimate-modal">"AI mate"</button><br><br><br>
-                            AI 무분별 사용에 대한 교사의 우려를 <br>해소하는 통제된 환경에서의 AI 챗봇.<br>
+                            안전하고 재미있는<br><button type="button" class="inline-popup-trigger inline-popup-trigger-soft"
+                                data-modal-target="aimate-modal">학생용 AI 챗봇</button><br>"AI mate"<br><br><br>
+                            AI 무분별 사용에 대한 교사의 우려를 <br>해소하는 통제된 환경에서의 AI 챗봇.<br><br>
+                            커스텀 챗봇, 교사는 필요한 키워드만 입력<br>
+                            교과 내용에 맞는 챗봇으로 학생에게 제공<br>
+                            선생님이 대화 기록도 보니까, 안심.<br>
                         </p>
                     </div>
                 </div>
@@ -1179,12 +1251,49 @@
                     <div
                         style="border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
                         <div class="platform-row">
-                            <span class="platform-row-title">02. 맞춤형 AI 멘토</span>
-                            <span class="platform-row-text">
-                                <span class="func-inline-box">척척박사 AI 챗봇 <span class="tooltip-badge"
-                                        data-tooltip="물어볼 데 없는 교사들을 위한"><span class="plan-badge"
-                                            style="position: static; transform: none; display: inline-block; padding: 2px 8px; font-size: 0.7rem; background: var(--accent-secondary); box-shadow: none; margin-left: 2px;">Plan
-                                            A</span></span></span>
+                            <span class="platform-row-title">02. AI 멘토</span>
+                            <span class="platform-row-text"
+                                style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+                                <div class="chatbot-avatars-container"
+                                    style="width: 100%; justify-content: space-between; padding: 1.5rem 2rem;">
+                                    <div style="display: flex; gap: 2.5rem; flex-wrap: wrap;">
+                                        <div class="chatbot-avatar-item">
+                                            <div class="chatbot-avatar-circle avatar-active">
+                                                🦉
+                                            </div>
+                                            <div class="chatbot-avatar-name" style="white-space: nowrap;">척척박사 AI 챗봇
+                                            </div>
+                                        </div>
+                                        <div class="chatbot-avatar-item">
+                                            <div class="chatbot-avatar-circle avatar-planned">
+                                                👨🏼‍🏫
+                                            </div>
+                                            <div class="chatbot-avatar-name planned" style="white-space: nowrap;">James
+                                                Teacher bot</div>
+                                        </div>
+                                        <div class="chatbot-avatar-item">
+                                            <div class="chatbot-avatar-circle avatar-planned">
+                                                👨🏻
+                                            </div>
+                                            <div class="chatbot-avatar-name planned" style="white-space: nowrap;">훈이훈이쌤
+                                                봇</div>
+                                        </div>
+                                        <div class="chatbot-avatar-item">
+                                            <div class="chatbot-avatar-circle avatar-planned">
+                                                👩🏻‍🏫
+                                            </div>
+                                            <div class="chatbot-avatar-name planned" style="white-space: nowrap;">김다쌤 봇
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; align-items: center;">
+                                        <span class="tooltip-badge" data-tooltip="물어볼 데 없는 교사들을 위한">
+                                            <span class="plan-badge"
+                                                style="position: static; transform: none; display: inline-block; padding: 4px 12px; font-size: 0.8rem; background: var(--accent-secondary); box-shadow: none;">Plan
+                                                A</span>
+                                        </span>
+                                    </div>
+                                </div>
                             </span>
                         </div>
                     </div>
@@ -1218,10 +1327,22 @@
                             <ul class="func-list">
                                 <li>게임 (수업용)</li>
                                 <li>경제교육 학습 공간</li>
-                                <li><span class="func-inline-box">AI mate <span class="tooltip-badge"
-                                            data-tooltip="학생용 AI 학습 챗봇"><span class="plan-badge"
-                                                style="position: static; transform: none; display: inline-block; padding: 2px 6px; font-size: 0.58rem; background: var(--accent-tertiary); margin-left: 2px; vertical-align: middle; line-height: 1; box-shadow: none;">Plan
-                                                C</span></span></span></li>
+                                <li class="func-plan-group">
+                                    <ul class="func-plan-group-list" style="margin-left: -1rem;">
+                                        <li><span class="func-inline-box">AI mate <span class="tooltip-badge"
+                                                    data-tooltip="학생용 AI 학습 챗봇"><span class="plan-badge"
+                                                        style="position: static; transform: none; display: inline-block; padding: 2px 6px; font-size: 0.58rem; background: var(--accent-tertiary); margin-left: 2px; vertical-align: middle; line-height: 1; box-shadow: none;">Plan
+                                                        C</span></span></span></li>
+                                        <li
+                                            style="font-size: 0.85em; color: var(--text-muted); margin-top: 5px; padding-left: 1.2rem; position: relative;">
+                                            <span style="position: absolute; left: 0;">-</span> 페르소나 봇
+                                        </li>
+                                        <li
+                                            style="font-size: 0.85em; color: var(--text-muted); padding-left: 1.2rem; position: relative;">
+                                            <span style="position: absolute; left: 0;">-</span> 찬반 토론 배틀 봇
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
 
@@ -1238,12 +1359,18 @@
                                 <li>한글릿 APP</li>
                                 <li class="func-plan-group">
                                     <ul class="func-plan-group-list">
-                                        <li>오아 <span class="tooltip-badge" data-tooltip="초보 선생님들을 위한 스타터 kit"><span
-                                                    class="plan-badge"
+                                        <li><span
+                                                style="color: var(--accent-tertiary); font-size: 0.85em; margin-right: 4px;">(수업
+                                                전)</span> 오아 <span class="tooltip-badge"
+                                                data-tooltip="초보 선생님들을 위한 스타터 kit"><span class="plan-badge"
                                                     style="position: static; transform: none; display: inline-block; padding: 2px 8px; font-size: 0.7rem; background: var(--accent-primary); color: #000; box-shadow: none; margin-left: 6px;">Plan
                                                     B</span></span></li>
-                                        <li>쌤 시그널</li>
-                                        <li>자비스</li>
+                                        <li><span
+                                                style="color: var(--accent-tertiary); font-size: 0.85em; margin-right: 4px;">(수업
+                                                중)</span> 쌤 시그널</li>
+                                        <li><span
+                                                style="color: var(--accent-tertiary); font-size: 0.85em; margin-right: 4px;">(수업
+                                                후)</span> 자비스</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -1307,9 +1434,11 @@
                         <h3 class="bm-title">02. 디지털 선도 예산</h3>
                         <p class="bm-desc">
                             전국 1,900개 디지털 선도학교 및<br>
-                            3만 4천 명의 교실혁명 선도교사 양성에<br>
-                            대규모 특별교부금(학교당 3,400만원)<br>
-                            올해 마지막 해 (2024년 ~ 2026년)<br><br>
+                            3만 4천 명의 교실혁명 선도교사 양성에<br><br>
+                            대규모 특별교부금<br>
+                            (학교당&nbsp;3,400만원)<br><br>
+                            올해 마지막 해<br>
+                            (2024년 ~ 2026년)<br><br>
                             우리 플랫폼의 AI 지원도구 및 코스웨어<br>
                             도구를 <strong>선도학교 예산으로 도입</strong> 제안.
                         </p>
@@ -1323,7 +1452,7 @@
                         <p class="bm-desc">
                             <button type="button" class="inline-popup-trigger inline-popup-trigger-soft"
                                 data-modal-target="daejeon-modal">대전교육청의 AIEP 플랫폼</button> <br>사례처럼, 유료 서드파티 앱들을
-                            교육청<br><br>예산으로 일괄 구매하여 교사에게 무료 제공.<br><br>
+                            교육청<br>예산으로 일괄 구매하여 무료 제공.<br><br>
                             우리 플랫폼 또는 서비스를 연동 가능한<br>형태로 패키징하여 <strong>시도교육청 단위<br><br> 엔터프라이즈 계약</strong> 추진.<br>
                         </p>
                         <div class="bm-highlight">
@@ -1379,7 +1508,7 @@
         <div class="image-modal-dialog detail-modal-dialog">
             <button type="button" class="image-modal-close" aria-label="팝업 닫기">&times;</button>
             <div class="detail-modal-content">
-                <h3 class="detail-modal-title">에센셜 키트</h3>
+                <h3 class="detail-modal-title">스타터 키트</h3>
                 <section class="detail-modal-section">
                     <h4>1) 단기 프로젝트</h4>
                     <ul class="detail-modal-list">
@@ -1392,6 +1521,7 @@
                     <ul class="detail-modal-list">
                         <li>해당 플랫폼에 탑재되는 서비스가 많아지면</li>
                         <li>선생님들이 입력한 상황에 맞추어 알맞은 서비스를 제공하는 것으로 연계성 확장</li>
+                        <li>지금은 초보 선생님들 대상이지만, 향후에 모든 선생님의 온보드 도구로 활용 가능</li>
                     </ul>
                 </section>
             </div>
@@ -1402,18 +1532,26 @@
         <div class="image-modal-dialog detail-modal-dialog">
             <button type="button" class="image-modal-close" aria-label="팝업 닫기">&times;</button>
             <div class="detail-modal-content">
-                <h3 class="detail-modal-title">AI mate</h3>
+                <h3 class="detail-modal-title">학생용 AI 학습 도구</h3>
                 <section class="detail-modal-section">
                     <h4>1) 단기 프로젝트</h4>
                     <ul class="detail-modal-list">
-                        <li>선생님이 키워드만 입력하면 학습용 챗봇으로 커스터마이징 가능한 것으로 시작</li>
+                        <li>일부 템플릿이 정해진 커스텀 챗봇으로 시작<br>(예) 페르소나 대화, 찬반 토론 배틀</li>
                     </ul>
                 </section>
                 <section class="detail-modal-section">
                     <h4>2) 중장기 프로젝트</h4>
                     <ul class="detail-modal-list">
                         <li>AI를 단순한 학습 도구를 넘어선 교육 경험으로 확장</li>
-                        <li>AI 윤리, 할루시네이션 탐지 등 학생의 건강한 AI 활용을 돕는 교육용 Tool로 확장하는 방향을 검토 중</li>
+                        <li>학생의 건강한 AI 활용을 가르쳐주는 교육용 Tool로 확장하는 방향을 검토 중<br>(예) AI 윤리, 할루시네이션 탐지 등<br></li>
+                    </ul>
+                </section>
+                <section class="detail-modal-section">
+                    <h4>3) 추가 계획</h4>
+                    <ul class="detail-modal-list">
+                        <li>사용자를 위한 커스텀 챗봇이지만</li>
+                        <li>내재화 하여, 콘텐츠 기획자도 활용할 수 있는 저작Tool로 제공</li>
+                        <li>(예) 세종대왕과 대화하기, 소나기 문학 작품 속 점순이와 대화하기 등</li>
                     </ul>
                 </section>
             </div>
