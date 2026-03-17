@@ -641,10 +641,10 @@
         ╚══════════════════════════════════════════════════╝ */
     const presentations = [
       {
-        title: "플랫폼 V.2",
+        title: "슈퍼 티쳐",
         desc: "교사 니즈 분석을 통한 AI 서비스 기반의 플랫폼 구축 및 사업화 전략 보고",
         file: "platform.html",
-        proto: "https://v-lounge.vercel.app/",
+        proto: "https://sssuper-teacher.vercel.app/",
         icon: "🚀",
         cover: "linear-gradient(135deg, #0A0A0F 0%, #14141E 50%, #00F0FF 100%)",
         category: "보고",
@@ -654,22 +654,6 @@
           { label: "B2B/B2G", color: "red" }
         ],
         date: "2026-03-16",
-        status: "draft"
-      },
-      {
-        title: "플랫폼 V.1",
-        desc: "issamGPT보다, 구글 클래스룸보다 좋은 플랫폼.",
-        file: "https://new-tool-plan.vercel.app/",
-        proto: "https://new-platform-wireframe-v2.vercel.app/",
-        icon: "🐚",
-        cover: "linear-gradient(135deg, #0A1628 0%, #0F2035 40%, #00BFA6 100%)",
-        category: "보고",
-        tags: [
-          { label: "2026 에듀테크", color: "blue" },
-          { label: "플랫폼", color: "green" },
-          { label: "사업", color: "purple" }
-        ],
-        date: "2026-02-24",
         status: "draft"
       },
       {
@@ -756,13 +740,13 @@
               &#9654; PT 보기
             </span>
             ${p.proto ? (Array.isArray(p.proto) ? p.proto : [p.proto]).map((url, i) => {
-                const label = p.protoLabels ? p.protoLabels[i] : (i === 0 ? '프로토타입' : `프로토${i + 1}`);
-                return `<span onclick="window.open('${url}','_blank','noopener,noreferrer');"
+          const label = p.protoLabels ? p.protoLabels[i] : (i === 0 ? '프로토타입' : `프로토${i + 1}`);
+          return `<span onclick="window.open('${url}','_blank','noopener,noreferrer');"
                     style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:600;color:#7C5C00;background:#FFF8E6;border:1px solid #E8D48A;border-radius:6px;padding:6px 10px;cursor:pointer;transition:background 0.15s;"
                     onmouseover="this.style.background='#FFF0C0'" onmouseout="this.style.background='#FFF8E6'">
                     &#9670; ${label}
                   </span>`;
-            }).join('') : ''}
+        }).join('') : ''}
             ${p.simple ? `<span onclick="window.open('${p.simple}','_blank','noopener,noreferrer');"
               style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:600;color:#1A5C2A;background:#EDFAF1;border:1px solid #7DD4A0;border-radius:6px;padding:6px 10px;cursor:pointer;transition:background 0.15s;"
               onmouseover="this.style.background='#C8F0D8'" onmouseout="this.style.background='#EDFAF1'">
