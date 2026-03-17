@@ -75,115 +75,10 @@
       min-height: 100vh;
     }
 
-    /* ── Sidebar ── */
-    .sidebar {
-      width: var(--sidebar-width);
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      padding: 20px 12px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      z-index: 50;
-      transition: transform 0.3s;
-    }
-
-    .sidebar-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 6px 10px;
-      margin-bottom: 24px;
-    }
-
-    .sidebar-brand-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      background: var(--text-primary);
-      color: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      font-family: var(--font-serif);
-    }
-
-    .sidebar-brand-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      letter-spacing: -0.3px;
-    }
-
-    .sidebar-section {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-tertiary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 0 12px;
-      margin: 20px 0 8px;
-    }
-
-    .sidebar-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 7px 12px;
-      border-radius: 6px;
-      font-size: 13px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.15s;
-      text-decoration: none;
-      user-select: none;
-    }
-
-    .sidebar-item:hover {
-      background: var(--bg-hover);
-      color: var(--text-primary);
-    }
-
-    .sidebar-item.active {
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .sidebar-item-icon {
-      width: 20px;
-      text-align: center;
-      font-size: 15px;
-      flex-shrink: 0;
-    }
-
-    .sidebar-count {
-      margin-left: auto;
-      font-size: 11px;
-      font-family: var(--font-mono);
-      color: var(--text-tertiary);
-      background: var(--bg);
-      padding: 1px 6px;
-      border-radius: 4px;
-    }
-
-    .sidebar-footer {
-      margin-top: auto;
-      padding: 12px;
-      border-top: 1px solid var(--border);
-      font-size: 11px;
-      color: var(--text-tertiary);
-    }
-
     /* ── Main Content ── */
     .main {
       flex: 1;
-      margin-left: var(--sidebar-width);
+      width: 100%;
       min-height: 100vh;
     }
 
@@ -594,55 +489,7 @@
       font-size: 14px;
     }
 
-    /* ══════ Mobile ══════ */
-    .sidebar-toggle {
-      display: none;
-      position: fixed;
-      top: 14px;
-      left: 14px;
-      z-index: 60;
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg-card);
-      color: var(--text-primary);
-      font-size: 18px;
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.3);
-      z-index: 40;
-    }
-
     @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .sidebar-toggle {
-        display: flex;
-      }
-
-      .sidebar-overlay.show {
-        display: block;
-      }
-
-      .main {
-        margin-left: 0;
-      }
-
       .page-header {
         padding: 36px 20px 0;
       }
@@ -735,52 +582,7 @@
 
 <body>
 
-  <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
   <div class="layout">
-    <!-- ══════ Sidebar ══════ -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <div class="sidebar-brand-icon">P</div>
-        <div class="sidebar-brand-text">기획 Core</div>
-      </div>
-
-      <div class="sidebar-section">Menu</div>
-      <a class="sidebar-item active" onclick="filterCategory('all')">
-        <span class="sidebar-item-icon">📋</span>
-        전체 프레젠테이션
-        <span class="sidebar-count" id="countAll">0</span>
-      </a>
-      <a class="sidebar-item" onclick="filterCategory('전략')">
-        <span class="sidebar-item-icon">🎯</span>
-        전략
-      </a>
-      <a class="sidebar-item" onclick="filterCategory('기술')">
-        <span class="sidebar-item-icon">⚙️</span>
-        기술
-      </a>
-      <a class="sidebar-item" onclick="filterCategory('보고')">
-        <span class="sidebar-item-icon">📊</span>
-        보고
-      </a>
-      <a class="sidebar-item" onclick="filterCategory('교육')">
-        <span class="sidebar-item-icon">📚</span>
-        교육
-      </a>
-
-      <div class="sidebar-section">바로가기</div>
-      <a class="sidebar-item" href="#" onclick="alert('새 프레젠테이션 등록은 presentations 배열에 항목을 추가하세요.')">
-        <span class="sidebar-item-icon">➕</span>
-        새 프레젠테이션 등록
-      </a>
-
-      <div class="sidebar-footer">
-        에듀테크 플랫폼 서비스 기획 Core<br>
-        © 2026
-      </div>
-    </aside>
-
     <!-- ══════ Main ══════ -->
     <main class="main">
       <div class="page-header">
@@ -845,14 +647,14 @@
         proto: "https://v-lounge.vercel.app/",
         icon: "🚀",
         cover: "linear-gradient(135deg, #0A0A0F 0%, #14141E 50%, #00F0FF 100%)",
-        category: "전략",
+        category: "보고",
         tags: [
           { label: "사업기획", color: "blue" },
           { label: "마켓리서치", color: "purple" },
           { label: "B2B/B2G", color: "red" }
         ],
         date: "2026-03-16",
-        status: "live"
+        status: "draft"
       },
       {
         title: "플랫폼 V.1",
@@ -902,7 +704,7 @@
           { label: "사업", color: "purple" }
         ],
         date: "2026-02-24",
-        status: "draft"
+        status: "live"
       },
     ];
 
@@ -1000,13 +802,6 @@
     }
 
     // ══════ Handlers ══════
-    function filterCategory(cat) {
-      currentCategory = cat;
-      document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-      event.currentTarget.classList.add('active');
-      render();
-    }
-
     function filterStatus(btn, status) {
       currentStatus = status;
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1024,11 +819,6 @@
       btn.classList.add('active');
       document.getElementById('cardGrid').classList.toggle('hide', view === 'table');
       document.getElementById('tableView').classList.toggle('show', view === 'table');
-    }
-
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-      document.getElementById('sidebarOverlay').classList.toggle('show');
     }
 
     // ══════ Init ══════
