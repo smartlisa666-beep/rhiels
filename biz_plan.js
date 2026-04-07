@@ -84,6 +84,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Horizontal scroll mouse wheel handling (optional but better for smooth snap)
     // The container uses CSS scroll snap, which is best for native feel.
+    // Tooltip Toggle Logic
+    const tooltips = document.querySelectorAll('.tooltip-trigger');
+    tooltips.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isActive = trigger.classList.contains('active');
+            
+            // Close other tooltips
+            tooltips.forEach(t => t.classList.remove('active'));
+            
+            if (!isActive) {
+                trigger.classList.add('active');
+            }
+        });
+    });
+
+    // Close tooltips when clicking outside
+    document.addEventListener('click', () => {
+        tooltips.forEach(t => t.classList.remove('active'));
+    });
 });
 
 // Modal Logic
@@ -189,25 +209,40 @@ function moveMarketSlide(dir) {
     setMarketSlide(next);
 }
 
-// Close modals on outside click
+// Close modals logic
 window.onclick = function(event) {
-    const modals = document.querySelectorAll('.modal-overlay');
-    modals.forEach(modal => {
-        if (event.target == modal) {
-            if (modal.id === 'surveyModal') hideCombinedModal();
-            else if (modal.id === 'marketModal') hideMarketModal();
-            else if (modal.id === 'iframeModal') hideIframeModal();
-            else hideModal();
-        }
-    });
+    if (event.target.classList.contains('modal-overlay')) {
+        const activeModals = document.querySelectorAll('.modal-overlay.active');
+        activeModals.forEach(m => {
+            m.classList.remove('active');
+        });
+        document.body.style.overflow = ''; // Restore scroll
+    }
 }
 
 // Close modals on ESC key
 window.onkeydown = function(event) {
     if (event.key === "Escape") {
-        hideModal();
-        hideIframeModal();
-        hideCombinedModal();
-        hideMarketModal();
+        const activeModals = document.querySelectorAll('.modal-overlay.active');
+        activeModals.forEach(m => {
+            m.classList.remove('active');
+        });
+        document.body.style.overflow = ''; // Restore scroll
+    }
+}
+
+function showRoadmapModal(num) {
+    const modal = document.getElementById(`roadmapModal${num}`);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function hideRoadmapModal(num) {
+    const modal = document.getElementById(`roadmapModal${num}`);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
     }
 }
